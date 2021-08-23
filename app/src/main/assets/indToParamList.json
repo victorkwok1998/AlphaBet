@@ -1,0 +1,9 @@
+{
+  "RSI": ["Bar Count"],
+  "SMA" : ["Bar Count"],
+  "EMA" : ["Bar Count"],
+  "MACD Histogram": ["Short Bar Count", "Long Bar Count", "EMA Bar Count"],
+  "Bollinger Band Upper": ["Bar Count", "Scaling Factor"],
+  "Bollinger Band Lower": ["Bar Count", "Scaling Factor"],
+  "Stochastic Oscillator K": ["Bar Count"]
+}

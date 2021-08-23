@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+<!--    xmlns:tools="http://schemas.android.com/tools"-->
+<!--    android:layout_width="match_parent"-->
+<!--    android:layout_height="match_parent"-->
+<!--    tools:context=".EntryFragment"-->
+<!--    android:padding="20dp"-->
+<!--    android:orientation="vertical">-->
+
+<!--    <include layout="@layout/create_rule"/>-->
+
+
+<!--</LinearLayout>-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <include layout="@layout/create_strategy"/>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_confirm_strat"
+        android:icon="@drawable/ic_baseline_check_24"
+        android:title="@string/confirm_button"
+        app:showAsAction="ifRoom"/>
+
+</menu>

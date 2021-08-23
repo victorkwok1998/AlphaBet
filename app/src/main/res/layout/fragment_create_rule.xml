@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/rule_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/rule_app_bar"
+            app:title="Create a Rule"
+            style="@style/Widget.MaterialComponents.Toolbar.Primary"/>
+    </com.google.android.material.appbar.AppBarLayout>
+
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    android:orientation="vertical">
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:text="@string/indicator"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="?android:attr/textColorSecondary"/>
+
+    <LinearLayout
+        android:id="@+id/indicator1_layout"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:paddingVertical="5dp">
+        <include layout="@layout/select_indicator"/>
+    </LinearLayout>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:text="@string/condition"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="?android:attr/textColorSecondary" />
+
+<!--    <RadioGroup-->
+<!--        android:id="@+id/condition_radio_group"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:paddingVertical="5dp"-->
+<!--        android:orientation="vertical">-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/crossup_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/crossUp" />-->
+
+<!--        <RadioButton-->
+<!--            android:id="@+id/crossdown_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/crossDown" />-->
+<!--        <RadioButton-->
+<!--            android:id="@+id/over_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/over" />-->
+<!--        <RadioButton-->
+<!--            android:id="@+id/under_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:text="@string/under" />-->
+<!--    </RadioGroup>-->
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/condition_radio_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:orientation="vertical"
+        app:singleSelection="true" >
+
+        <Button
+            android:id="@+id/crossup_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crossUp"
+            style="?attr/materialButtonOutlinedStyle" />
+
+        <Button
+            android:id="@+id/crossdown_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/crossDown"
+            style="?attr/materialButtonOutlinedStyle"/>
+        <Button
+            android:id="@+id/over_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="?attr/materialButtonOutlinedStyle"
+            android:text="@string/over" />
+        <Button
+            android:id="@+id/under_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/under"
+            style="?attr/materialButtonOutlinedStyle"/>
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+    <View style="@style/Divider"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingVertical="5dp"
+        android:text="Choose Type of Indicator 2"
+        android:textAppearance="?attr/textAppearanceHeadline6"
+        android:textColor="?android:attr/textColorSecondary" />
+
+    <LinearLayout
+        android:id="@+id/indicator2_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <include layout="@layout/select_indicator"/>
+    </LinearLayout>
+
+    <!--    <RadioGroup-->
+    <!--        android:id="@+id/type_radio_group"-->
+    <!--        android:layout_width="wrap_content"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal">-->
+
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/indicator2_button"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Indicator" />-->
+
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/price_button"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Price" />-->
+
+    <!--        <RadioButton-->
+    <!--            android:id="@+id/specific_value_button"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Specific Value" />-->
+
+    <!--    </RadioGroup>-->
+
+    <!--    <com.google.android.material.textfield.TextInputLayout-->
+    <!--        android:id="@+id/specific_value_text_layout"-->
+    <!--        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:hint="@string/specific_value_hint"-->
+    <!--        android:paddingVertical="5dp"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <com.google.android.material.textfield.TextInputEditText-->
+    <!--            android:id="@+id/specific_value_text"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:inputType="number" />-->
+    <!--    </com.google.android.material.textfield.TextInputLayout>-->
+
+
+    <!--    <LinearLayout-->
+    <!--        android:id="@+id/indicator2_layout"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="vertical"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <Spinner-->
+    <!--            android:id="@+id/indicator2_spinner"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:entries="@array/indicators"-->
+    <!--            android:paddingVertical="5dp"/>-->
+
+    <!--        <LinearLayout-->
+    <!--            android:id="@+id/indicator2_param_list_layout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical">-->
+
+    <!--        </LinearLayout>-->
+    <!--    </LinearLayout>-->
+
+
+    <!--    <RadioGroup-->
+    <!--        android:id="@+id/price_type_group"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:orientation="horizontal"-->
+    <!--        android:visibility="gone">-->
+
+    <!--        <RadioButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Open" />-->
+
+    <!--        <RadioButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="High" />-->
+
+    <!--        <RadioButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Low" />-->
+
+    <!--        <RadioButton-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:text="Close" />-->
+    <!--    </RadioGroup>-->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+<!--        <Button-->
+<!--            android:id="@+id/confirm_add_rule_button"-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_alignParentEnd="true"-->
+<!--            android:text="@string/add_rule_button" />-->
+    </RelativeLayout>
+</LinearLayout>
+</ScrollView>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

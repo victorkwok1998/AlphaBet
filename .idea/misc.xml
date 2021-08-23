@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.22291666666666668" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_emoji_objects_24.xml" value="0.22135416666666666" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_location_on_24_green.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_input.xml" value="0.15942028985507245" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_result.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_summary.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_trades.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_equity_curve.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_strategy_desc.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_trades.xml" value="0.36367753623188404" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".BacktestSummaryFragment">
+
+    <com.github.mikephil.charting.charts.RadarChart
+        android:id="@+id/radar_plot"
+        android:layout_width="match_parent"
+        android:layout_height="300dp" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow>
+
+            <TextView
+                android:padding="10sp"
+                android:text="Total PnL" />
+
+            <TextView
+                android:id="@+id/total_pnl_text"
+                android:layout_weight="1"
+                android:padding="10sp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:padding="10sp"
+                android:text="Maximum Drawdown" />
+
+            <TextView
+                android:id="@+id/mdd_text"
+                android:layout_weight="1"
+                android:padding="10sp" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:layout_weight="1"
+                android:padding="10sp"
+                android:text="Winning Trades" />
+
+            <TextView
+                android:id="@+id/winning_trades_text"
+                android:layout_weight="1"
+                android:padding="10sp" />
+
+            <TextView
+                android:layout_weight="1"
+                android:padding="10sp"
+                android:text="Losing Trades" />
+
+            <TextView
+                android:id="@+id/losing_trades_text"
+                android:layout_weight="1"
+                android:padding="10sp" />
+        </TableRow>
+    </TableLayout>
+
+
+</LinearLayout>

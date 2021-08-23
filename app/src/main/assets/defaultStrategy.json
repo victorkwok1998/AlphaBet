@@ -1,0 +1,109 @@
+{
+  "RSI":
+  {
+    "des": "Buy: RSI crosses under lower threshold \nSell: RSI crosses over upper threshold",
+    "entryRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "RSI", "indParamList": [14]},
+        "indInput2":  {"indType": "VALUE", "indName": "30", "indParamList": []},
+        "condName": "CROSS_DOWN"
+      }
+    ],
+    "exitRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "RSI", "indParamList": [14]},
+        "indInput2":  {"indType": "VALUE", "indName": "70", "indParamList": []},
+        "condName": "CROSS_UP"
+      }
+    ],
+    "stopGain": null,
+    "stopLoss": null
+  },
+  "BB":
+  {
+    "des": "Buy: price crosses under lower band \nSell: price crosses over upper band",
+    "entryRulesInput": [
+      {
+        "indInput1": {"indType": "PRICE", "indName": "Close Price", "indParamList": []},
+        "indInput2":  {"indType": "INDICATOR", "indName": "Bollinger Band Lower", "indParamList": [14, 2]},
+        "condName": "CROSS_DOWN"
+      }
+    ],
+    "exitRulesInput": [
+      {
+        "indInput1": {"indType": "PRICE", "indName": "Close Price", "indParamList": []},
+        "indInput2":  {"indType": "INDICATOR", "indName": "Bollinger Band Upper", "indParamList": [14, 2]},
+        "condName": "CROSS_UP"
+      }
+    ],
+    "stopGain": null,
+    "stopLoss": null
+  },
+  "SMA":
+  {
+    "des": "Buy: SMA1 crosses up SMA2 \nSell: SMA2 crosses down SMA1",
+    "entryRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "SMA", "indParamList": [10]},
+        "indInput2":  {"indType": "INDICATOR", "indName": "SMA", "indParamList": [20]},
+        "condName": "CROSS_UP"
+      }
+    ],
+    "exitRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "SMA", "indParamList": [20]},
+        "indInput2":  {"indType": "INDICATOR", "indName": "SMA", "indParamList": [10]},
+        "condName": "CROSS_DOWN"
+      }
+    ],
+    "stopGain": null,
+    "stopLoss": null
+  },
+  "MOVING_MOMENTUM":
+  {
+    "des": "Buy:\n1. SMA1 is over SMA2 \n2. Stochastic Oscillator K is under threshold \n3. MACD Histogram is over threshold \nSell: \n1. SMA1 is under SMA2 \n2. Stochastic Oscillator K is over threshold \n3. MACD Histogram is under threshold",
+    "entryRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "SMA", "indParamList": [20]},
+        "indInput2":  {"indType": "INDICATOR", "indName": "SMA", "indParamList": [150]},
+        "condName": "OVER"
+      },
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "Stochastic Oscillator K", "indParamList": [14]},
+        "indInput2":  {"indType": "VALUE", "indName": "20", "indParamList": []},
+        "condName": "UNDER"
+      },
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "MACD Histogram", "indParamList": [12,26,9]},
+        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "condName": "OVER"
+      }
+    ],
+    "exitRulesInput": [
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "SMA", "indParamList": [20]},
+        "indInput2":  {"indType": "INDICATOR", "indName": "SMA", "indParamList": [150]},
+        "condName": "UNDER"
+      },
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "Stochastic Oscillator K", "indParamList": [14]},
+        "indInput2":  {"indType": "VALUE", "indName": "80", "indParamList": []},
+        "condName": "OVER"
+      },
+      {
+        "indInput1": {"indType": "INDICATOR", "indName": "MACD Histogram", "indParamList": [12,26,9]},
+        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "condName": "UNDER"
+      }
+    ],
+    "stopGain": null,
+    "stopLoss": null
+  },
+  "CUSTOM": {
+    "des": "Create your own strategy",
+    "entryRulesInput": [],
+    "exitRulesInput": [],
+    "stopGain": null,
+    "stopLoss": null
+  }
+}

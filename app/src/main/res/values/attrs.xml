@@ -1,0 +1,6 @@
+<resources>
+    <declare-styleable name="DefaultStratCardView">
+        <attr name="strat_title" format="string"/>
+        <attr name="strat_detail" format="string"/>
+    </declare-styleable>
+</resources>
