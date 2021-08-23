@@ -365,7 +365,7 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
             // Equity Curve
             AndroidView(::LineChart,
                 Modifier
-                    .height(250.dp)
+                    .height(200.dp)
                     .fillMaxWidth()
             ) { v ->
                 plotEquityCurveFromCashFlow(
@@ -380,7 +380,7 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
             // Radar Chart
             AndroidView(::RadarChart,
                 Modifier
-                    .height(350.dp)
+                    .height(300.dp)
                     .fillMaxWidth()
             ) { radarPlot ->
                 val labels = resources.getStringArray(R.array.radar_label).toList()
