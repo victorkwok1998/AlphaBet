@@ -263,6 +263,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                             contentDescription = "Symbol"
                         )
                     },
+                    modifier = Modifier.fillMaxWidth()
                 )
                 // hint text
                 Text(
@@ -282,7 +283,8 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                             contentDescription = "Strategy"
                         )
                     },
-                    modifier = Modifier.clickable {
+                    modifier = Modifier.fillMaxWidth()
+                        .clickable {
                         viewModel.inputToSelectStrategy.value = index
                         val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
                         findNavController().navigate(action)
