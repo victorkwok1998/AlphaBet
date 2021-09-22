@@ -13,9 +13,9 @@ class MACDHistogramIndicator(
     emaBarCount: Int
 ) : CachedIndicator<Num>(indicator) {
     private val macdLine = MACDIndicator(indicator, shortBarCount, longBarCount)
-    private val singleLine = EMAIndicator(macdLine, emaBarCount)
+    private val signalLine = EMAIndicator(macdLine, emaBarCount)
 
     override fun calculate(index: Int): Num {
-        return macdLine.getValue(index).minus(singleLine.getValue(index))
+        return macdLine.getValue(index).minus(signalLine.getValue(index))
     }
 }

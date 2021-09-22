@@ -12,4 +12,9 @@
     <color name="blue">#2196F3</color>
     <color name="orange">#ff7f0e</color>
     <color name="gray">#808080</color>
+    <color name="c0">#1f78b4</color>
+    <color name="c1">#CC3311</color>
+    <color name="c2">#EE7733</color>
+    <color name="c3">#009988</color>
+    <color name="c4">#9467bd</color>
 </resources>

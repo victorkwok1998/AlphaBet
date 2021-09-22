@@ -11,14 +11,20 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 
 @Composable
-fun RowScope.TableCell(text: String, weight: Float, isHeader: Boolean = false, textAlign: TextAlign = TextAlign.Left) {
+fun RowScope.TableCell(
+    text: String,
+    weight: Float,
+    modifier: Modifier = Modifier,
+    isHeader: Boolean = false,
+    textAlign: TextAlign = TextAlign.Left
+) {
     val fontWeight = when {
         isHeader -> FontWeight.Bold
         else -> FontWeight.Normal
     }
     Text(
         text = text,
-        modifier = Modifier.weight(weight),
+        modifier = modifier.weight(weight),
         fontWeight = fontWeight,
         style = MaterialTheme.typography.subtitle1,
         textAlign = textAlign

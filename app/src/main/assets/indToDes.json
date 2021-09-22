@@ -1,5 +1,0 @@
-{
-  "RSI": "Buy: RSI crosses under lower threshold \nSell: RSI crosses over upper threshold",
-  "Bollinger Band": "Buy: price crosses under lower band \nSell: price crosses over upper band",
-  "Custom": "Create your own strategy"
-}

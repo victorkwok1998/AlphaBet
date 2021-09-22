@@ -1,5 +1,6 @@
 package com.example.alphabet.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
@@ -14,19 +15,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun RowItem(heading: String, body: String, icon: Int) {
+fun RowItem(heading: String, body: String, icon: Int? = null) {
     Row (verticalAlignment = Alignment.CenterVertically) {
-        Icon(
-            painterResource(id = icon),
-            contentDescription = null,
-            modifier = Modifier
-                .size(55.dp)
-                .padding(horizontal = 15.dp)
-        )
+        icon?.apply {
+            Icon(
+                painterResource(id = this),
+                contentDescription = null,
+                modifier = Modifier
+                    .size(55.dp)
+                    .padding(horizontal = 15.dp)
+            )
+        }
         Column {
             Text(
                 heading,

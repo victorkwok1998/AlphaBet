@@ -68,9 +68,14 @@ android {
         implementation "com.mikepenz:fastadapter:5.4.1"
         implementation "com.mikepenz:fastadapter-extensions-binding:5.4.1"
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
-        implementation "androidx.compose.ui:ui:1.0.1"
+        implementation "androidx.compose.ui:ui:1.0.2"
         implementation "androidx.activity:activity-compose:1.3.1"
-        implementation "androidx.compose.material:material:1.0.1"
-        implementation "androidx.compose.ui:ui-tooling:1.0.1"
+        implementation "androidx.compose.material:material:1.0.2"
+        implementation "androidx.compose.ui:ui-tooling:1.0.2"
+        implementation "androidx.compose.ui:ui-viewbinding:1.0.2"
     }
+}
+
+dependencies {
+    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
 }

@@ -2,8 +2,10 @@ package com.example.alphabet
 
 import android.content.Context
 import android.graphics.Color
+import androidx.compose.material.MaterialTheme
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.*
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
@@ -17,12 +19,20 @@ import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
 
-val mainColor = Color.rgb(100, 149, 237)
+val plotColors = listOf(
+    R.color.blue,
+    R.color.red,
+    R.color.orange,
+    R.color.green,
+    R.color.purple_200
+)
 
-fun plotEquityCurveFromCashFlow(chart: LineChart, series: BaseBarSeries, tradingRecord: TradingRecord, label: String?, context: Context) {
-    val y = getCashFlow(series, tradingRecord)
-    val dates = List(series.barCount) {i -> Date.from(series.getBar(i).endTime.toInstant()) }
-    plotEquityCurve(chart, dates, y, label, context)
+fun plotEquityCurveFromCashFlow(chart: LineChart, seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>, labels: List<String?>, context: Context) {
+    val yVals = seriesTradingRecord.map { (series, tradingRecord) ->
+        getCashFlow(series, tradingRecord)
+    }
+    val dates = List(seriesTradingRecord[0].first.barCount) {i -> Date.from(seriesTradingRecord[0].first.getBar(i).endTime.toInstant()) }
+    plotMultiLineCurve(chart, dates, yVals, labels, context)
 }
 
 fun plotTrades(chart: CombinedChart, series: BaseBarSeries, tradingRecord: TradingRecord, label: String?, context: Context) {
@@ -94,14 +104,13 @@ fun plotMultiLineCurve(chart: LineChart, xVals: List<Date>, yVals: List<List<Flo
         val set = List(l.size) { j -> Entry(j.toFloat(), l[j]) }
             .run{ LineDataSet(this, labels[i]) }
             .apply {
-                lineWidth = 3f
+                lineWidth = 2f
                 setDrawCircles(false)
                 fillAlpha = 255
                 setDrawValues(false)
+
+                setColors(intArrayOf(plotColors[i % plotColors.size]), context)
             }
-        if (i == yVals.lastIndex) { // TODO
-            set.setColors(intArrayOf(R.color.red), context)
-        }
         dataSets.add(set)
     }
     with(chart) {
@@ -114,28 +123,47 @@ fun plotMultiLineCurve(chart: LineChart, xVals: List<Date>, yVals: List<List<Flo
             setDrawLabels(false)
             setDrawAxisLine(false)
         }
-        axisRight.setDrawGridLines(false)
+        axisRight.apply {
+            setDrawGridLines(false)
+            textSize = 13f
+        }
         xAxis.apply {
             setDrawGridLines(false)
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = XAxisValueFormatter(dates)
             granularity = 1f
             isGranularityEnabled = true
+            textSize = 13f
+            spaceMin = 10f
+            labelCount = 4
         }
         description.isEnabled = false
+        legend.apply {
+            textSize = 15f
+            xEntrySpace = 30f
+        }
         invalidate()
     }
 }
 
-fun plotRadarChart(chart: RadarChart, scores: List<Float>, labels: Collection<String>) {
-    val radarDataSet = scores.map { RadarEntry(it) }
-        .run { RadarDataSet(this, "Strategy Performance") }
-        .apply {
-            setDrawFilled(true)
-            setDrawValues(false)
-//            color = mainColor
+fun plotRadarChart(chart: RadarChart, scoresList: List<List<Float>>, labels: Collection<String>, context: Context) {
+    val radarDataSets = RadarData()
+    scoresList.forEachIndexed { i, scores ->
+        val set = scores.map { RadarEntry(it) }
+            .run { RadarDataSet(this, "Strategy Performance") }
+            .apply {
+                setDrawFilled(true)
+                setDrawValues(false)
+                fillDrawable =
+                    ContextCompat.getDrawable(context, plotColors[i % plotColors.size]).apply {
+                        this?.alpha = 50
+                    }
+                setColors(intArrayOf(plotColors[i % plotColors.size]), context)
 //            fillColor = mainColor
-        }
+            }
+        radarDataSets.addDataSet(set)
+    }
+
     with(chart) {
         xAxis.apply {
             valueFormatter = IndexAxisValueFormatter(labels)
@@ -147,7 +175,7 @@ fun plotRadarChart(chart: RadarChart, scores: List<Float>, labels: Collection<St
             labelCount = 5
             setDrawLabels(false)
         }
-        data = RadarData(radarDataSet)
+        data = radarDataSets
         legend.isEnabled = false
         description.isEnabled = false
         setTouchEnabled(false)
@@ -183,8 +211,9 @@ fun plotLineScatterChart(
             setDrawCircles(false)
             setDrawValues(false)
             setColors(intArrayOf(R.color.blue), context)
-            highLightColor = ContextCompat.getColor(context, R.color.gray)
-            highlightLineWidth = 1f
+            isHighlightEnabled = false
+//            highLightColor = ContextCompat.getColor(context, R.color.gray)
+//            highlightLineWidth = 1f
         }
         .run { LineData(this) }
 
@@ -230,6 +259,10 @@ fun plotLineScatterChart(
             granularity = 1f
             isGranularityEnabled = true
             setDrawAxisLine(false)
+//            spaceMin = 10f
+//            spaceMax = 10f
+//            axisMaximum = xVals.lastIndex.toFloat()
+//            axisMinimum = 0f
         }
         description.isEnabled = false
         legend.isEnabled = false

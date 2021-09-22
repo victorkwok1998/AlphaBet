@@ -6,72 +6,309 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.AutoCompleteTextView
 import android.widget.EditText
 import android.widget.Toast
+import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.LinearOutSlowInEasing
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.runtime.*
+import androidx.compose.runtime.snapshots.SnapshotStateList
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.example.alphabet.databinding.FragmentBacktestInputBinding
-import com.google.android.material.datepicker.MaterialDatePicker
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import yahoofinance.Stock
 import yahoofinance.YahooFinance
 import java.io.FileNotFoundException
 import java.util.*
-import androidx.core.util.Pair
-import androidx.fragment.app.FragmentActivity
+import com.example.alphabet.MyApplication.Companion.sdfLong
+import com.example.alphabet.components.ClickableOutlinedTextField
+import com.example.alphabet.components.MyTopAppBar
+import com.example.alphabet.ui.theme.grayBackground
 
 //TODO: Recent Backtests
 class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
-    private var _binding: FragmentBacktestInputBinding? = null
-    private val binding get() = _binding!!
-    private val viewModel: StrategyViewModel by navGraphViewModels(R.id.strategy_nav_graph)
+    private val viewModel: StrategyViewModel by activityViewModels()
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
-    private lateinit var selectedStrategyName: StrategyName
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentBacktestInputBinding.inflate(inflater, container, false)
-
-        val defaultEnd = Calendar.getInstance().apply {add(Calendar.DATE, -1)}  // yesterday
-        setDatePicker(binding.endDate, defaultEnd)
-
-        val defaultStart = defaultEnd.apply { add(Calendar.YEAR, -1) }  // one year before
-        setDatePicker(binding.startDate, defaultStart)
-
-        val strategyNameList = StrategyName.values().map { requireContext().getString(R.string.strategy_name, it.fullName) }
-
-        val adapter = ArrayAdapter(requireContext(), R.layout.strategy_list_item, strategyNameList)
-        val actv = binding.strategyListDropdown.editText as AutoCompleteTextView
-
-        actv.setAdapter(adapter)
-        selectedStrategyName = StrategyName.values().first()
-        actv.setText(strategyNameList.first(), false)
-        setStrategyDes(selectedStrategyName)
-        actv.setOnItemClickListener { parent, view, position, id ->
-            selectedStrategyName = StrategyName.values()[position]
-            setStrategyDes(selectedStrategyName)
-            binding.backtestButton.visibility = if (selectedStrategyName == StrategyName.CUSTOM) View.GONE else View.VISIBLE
+//        _binding = FragmentBacktestInputBinding.inflate(inflater, container, false)
+//
+//        val defaultEnd = Calendar.getInstance().apply {add(Calendar.DATE, -1)}  // yesterday
+//        setDatePicker(binding.endDate, defaultEnd)
+//
+//        val defaultStart = defaultEnd.apply { add(Calendar.YEAR, -1) }  // one year before
+//        setDatePicker(binding.startDate, defaultStart)
+//
+//        binding.strategyText.apply {
+//            setText(viewModel.stratName.value.run {
+//                when {
+//                    this.isEmpty() -> ""
+//                    else -> "$this Strategy"
+//                }
+//            })
+//            setOnClickListener {
+//                viewModel.symbol.value = binding.symbol.text.toString()
+//                val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+//                findNavController().navigate(action)
+//            }
+//        }
+//
+//        binding.symbol.setText(viewModel.symbol.value)
+//
+////        val strategyNameList = StrategyName.values().map { requireContext().getString(R.string.strategy_name, it.fullName) }
+//
+////        val adapter = ArrayAdapter(requireContext(), R.layout.strategy_list_item, strategyNameList)
+////        val actv = binding.strategyListDropdown.editText as AutoCompleteTextView
+//
+////        actv.setAdapter(adapter)
+////        selectedStrategyName = StrategyName.values().first()
+////        actv.setText(strategyNameList.first(), false)
+////        setStrategyDes(selectedStrategyName)
+////        actv.setOnItemClickListener { parent, view, position, id ->
+////            selectedStrategyName = StrategyName.values()[position]
+////            setStrategyDes(selectedStrategyName)
+////            binding.backtestButton.visibility = if (selectedStrategyName == StrategyName.CUSTOM) View.GONE else View.VISIBLE
+////        }
+//
+//        binding.backtestButton.setOnClickListener {
+//            processUserInput()
+//        }
+////        binding.advOptsButton.setOnClickListener {
+////            processUserInput(true)
+////        }
+//
+////        return binding.root
+        return ComposeView(requireContext()).apply {
+            setContent {
+                BacktestInputScreen()
+            }
         }
-
-        binding.backtestButton.setOnClickListener {
-            processUserInput()
-        }
-        binding.advOptsButton.setOnClickListener {
-            processUserInput(true)
-        }
-
-        return binding.root
     }
+    
+    @Composable
+    fun BacktestInputScreen() {
+        Scaffold(
+            topBar = {
+                        MyTopAppBar(
+                            title = { Text("Create") },
+                            navigationIcon = {
+                                IconButton(onClick = { findNavController().popBackStack() }) {
+                                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                                }
+                            }
+                        )
+                     },
+            content = {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .background(grayBackground)
+                        .verticalScroll(rememberScrollState())
+                ) {
+//                    Spacer(modifier = Modifier.height(10.dp))
+                    SymbolStrategyCard(viewModel.symbolStrategyList)
+                    Spacer(modifier = Modifier.height(10.dp))
+                    DateRangeCard()
+                    Button(onClick = {
+                        processUserInput()
+                    },
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .height(70.dp)
+                            .padding(10.dp),
+                        shape = RoundedCornerShape(50)
+                    ) {
+                        Text("BACKTEST")
+                    }
+                }
+            }
+        )
+    }
+
+    @Composable
+    fun SymbolStrategyCard(
+        symbolStrategyList: SnapshotStateList<Pair<MutableState<String>, MutableState<Int>>>
+    ) {
+        Card(
+            modifier = Modifier
+                .fillMaxWidth()
+                .animateContentSize(
+                    animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
+                ),
+            shape = RoundedCornerShape(20.dp)
+        ) {
+            Column(Modifier.padding(20.dp)) {
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        "Symbol and Strategy",
+                        style = MaterialTheme.typography.h6,
+                        modifier = Modifier.weight(0.8f)
+                    )
+                    IconButton(onClick = {
+                        symbolStrategyList.add(Pair(mutableStateOf(""), mutableStateOf(-1)))
+                    }, modifier = Modifier.weight(0.2f)) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = "Add symbol and strategy"
+                        )
+                    }
+                }
+                for (i in symbolStrategyList.indices) {
+                    SymbolStrategyRow(index = i)
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun DateRangeCard() {
+        Card(modifier = Modifier
+            .fillMaxWidth(),
+            shape = RoundedCornerShape(20.dp)
+        ) {
+            Column(Modifier.padding(20.dp)) {
+                Text("Date Range", style = MaterialTheme.typography.h6)
+                Spacer(modifier = Modifier.height(10.dp))
+                Row(
+                    Modifier
+                        .fillMaxWidth()) {
+                    Column(
+                        Modifier
+                            .weight(0.5f)
+                            .padding(end = 10.dp)) {
+                        DateTextField(label = "Start Date", cal = viewModel.start)
+                    }
+                    Column(
+                        Modifier
+                            .weight(0.5f)
+                            .padding(start = 10.dp)) {
+                        DateTextField(label = "End Date", cal = viewModel.end)
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    fun DateTextField(label: String, cal: MutableState<Calendar>) {
+        val c = cal.value
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        ClickableOutlinedTextField(value = sdfLong.format(c.time),
+            onValueChange = {},
+            label = { Text(label) },
+            leadingIcon = {
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_date_range_24),
+                    contentDescription = "date"
+                )
+            },
+            modifier = Modifier
+                .clickable {
+                    val dpd = DatePickerDialog(
+                        requireContext(),
+                        R.style.MySpinnerDatePickerStyle,
+                        { view, mYear, mMonth, mDay ->
+                            cal.value = createCalandar(mYear, mMonth, mDay)
+                        },
+                        year,
+                        month,
+                        day
+                    )
+                    dpd.show()
+                })
+    }
+
+
+    @Composable
+    fun SymbolStrategyRow(index: Int) {
+        val symbolStrategyPair = viewModel.symbolStrategyList[index]
+        val symbol = symbolStrategyPair.first
+        val strategy = symbolStrategyPair.second
+        Row(Modifier.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(0.8f)) {
+                OutlinedTextField(
+                    value = symbol.value,
+                    onValueChange = { symbol.value = it },
+                    label = { Text("Symbol") },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_trending_up_24),
+                            contentDescription = "Symbol"
+                        )
+                    },
+                )
+                // hint text
+                Text(
+                    "e.g., TSLA, BRK-B, BTC-USD, 2800.HK",
+                    modifier = Modifier.padding(start = 5.dp),
+                    style = MaterialTheme.typography.caption,
+                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
+                )
+                ClickableOutlinedTextField(
+                    value = if(strategy.value != -1) staticDataViewModel.defaultStrategy.value[strategy.value].first else "",
+                    onValueChange = {  },
+                    label = { Text("Strategy") },
+                    placeholder = { Text("Select a Strategy") },
+                    leadingIcon = {
+                        Icon(
+                            painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
+                            contentDescription = "Strategy"
+                        )
+                    },
+                    modifier = Modifier.clickable {
+                        viewModel.inputToSelectStrategy.value = index
+                        val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+                        findNavController().navigate(action)
+                    }
+                )
+            }
+            if (viewModel.symbolStrategyList.size > 1) {
+                IconButton(
+                    onClick = {
+                        viewModel.symbolStrategyList.removeAt(index)
+                    },
+                    modifier = Modifier.weight(0.2f),
+                ) {
+                    Icon(
+                        painter = painterResource(R.drawable.ic_baseline_cancel_24),
+                        contentDescription = "Cancel",
+                        tint = Color.Gray
+                    )
+                }
+            }
+            else {
+                Spacer(modifier = Modifier.weight(0.2f))
+            }
+        }
+    }
+    
 
     private fun setDatePicker(editText: EditText, c: Calendar) {
         val year = c.get(Calendar.YEAR)
@@ -91,60 +328,26 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
         }
     }
 
-    private fun processUserInput(isAdvOpt: Boolean = false) {
-        val symbol = binding.symbol.text.toString().uppercase()
-        var stock: Stock? = null
+    private fun processUserInput() {
         lifecycleScope.launch {
-            withContext(Dispatchers.IO) {
+            val symbols = viewModel.symbolStrategyList.map { it.first.value }.toSet()
+            val isValid = symbols.map { it to false }.toMap().toMutableMap()
+            for (symbol in symbols) {
                 try {
-                    stock = YahooFinance.get(symbol)
+                    withContext(Dispatchers.IO) {
+                        YahooFinance.get(symbol)
+                        isValid[symbol] = true
+                    }
                 } catch (e: FileNotFoundException) {
                     Log.e("YahooFinance", "Failed to get stock $symbol")
+                    Toast.makeText(context, "Invalid Symbol", Toast.LENGTH_LONG).show()
+                    break
                 }
             }
-            when {
-                stock == null -> Toast.makeText(context, "Invalid Symbol", Toast.LENGTH_LONG).show()
-//                selectedStrategyName == null -> Toast.makeText(context, "Please select a strategy", Toast.LENGTH_LONG).show()
-                else -> {
-                    with(viewModel) {
-                        this.symbol.value = symbol
-                        this.start.value = Calendar.getInstance().apply {
-                            time = MyApplication.sdfLong.parse(binding.startDate.text.toString())!!
-                        }
-                        this.end.value = Calendar.getInstance().apply {
-                            time = MyApplication.sdfLong.parse(binding.endDate.text.toString())!!
-                        }
-                        val selectedStrategy = staticDataViewModel.defaultStrategy.value!![selectedStrategyName]!!
-                        this.stratName.value = selectedStrategyName.fullName
-                        this.entryRulesInput = selectedStrategy.entryRulesInput
-                        this.exitRulesInput = selectedStrategy.exitRulesInput
-                    }
-                    when {
-                        isAdvOpt -> {
-                            val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToEntryFragment()
-                            findNavController().navigate(action)
-                        }
-                        else -> {
-                            val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToBacktestResultFragment()
-                            findNavController().navigate(action)
-                        }
-                    }
-                }
+            if (isValid.values.all { it }) {
+                val action = com.example.alphabet.BacktestInputFragmentDirections.actionBacktestInputFragmentToBacktestResultFragment()
+                findNavController().navigate(action)
             }
-        }
-    }
-    private fun setStrategyDes(selectedStrategyName: StrategyName) {
-        if (selectedStrategyName != StrategyName.CUSTOM) {
-            viewModel.entryRulesInput =
-                staticDataViewModel.defaultStrategy.value!![selectedStrategyName]!!.entryRulesInput
-            viewModel.exitRulesInput =
-                staticDataViewModel.defaultStrategy.value!![selectedStrategyName]!!.exitRulesInput
-            val entryDes = viewModel.entryRulesDes()
-            val exitDes = viewModel.exitRulesDes()
-            binding.stratDes.text =
-                resources.getString(R.string.strategy_des, entryDes, exitDes)
-        } else {
-            binding.stratDes.text = "Create your own strategy"
         }
     }
 }

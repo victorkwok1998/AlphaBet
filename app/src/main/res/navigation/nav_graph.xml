@@ -5,97 +5,71 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/homeFragment"
-        tools:layout="@layout/fragment_home"
-        android:name="com.example.alphabet.HomeFragment"
-        android:label="Home" >
+        android:id="@+id/editStrategyFragment"
+        android:name="com.example.alphabet.EditStrategyFragment"
+        android:label="EditStrategyFragment" />
+    <fragment
+        android:id="@+id/backtestInputFragment"
+        android:name="com.example.alphabet.BacktestInputFragment"
+        android:label="BacktestInputFragment"
+        tools:layout="@layout/fragment_backtest_input">
         <action
-            android:id="@+id/action_homeFragment_to_selectSymbolFragment"
-            app:destination="@id/strategy_nav_graph" />
+            android:id="@+id/action_backtestInputFragment_to_backtestResultFragment"
+            app:destination="@id/backtestResultFragment" />
+        <action
+            android:id="@+id/action_backtestInputFragment_to_selectStrategyFragment"
+            app:destination="@id/selectStrategyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
-    <navigation android:id="@+id/strategy_nav_graph"
-        app:startDestination="@id/backtestInputFragment">
-        <fragment
-            android:id="@+id/backtestResultFragment"
-            android:name="com.example.alphabet.BacktestResultFragment"
-            android:label="BacktestResultFragment"
-            tools:layout="@layout/fragment_backtest_result"/>
-        <fragment
-            android:id="@+id/entryFragment"
-            android:name="com.example.alphabet.EntryFragment"
-            android:label="fragment_entry"
-            tools:layout="@layout/fragment_entry">
-            <action
-                android:id="@+id/action_entryFragment_to_exitFragment"
-                app:destination="@id/exitFragment" />
-            <action
-                android:id="@+id/action_entryFragment_to_createRuleFragment"
-                app:destination="@id/createRuleFragment"
-                app:popUpToInclusive="false" />
-        </fragment>
-        <fragment
-            android:id="@+id/exitFragment"
-            android:name="com.example.alphabet.ExitFragment"
-            android:label="fragment_exit"
-            tools:layout="@layout/fragment_exit">
-            <action
-                android:id="@+id/action_exitFragment_to_backtestResultFragment"
-                app:destination="@id/backtestResultFragment" />
-            <action
-                android:id="@+id/action_exitFragment_to_createRuleFragment"
-                app:destination="@id/createRuleFragment" />
-        </fragment>
-        <fragment
-            android:id="@+id/strategyDescFragment"
-            android:name="com.example.alphabet.StrategyDescFragment"
-            android:label="fragment_select_symbol"
-            tools:layout="@layout/fragment_strategy_desc">
-            <argument
-                android:name="strat_name"
-                app:argType="com.example.alphabet.StrategyName" />
-            <action
-                android:id="@+id/action_strategyDescFragment_to_backtestResultFragment"
-                app:destination="@id/backtestResultFragment" />
-        </fragment>
+    <action
+        android:id="@+id/action_backtestInputFragment_to_selectStrategyFragment"
+        app:destination="@id/selectStrategyFragment"
+        app:enterAnim="@anim/from_right"
+        app:exitAnim="@anim/to_left"
+        app:popEnterAnim="@anim/from_left"
+        app:popExitAnim="@anim/to_right" />
+    <fragment
+        android:id="@+id/backtestResultFragment"
+        android:name="com.example.alphabet.BacktestResultFragment"
+        android:label="BacktestResultFragment" >
         <action
-            android:id="@+id/action_global_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/homeFragment" />
-        <fragment
-            android:id="@+id/createRuleFragment"
-            android:name="com.example.alphabet.CreateRuleFragment"
-            android:label="CreateRuleFragment"
-            tools:layout="@layout/fragment_create_rule">
-            <action
-                android:id="@+id/action_createRuleFragment_to_entryFragment"
-                app:destination="@id/entryFragment"
-                app:popUpTo="@id/strategyDescFragment" />
-            <argument
-                android:name="from"
-                app:argType="string" />
-            <action
-                android:id="@+id/action_createRuleFragment_to_exitFragment"
-                app:destination="@id/exitFragment"
-                app:popUpTo="@id/entryFragment" />
-            <argument
-                android:name="position"
-                app:argType="integer"
-                android:defaultValue="-1" />
-        </fragment>
-        <fragment
-            android:id="@+id/backtestInputFragment"
-            android:name="com.example.alphabet.BacktestInputFragment"
-            android:label="BacktestInputFragment"
-            tools:layout="@layout/fragment_backtest_input">
-            <action
-                android:id="@+id/action_backtestInputFragment_to_strategyDescFragment"
-                app:destination="@id/strategyDescFragment" />
-            <action
-                android:id="@+id/action_backtestInputFragment_to_backtestResultFragment"
-                app:destination="@id/backtestResultFragment" />
-            <action
-                android:id="@+id/action_backtestInputFragment_to_entryFragment"
-                app:destination="@id/entryFragment" />
-        </fragment>
-    </navigation>
+            android:id="@+id/action_backtestResultFragment_to_homeFragment"
+            app:destination="@id/homeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/selectStrategyFragment"
+        android:name="com.example.alphabet.SelectStrategyFragment"
+        android:label="SelectStrategyFragment">
+        <action
+            android:id="@+id/action_selectStrategyFragment_to_editStrategyFragment"
+            app:destination="@id/editStrategyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <action
+        android:id="@+id/action_selectStrategyFragment_to_editStrategyFragment"
+        app:destination="@id/editStrategyFragment"
+        app:enterAnim="@anim/from_right"
+        app:exitAnim="@anim/to_left"
+        app:popEnterAnim="@anim/from_left"
+        app:popExitAnim="@anim/to_right" />
+    <action
+        android:id="@+id/action_backtestInputFragment_to_backtestResultFragment"
+        app:destination="@id/backtestResultFragment" />
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.example.alphabet.HomeFragment"
+        android:label="HomeFragment" >
+        <action
+            android:id="@+id/action_homeFragment_to_backtestResultFragment"
+            app:destination="@id/backtestResultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_backtestInputFragment"
+            app:destination="@id/backtestInputFragment" />
+    </fragment>
 </navigation>

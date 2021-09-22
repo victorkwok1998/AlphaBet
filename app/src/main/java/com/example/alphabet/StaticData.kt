@@ -1,5 +1,8 @@
 package com.example.alphabet
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.ta4j.core.indicators.*
@@ -11,9 +14,10 @@ import java.util.*
 import kotlin.reflect.KFunction
 
 class StaticDataViewModel: ViewModel() {
-    var indToParamList: MutableLiveData<Map<String, List<String>>> = MutableLiveData()
+    val indToParamList = mutableStateOf(mapOf<String, List<String>>())
+//    var indToParamList: MutableLiveData<Map<String, List<String>>> = MutableLiveData()
 //    var stratToDes: MutableLiveData<Map<String, String>> = MutableLiveData()
-    var defaultStrategy: MutableLiveData<Map<StrategyName, StrategyInput>> = MutableLiveData()
-    var myStrategy: MutableLiveData<BacktestResult> = MutableLiveData()
-    var radarChartRange: MutableLiveData<Map<String, List<Float>>> = MutableLiveData()
+    val defaultStrategy = mutableStateOf(listOf<Pair<String, StrategyInput>>())
+    val myBacktestResults = mutableStateListOf<BacktestResult>()
+    var radarChartRange = mutableStateOf(mapOf<String, List<Float>>())
 }

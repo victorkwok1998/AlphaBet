@@ -3,6 +3,9 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.3828125" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.21851851851851853" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.36574074074074076" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_emoji_objects_24.xml" value="0.22135416666666666" />
@@ -10,13 +13,22 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.36574074074074076" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_location_on_24_green.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.36574074074074076" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_input.xml" value="0.15942028985507245" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_result.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/activity_main.xml" value="0.36141304347826086" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/default_strat_card_view.xml" value="0.13405797101449277" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_input.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_result.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_summary.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_trades.xml" value="0.20677083333333332" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_create_rule.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_entry.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_equity_curve.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_select_strategy.xml" value="0.13269927536231885" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_strategy_desc.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_trades.xml" value="0.36367753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/indicator_param.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/trade_table_row.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/delete_app_bar.xml" value="0.17592592592592593" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/option_app_bar.xml" value="0.17592592592592593" />
       </map>
     </option>
   </component>

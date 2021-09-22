@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.MenuItem
 import android.widget.*
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.databinding.CreateStrategyBinding
 import com.example.alphabet.databinding.FragmentCreateRuleBinding
 import com.example.alphabet.databinding.IndicatorParamBinding
@@ -44,90 +45,6 @@ fun setParamInput(layout: LinearLayout, indParamList: List<Int>?, paramNameList:
     }
 }
 
-
-
-//fun showParamListEditText(
-//    parent: AdapterView<*>?,
-//    position: Int,
-//    indToParam: Map<String, List<String>>,
-//    paramListLayout: LinearLayout,
-//    layoutInflater: LayoutInflater
-//) {
-//    val selected = parent?.getItemAtPosition(position).toString()
-//    paramListLayout.removeAllViews()
-//    indToParam[selected]?.forEach {
-//        IndicatorParamBinding.inflate(layoutInflater, null, false).apply {
-//            this.paramValueText.hint = it
-//            paramListLayout.addView(this.root)
-//        }
-//    }
-//}
-
-fun readParamListFromLayout(layout: LinearLayout): List<Int> {
-    return layout.run {
-        List(this.childCount) { i ->
-            val tv: TextInputLayout = layout.getChildAt(i).findViewById(R.id.param_value_text)
-            tv.editText!!.text.toString().toInt()
-        }
-    }
-}
-
-fun readIndicatorInput(selIndBinding: SelectIndicatorBinding): IndicatorInput {
-//    val indType = when (selIndBinding.typeRadioGroup.checkedRadioButtonId) {
-//        R.id.specific_value_button -> "Value"
-//        R.id.indicator_button -> "Indicator"
-//        else -> "Price"
-//    }
-    val indName = when (selIndBinding.typeRadioGroup.checkedButtonId) {
-        R.id.specific_value_button -> selIndBinding.specificValueText.text.toString()
-        R.id.indicator_button -> selIndBinding.indicatorSpinner.selectedItem.toString()
-        else -> "Close Price"
-    }
-    val indParamList = when (selIndBinding.typeRadioGroup.checkedButtonId) {
-        R.id.indicator_button -> readParamListFromLayout(selIndBinding.indicatorParamListLayout)
-        else -> listOf()
-    }
-
-    return IndicatorInput(IndType.fromId(selIndBinding.typeRadioGroup.checkedButtonId), indName, indParamList)
-}
-
-fun createRuleInput(
-    selIndBinding1: SelectIndicatorBinding,
-    selIndBinding2: SelectIndicatorBinding,
-    createRuleBinding: FragmentCreateRuleBinding
-): RuleInput {
-    val ind1 = readIndicatorInput(selIndBinding1)
-    val ind2 = readIndicatorInput(selIndBinding2)
-    return RuleInput(ind1, ind2, Cond.fromId(createRuleBinding.conditionRadioGroup.checkedButtonId))
-}
-
-fun strategyActionItemClicked(
-    mode: ActionMode?,
-    item: MenuItem?,
-    createStrategyBinding: CreateStrategyBinding,
-    ruleInputList: MutableList<RuleInput>,
-    strategyAdapter: StrategyAdapter
-): Boolean {
-    return when (item?.itemId) {
-        R.id.action_delete -> {
-            val checked = mutableListOf<Int>()
-            ruleInputList.forEachIndexed { i, _ ->
-                val card =
-                    createStrategyBinding.stratList.layoutManager!!.findViewByPosition(i) as MaterialCardView
-                if (card.isChecked)
-                    checked.add(i)
-            }
-            for ((count, i) in checked.withIndex()) {
-                ruleInputList.removeAt(i - count)
-            }
-            strategyAdapter.notifyDataSetChanged()
-            mode?.finish()
-            true
-        }
-        else -> false
-    }
-}
-
 fun aggRule(indRules: List<Rule>, nonIndRules: List<Rule>): Rule {
     return when {
         indRules.isNotEmpty() && nonIndRules.isNotEmpty() -> {
@@ -148,16 +65,9 @@ fun createCalandar(year: Int, month: Int, date: Int): Calendar {
     return Calendar.getInstance().also { it.set(year, month, date) }
 }
 
-//fun parseDate(date: String): Calendar? {
-//    return if (date == "") {
-//        null
-//    } else {
-//        val year = date.substring(0, 4).toInt()
-//        val month = date.substring(4, 6).toInt()
-//        val day = date.substring(6, 8).toInt()
-//        createCalandar(year, month, day)
-//    }
-//}
+fun stringToCalendar(date: String): Calendar {
+    return Calendar.getInstance().apply { time = sdfISO.parse(date)!! }
+}
 
 fun getJsonDataFromAsset(context: Context, fileName: String): String {
     val jsonString: String
@@ -172,4 +82,19 @@ fun getJsonDataFromAsset(context: Context, fileName: String): String {
 
 fun readFile(file: File): String {
     return FileInputStream(file).bufferedReader().use { it.readText() }
+}
+
+/*
+Copy file from asset to internal storage if file does not exist
+ */
+fun Context.copyFromAsset(fileName: String) {
+    val file = File(filesDir, fileName)
+
+    if (!file.exists()) {
+        assets.open(fileName).use { input ->
+            file.outputStream().use { output ->
+                input.copyTo(output)
+            }
+        }
+    }
 }

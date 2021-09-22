@@ -1,13 +1,13 @@
 package com.example.alphabet
 
-enum class Cond(val id: Int) {
-    CROSS_UP(R.id.crossup_button),
-    CROSS_DOWN(R.id.crossdown_button),
-    OVER(R.id.over_button),
-    UNDER(R.id.under_button);
+enum class Cond(val value: String) {
+    CROSS_UP("CROSS UP"),
+    CROSS_DOWN("CROSS DOWN"),
+    OVER("OVER"),
+    UNDER("UNDER");
 
     companion object {
-        private val map = values().associateBy(Cond::id)
-        fun fromId(id: Int) = map[id] ?: throw IllegalArgumentException()
+        private val map = values().associateBy(Cond::value)
+        fun fromValue(condName: String) = map[condName] ?: throw IllegalArgumentException()
     }
 }

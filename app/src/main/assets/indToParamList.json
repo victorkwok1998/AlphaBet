@@ -3,7 +3,10 @@
   "SMA" : ["Bar Count"],
   "EMA" : ["Bar Count"],
   "MACD Histogram": ["Short Bar Count", "Long Bar Count", "EMA Bar Count"],
+  "MACD Line": ["Short Bar Count", "Long Bar Count"],
   "Bollinger Band Upper": ["Bar Count", "Scaling Factor"],
   "Bollinger Band Lower": ["Bar Count", "Scaling Factor"],
-  "Stochastic Oscillator K": ["Bar Count"]
+  "Stochastic Oscillator K": ["Bar Count"],
+  "ATR" : ["Bar Count"],
+  "Awesome Oscillator": ["Bar Count SMA1", "Bar Count SMA2"]
 }
