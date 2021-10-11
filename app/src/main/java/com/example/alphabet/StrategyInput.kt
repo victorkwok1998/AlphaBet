@@ -11,11 +11,12 @@ import org.ta4j.core.rules.StopLossRule
 
 @Serializable
 class StrategyInput(
+    val strategyName: String,
     val des: String,
     val entryRulesInput: MutableList<RuleInput>,
     val exitRulesInput: MutableList<RuleInput>,
-    val stopGain: String,
-    val stopLoss: String
+    var stopGain: String,
+    var stopLoss: String,
 ) {
     fun entryRulesDes(): String {
         return entryRulesInput.joinToString("\n")
@@ -38,4 +39,15 @@ class StrategyInput(
         val exitRule = aggRule(exitRules, nonIndRules)
         return BaseStrategy(entryRule, exitRule)
     }
+    fun isEmpty(): Boolean {
+        return entryRulesInput.isEmpty()
+    }
+    fun copy(
+        strategyName: String = this.strategyName,
+        des: String = this.des,
+        entryRulesInput: MutableList<RuleInput> = this.entryRulesInput.map { it.copy() }.toMutableList(),
+        exitRulesInput: MutableList<RuleInput> = this.exitRulesInput.map { it.copy() }.toMutableList(),
+        stopGain: String = this.stopGain,
+        stopLoss: String = this.stopLoss
+    ) = StrategyInput(strategyName, des, entryRulesInput, exitRulesInput, stopGain, stopLoss)
 }

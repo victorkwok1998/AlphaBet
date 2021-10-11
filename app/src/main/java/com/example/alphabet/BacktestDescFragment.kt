@@ -15,9 +15,9 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.navGraphViewModels
 import com.example.alphabet.MyApplication.Companion.sdfLong
 import com.example.alphabet.components.RowItem
+import com.example.alphabet.ui.theme.*
 import java.util.*
 
 class BacktestDescFragment: Fragment() {
@@ -35,12 +35,10 @@ class BacktestDescFragment: Fragment() {
                 Column(
                     Modifier.verticalScroll(rememberScrollState())
                 ) {
-                    viewModel.symbolStrategyList.forEach { (symbol, stratId) ->
-                        val stategyPair = viewModel.stratIdMap.value[stratId.value]
+                    viewModel.symbolStrategyList.forEach { backtestInput ->
                         BackTestDesc(
-                            stategyPair.first,
-                            stategyPair.second,
-                            symbol.value,
+                            backtestInput.strategyInput,
+                            backtestInput.symbol.value,
                             viewModel.start.value,
                             viewModel.end.value
                         )
@@ -52,17 +50,17 @@ class BacktestDescFragment: Fragment() {
     }
 
     @Composable
-    fun BackTestDesc(strategyName: String, strategy: StrategyInput, symbol: String, start: Calendar, end: Calendar) {
+    fun BackTestDesc(strategy: StrategyInput, symbol: String, start: Calendar, end: Calendar) {
         val startDate = sdfLong.format(start.time)
         val endDate = sdfLong.format(end.time)
 
         Column(Modifier.padding(20.dp)) {
             Text(
-                "Strategy Description",
-                style = MaterialTheme.typography.h5
+                "Backtest Description",
+                style = MaterialTheme.typography.h6
             )
             Spacer(modifier = Modifier.padding(vertical = 10.dp))
-            RowItem(heading = "Symbol", body = symbol, icon = R.drawable.ic_baseline_leaderboard_24)
+            RowItem(heading = "Symbol", body = symbol, icon = R.drawable.ic_baseline_timeline_24)
             Divider(modifier = Modifier.padding(vertical = 10.dp), thickness = 1.dp)
             Row(
                 Modifier
@@ -73,7 +71,7 @@ class BacktestDescFragment: Fragment() {
                     Modifier
                         .weight(1f)
                 ) {
-                    RowItem(heading = "Start Date", body = startDate, icon = R.drawable.ic_baseline_date_range_24)
+                    RowItem(heading = "Start Date", body = startDate, icon = R.drawable.ic_baseline_date_range_24, tint = Color.DarkGray)
                 }
                 Divider(
                     Modifier
@@ -84,26 +82,29 @@ class BacktestDescFragment: Fragment() {
                     Modifier
                         .weight(1f)
                 ) {
-                    RowItem(heading = "End Date", body = endDate, icon = R.drawable.ic_baseline_date_range_24)
+                    RowItem(heading = "End Date", body = endDate, icon = R.drawable.ic_baseline_date_range_24, tint = Color.DarkGray)
                 }
             }
             Divider(Modifier.padding(vertical = 10.dp), thickness = 1.dp)
             RowItem(
                 heading = "Strategy",
-                body = strategyName,
-                icon = R.drawable.ic_baseline_emoji_objects_24
+                body = strategy.strategyName,
+                icon = R.drawable.ic_baseline_emoji_objects_24,
+                tint = amber500
             )
             Divider(Modifier.padding(vertical = 10.dp), thickness = 1.dp)
             RowItem(
                 heading = "Entry Rule",
                 body = strategy.entryRulesDes(),
-                icon = R.drawable.ic_baseline_trending_up_24
+                icon = R.drawable.ic_baseline_trending_up_24,
+                tint = green500
             )
             Divider(Modifier.padding(vertical = 10.dp), thickness = 1.dp)
             RowItem(
                 heading = "Exit Rule",
                 body = strategy.exitRulesDes(),
-                icon = R.drawable.ic_baseline_trending_down_24
+                icon = R.drawable.ic_baseline_trending_down_24,
+                tint = red500
             )
             // Divider(Modifier.padding(vertical = 10.dp), thickness = 1.dp)
         }

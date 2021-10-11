@@ -20,12 +20,16 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_summary.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_trades.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_create_rule.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_edit_strategy.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_entry.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_equity_curve.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_select_strategy.xml" value="0.13269927536231885" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_strategy_desc.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_trades.xml" value="0.36367753623188404" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/indicator_param.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/rule_item.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/select_indicator.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/strategy_list_item.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/trade_table_row.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/delete_app_bar.xml" value="0.17592592592592593" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/option_app_bar.xml" value="0.17592592592592593" />

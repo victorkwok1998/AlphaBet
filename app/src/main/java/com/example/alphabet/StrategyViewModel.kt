@@ -12,6 +12,7 @@ import org.ta4j.core.reports.TradingStatementGenerator
 import org.ta4j.core.rules.StopGainRule
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
+import java.time.Year
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -22,35 +23,36 @@ class StrategyViewModel: ViewModel() {
         time = defaultEnd.time
         add(Calendar.YEAR, -1)
     } // one year before
+    private val EMPTY_STRATEGY = StrategyInput("EMPTY", "", mutableListOf(), mutableListOf(), "", "")
+
     val start = mutableStateOf(defaultStart)
     val end = mutableStateOf(defaultEnd)
 
-    val selectToEditStrategy = mutableStateOf(0)
+//    val selectToEditStrategy = mutableStateOf(0)
     val inputToSelectStrategy = mutableStateOf(0)
 
-    val symbolStrategyList = mutableStateListOf(Pair(mutableStateOf(""), mutableStateOf(-1)))
-    val stratIdMap = mutableStateOf(listOf<Pair<String, StrategyInput>>())
+//    val symbolStrategyList = mutableStateListOf(Pair(mutableStateOf(""), mutableStateOf(-1)))
+    val symbolStrategyList = mutableStateListOf(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
+//    val stratIdMap = mutableStateOf(listOf<Pair<String, StrategyInput>>())
     val seriesMap = mutableMapOf<String, BaseBarSeries>()
 
-    var metrics = mutableStateOf(listOf<Pair<Pair<String, Int>, Metrics>>())
+    var metrics = mutableStateOf(listOf<Metrics>())
 
     fun reset() {
         start.value = defaultStart
         end.value = defaultEnd
-        selectToEditStrategy.value = 0
+//        selectToEditStrategy.value = 0
         inputToSelectStrategy.value = 0
-        symbolStrategyList.apply {
-            clear()
-            add(Pair(mutableStateOf(""), mutableStateOf(-1)))
-        }
+        symbolStrategyList.clear()
+        addEmpty()
         seriesMap.clear()
         metrics.value = listOf()
     }
 
     fun loadData() {
         seriesMap.clear()
-        symbolStrategyList.forEach { it.first.value = it.first.value.uppercase() }
-        val symbols = symbolStrategyList.map { it.first.value }.toSet()
+        symbolStrategyList.forEach { it.symbol.value = it.symbol.value.uppercase() }
+        val symbols = symbolStrategyList.map { it.symbol.value }.toSet()
 
         symbols.forEach { s ->
             val series = BaseBarSeries(s)
@@ -67,8 +69,8 @@ class StrategyViewModel: ViewModel() {
 
     fun runStrategy() {
         metrics.value = symbolStrategyList.map {
-            val series = seriesMap[it.first.value]!!
-            val strategy = stratIdMap.value[it.second.value].second.toStrategy(series)
+            val series = seriesMap[it.symbol.value]!!
+            val strategy = it.strategyInput.toStrategy(series)
             val tradingRecord = BarSeriesManager(series).run(strategy)
             val tradingStatement = TradingStatementGenerator().generate(strategy, tradingRecord, series)
 
@@ -83,7 +85,7 @@ class StrategyViewModel: ViewModel() {
                 val eachPnl = (position.exit.pricePerAsset - position.entry.pricePerAsset).doubleValue()
                 eachPnl / position.entry.pricePerAsset.doubleValue()
             }
-            Pair(it.first.value, it.second.value) to Metrics(
+            Metrics(
                 tradingRecord, pnl, pnlPct, profitCount, lossCount, nTrade,
                 winRate, mdd, pnlList
             )
@@ -91,7 +93,19 @@ class StrategyViewModel: ViewModel() {
     }
 
     fun symbolStrategyStringList(): List<String> {
-        return symbolStrategyList.map { "${it.first.value}, ${stratIdMap.value[it.second.value].first}" }
+        return symbolStrategyList.map { "${it.symbol.value}, ${it.strategyInput.strategyName}" }
+    }
+
+    fun setDateRange(year: Int) {
+        end.value = defaultEnd
+        start.value = Calendar.getInstance().apply {
+            time = defaultEnd.time
+            add(Calendar.YEAR, -year)
+        }
+    }
+
+    fun addEmpty() {
+        symbolStrategyList.add(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
     }
 
 //    fun updateStrategy() {

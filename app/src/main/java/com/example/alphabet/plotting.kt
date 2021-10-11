@@ -1,20 +1,16 @@
 package com.example.alphabet
 
 import android.content.Context
-import android.graphics.Color
-import androidx.compose.material.MaterialTheme
+import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.*
-import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet
-import com.github.mikephil.charting.utils.ColorTemplate
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.TradingRecord
-import org.ta4j.core.analysis.CashFlow
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
@@ -27,12 +23,18 @@ val plotColors = listOf(
     R.color.purple_200
 )
 
-fun plotEquityCurveFromCashFlow(chart: LineChart, seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>, labels: List<String?>, context: Context) {
+fun plotEquityCurveFromCashFlow(
+    chart: LineChart,
+    seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>,
+    labels: List<String?>,
+    enabledLines: List<Boolean>,
+    context: Context
+) {
     val yVals = seriesTradingRecord.map { (series, tradingRecord) ->
         getCashFlow(series, tradingRecord)
     }
     val dates = List(seriesTradingRecord[0].first.barCount) {i -> Date.from(seriesTradingRecord[0].first.getBar(i).endTime.toInstant()) }
-    plotMultiLineCurve(chart, dates, yVals, labels, context)
+    plotMultiLineCurve(chart, dates, yVals, labels, enabledLines, context)
 }
 
 fun plotTrades(chart: CombinedChart, series: BaseBarSeries, tradingRecord: TradingRecord, label: String?, context: Context) {
@@ -96,22 +98,31 @@ fun plotEquityCurve(
 
 }
 
-fun plotMultiLineCurve(chart: LineChart, xVals: List<Date>, yVals: List<List<Float>>, labels: List<String?>, context: Context) {
+fun plotMultiLineCurve(
+    chart: LineChart,
+    xVals: List<Date>,
+    yVals: List<List<Float>>,
+    labels: List<String?>,
+    enabledLines: List<Boolean>,
+    context: Context
+) {
     val sdf = SimpleDateFormat("MMM yy", Locale.ENGLISH)
     val dates = xVals.map { sdf.format(it) }
     val dataSets = ArrayList<ILineDataSet>()
-    yVals.forEachIndexed {i, l ->
-        val set = List(l.size) { j -> Entry(j.toFloat(), l[j]) }
-            .run{ LineDataSet(this, labels[i]) }
-            .apply {
-                lineWidth = 2f
-                setDrawCircles(false)
-                fillAlpha = 255
-                setDrawValues(false)
+    yVals.zip(enabledLines).forEachIndexed { i, (l, isEnabled) ->
+        if (isEnabled) {
+            val set = List(l.size) { j -> Entry(j.toFloat(), l[j]) }
+                .run{ LineDataSet(this, labels[i]) }
+                .apply {
+                    lineWidth = 2f
+                    setDrawCircles(false)
+                    fillAlpha = 255
+                    setDrawValues(false)
 
-                setColors(intArrayOf(plotColors[i % plotColors.size]), context)
-            }
-        dataSets.add(set)
+                    setColors(intArrayOf(plotColors[i % plotColors.size]), context)
+                }
+            dataSets.add(set)
+        }
     }
     with(chart) {
         data = LineData(dataSets)
@@ -134,34 +145,44 @@ fun plotMultiLineCurve(chart: LineChart, xVals: List<Date>, yVals: List<List<Flo
             granularity = 1f
             isGranularityEnabled = true
             textSize = 13f
+            extraBottomOffset = 5f
             spaceMin = 10f
-            labelCount = 4
+            labelCount = 5
         }
         description.isEnabled = false
-        legend.apply {
-            textSize = 15f
-            xEntrySpace = 30f
-        }
+//        legend.apply {
+//            textSize = 15f
+//            xEntrySpace = 30f
+//        }
+        legend.isEnabled = false
         invalidate()
     }
 }
 
-fun plotRadarChart(chart: RadarChart, scoresList: List<List<Float>>, labels: Collection<String>, context: Context) {
+fun plotRadarChart(
+    chart: RadarChart,
+    scoresList: List<List<Float>>,
+    labels: Collection<String>,
+    enabledLines: List<Boolean>,
+    context: Context
+) {
     val radarDataSets = RadarData()
     scoresList.forEachIndexed { i, scores ->
-        val set = scores.map { RadarEntry(it) }
-            .run { RadarDataSet(this, "Strategy Performance") }
-            .apply {
-                setDrawFilled(true)
-                setDrawValues(false)
-                fillDrawable =
-                    ContextCompat.getDrawable(context, plotColors[i % plotColors.size]).apply {
-                        this?.alpha = 50
-                    }
-                setColors(intArrayOf(plotColors[i % plotColors.size]), context)
+        if (enabledLines[i]) {
+            val set = scores.map { RadarEntry(it) }
+                .run { RadarDataSet(this, "Strategy Performance") }
+                .apply {
+                    setDrawFilled(true)
+                    setDrawValues(false)
+                    fillDrawable =
+                        ContextCompat.getDrawable(context, plotColors[i % plotColors.size]).apply {
+                            this?.alpha = 50
+                        }
+                    setColors(intArrayOf(plotColors[i % plotColors.size]), context)
 //            fillColor = mainColor
-            }
-        radarDataSets.addDataSet(set)
+                }
+            radarDataSets.addDataSet(set)
+        }
     }
 
     with(chart) {
@@ -182,13 +203,6 @@ fun plotRadarChart(chart: RadarChart, scoresList: List<List<Float>>, labels: Col
 
         invalidate()
     }
-}
-
-fun plotStrategyVsBuyAndHold(chart: LineChart, series: BaseBarSeries, tradingRecord: TradingRecord, label: String?, context: Context) {
-    val cashFlow = getCashFlow(series, tradingRecord)
-    val buyAndHold = List(series.barCount) {i -> series.getBar(i).closePrice.floatValue() / series.getBar(0).closePrice.floatValue() }
-    val dates = List(series.barCount) {i -> Date.from(series.getBar(i).endTime.toInstant()) }
-    plotMultiLineCurve(chart, dates, listOf(cashFlow, buyAndHold), listOf(label, "Buy And Hold"), context)
 }
 
 fun plotLineScatterChart(

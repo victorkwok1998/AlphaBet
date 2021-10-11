@@ -35,4 +35,9 @@ class IndicatorInput(
             else -> throw IllegalArgumentException("Cannot find $indName Indicator")
         }
     }
+    fun copy(
+        indType: IndType = this.indType,
+        indName: String = this.indName,
+        indParamList: MutableList<String> = this.indParamList.toMutableList()
+    ) = IndicatorInput(indType, indName, indParamList)
 }

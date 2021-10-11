@@ -32,9 +32,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.alphabet.MyApplication.Companion.sdfISO
+import com.example.alphabet.components.MyCard
 import com.example.alphabet.components.MyTopAppBar
+import com.example.alphabet.components.SearchBar
+import com.example.alphabet.components.StrategyList
 import com.example.alphabet.ui.theme.MyTheme
 import com.example.alphabet.ui.theme.grayBackground
+import com.example.alphabet.ui.theme.green500
+import com.example.alphabet.ui.theme.red500
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -79,63 +84,130 @@ class HomeFragment: Fragment()  {
                         staticDataViewModel.indToParamList.value =
                             Json.decodeFromString<Map<String, List<String>>>(getJsonDataFromAsset(requireContext(), "indToParamList.json"))
                         staticDataViewModel.defaultStrategy.value =
-                            Json.decodeFromString<Map<String, StrategyInput>>(getJsonDataFromAsset(requireContext(), "defaultStrategy.json"))
-                                .toList()
+                            Json.decodeFromString<List<StrategyInput>>(getJsonDataFromAsset(requireContext(), "defaultStrategy.json"))
+                                .sortedBy { it.strategyName }
 
                         staticDataViewModel.radarChartRange.value =
                             Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
                         requireContext().copyFromAsset("myBacktestResults.json")
 
-                        Json.decodeFromString<Map<Int, BacktestResult>>(
+                        Json.decodeFromString<List<BacktestResult>>(
                             readFile(File(requireContext().filesDir, "myBacktestResults.json"))
                         )
                             .forEach {
-                                staticDataViewModel.myBacktestResults.add(it.value)
+                                staticDataViewModel.myBacktestResults.add(it)
                             }
                     }
                 }
                 isLoading = false
             }
         }
-
+        var selectedItem by remember { mutableStateOf(0)}
+        var searchText by remember { mutableStateOf("") }
+        val filteredStrategies =
+            if (searchText.isEmpty()) staticDataViewModel.defaultStrategy.value else staticDataViewModel.defaultStrategy.value.filter {
+                it.strategyName.lowercase().contains(searchText.lowercase())
+            }
         Scaffold(
-            topBar = { MyTopAppBar(title = { Text("My Backtests") }) },
-            content = {
-                if (isLoading){
-                    Column(
-                        Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        CircularProgressIndicator()
-                        Spacer(Modifier.height(10.dp))
-                        Text("Loading", color = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.medium))
+            topBar = {
+                if(selectedItem == 0)
+                    MyTopAppBar(title = { Text("AlphaBet") })
+                else{
+                    MyTopAppBar {
+                        SearchBar(
+                            value = searchText,
+                            onValueChange = { searchText = it },
+                        )
                     }
                 }
-                else {
-                    Column(
-                        Modifier
-                            .background(grayBackground)
-                    ) {
-//                        Text(
-//                            "My Backtests",
-//                            style = MaterialTheme.typography.h6,
-//                            fontWeight = FontWeight.Normal,
-//                            modifier = Modifier.padding(horizontal = 20.dp, vertical = 10.dp)
-//                        )
-//                        Spacer(modifier = Modifier.height(10.dp))
-                        Card(
-                            shape = RoundedCornerShape(20.dp),
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            BackTestList(
-                                backtestResults = staticDataViewModel.myBacktestResults,
-                                modifier = Modifier.padding(20.dp),
-                            )
+
+            },
+            content = { paddingValues ->
+                Column(
+                    Modifier
+                        .padding(paddingValues = paddingValues)
+                ) {
+                    if (isLoading){
+                        Column(
+                            Modifier.fillMaxSize(),
+                            verticalArrangement = Arrangement.Center,
+                            horizontalAlignment = Alignment.CenterHorizontally) {
+                            CircularProgressIndicator()
+                            Spacer(Modifier.height(10.dp))
+                            Text("Loading", color = MaterialTheme.colors.onBackground.copy(alpha = ContentAlpha.medium))
                         }
+                    }
+                    else if (selectedItem == 0) {
+                        MyBacktestScreen()
+                    }
+                    else if (selectedItem == 1) {
+                        MyStrategyScreen(filteredStrategies)
+                    }
+                }
+            },
+            bottomBar = {
+                if (!isLoading) {
+                    BottomNavigation(backgroundColor = MaterialTheme.colors.background) {
+                        listOf("Backtest", "Stratgey")
+                            .zip(listOf(R.drawable.ic_baseline_description_24, R.drawable.ic_baseline_emoji_objects_24))
+                            .forEachIndexed { index, (item, icon) ->
+                                val selectedColor =
+                                    if (selectedItem == index) MaterialTheme.colors.primary else Color.Gray
+                                BottomNavigationItem(
+                                    icon = {
+                                        Icon(
+                                            painter = painterResource(id = icon),
+                                            contentDescription = null,
+                                            tint = selectedColor
+                                        )
+                                    },
+                                    label = { Text(item, color = selectedColor) },
+                                    selected = selectedItem == index,
+                                    onClick = {
+                                        selectedItem = index
+                                        //                                val action = HomeFragmentDirections.actionHomeFragmentToSelectStrategyFragment()
+                                        //                                findNavController().navigate(action)
+                                    })
+                            }
                     }
                 }
             }
         )
+    }
+
+    @Composable
+    fun MyBacktestScreen() {
+        Column(
+            Modifier
+                .background(grayBackground)
+        ) {
+            MyCard(
+                modifier = Modifier.fillMaxSize(),
+                shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+            ) {
+                BackTestList(
+                    backtestResults = staticDataViewModel.myBacktestResults,
+                    modifier = Modifier.padding(20.dp),
+                )
+            }
+        }
+    }
+
+    @Composable
+    fun MyStrategyScreen(strategies: List<StrategyInput>) {
+        Column(
+            Modifier
+                .background(grayBackground)
+        ) {
+            MyCard {
+                Column(
+                    Modifier
+                        .padding(horizontal = 20.dp)
+                        .verticalScroll(rememberScrollState())) {
+                    StrategyList(strategies = strategies, onOptionSelected = {})
+                }
+            }
+        }
     }
 
     @Composable
@@ -174,14 +246,23 @@ class HomeFragment: Fragment()  {
                             {
                                 detectTapGestures(
                                     onTap = {
-                                        with(viewModel){
+                                        with(viewModel) {
                                             reset()
-                                            start.value = stringToCalendar(backtestResult.date.first())
+                                            start.value =
+                                                stringToCalendar(backtestResult.date.first())
                                             end.value = stringToCalendar(backtestResult.date.last())
-                                            symbolStrategyList[0].first.value = backtestResult.symbol
-                                            symbolStrategyList[0].second.value = 0
-                                            stratIdMap.value = listOf(Pair(backtestResult.strategyName, backtestResult.strategyInput))
-                                            val action = HomeFragmentDirections.actionHomeFragmentToBacktestResultFragment()
+                                            symbolStrategyList[0].symbol.value =
+                                                backtestResult.symbol
+                                            symbolStrategyList[0].strategyInput =
+                                                backtestResult.strategyInput
+//                                            stratIdMap.value = listOf(
+//                                                Pair(
+//                                                    backtestResult.strategyName,
+//                                                    backtestResult.strategyInput
+//                                                )
+//                                            )
+                                            val action =
+                                                HomeFragmentDirections.actionHomeFragmentToBacktestResultFragment()
                                             findNavController().navigate(action)
                                         }
                                     },
@@ -192,7 +273,7 @@ class HomeFragment: Fragment()  {
                     ) {
                         Column(Modifier.weight(weights[0])) {
                             Text(
-                                "${backtestResult.symbol}, ${backtestResult.strategyName}",
+                                "${backtestResult.symbol}, ${backtestResult.strategyInput.strategyName}",
                                 style = MaterialTheme.typography.subtitle1
                             )
                             Text(
@@ -203,8 +284,8 @@ class HomeFragment: Fragment()  {
                         }
                         val pnl = backtestResult.cashFlow.last() - 1
                         val color =
-                            if (pnl >= 0) colorResource(id = R.color.green)
-                            else colorResource(id = R.color.red)
+                            if (pnl >= 0) green500
+                            else red500
                         Column(Modifier.weight(weights[1])) {
                             Text(
                                 MyApplication.pct.format(pnl),
@@ -247,7 +328,7 @@ class HomeFragment: Fragment()  {
                 // button
                 OutlinedButton(
                     onClick = {
-                        viewModel.stratIdMap.value = staticDataViewModel.defaultStrategy.value
+//                        viewModel.stratIdMap.value = staticDataViewModel.defaultStrategy.value
                         viewModel.reset()
                         val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment()
                         findNavController().navigate(action)

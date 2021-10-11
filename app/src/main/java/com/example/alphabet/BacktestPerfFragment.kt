@@ -10,18 +10,16 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.Card
-import androidx.compose.material.ContentAlpha
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.fragment.app.activityViewModels
-import androidx.navigation.navGraphViewModels
+import com.example.alphabet.components.MyCard
+import com.example.alphabet.components.MyLegend
 import com.example.alphabet.components.StackedTable
 import com.example.alphabet.ui.theme.grayBackground
 import com.github.mikephil.charting.charts.LineChart
@@ -40,9 +38,13 @@ class BacktestPerfFragment : Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-                val seriesTradingRecord = viewModel.metrics.value.map { viewModel.seriesMap[it.first.first]!! to it.second.tradingRecord }
+                val seriesTradingRecord = viewModel.symbolStrategyList
+                    .zip(viewModel.metrics.value)
+                    .map { (bactestInput, metric) ->
+                    viewModel.seriesMap[bactestInput.symbol.value]!! to metric.tradingRecord
+                }
                 val symbolStrategyList = viewModel.symbolStrategyStringList()
-                val metricsList = viewModel.metrics.value.map { it.second }
+                val metricsList = viewModel.metrics.value
                 BackTestPerf(seriesTradingRecord, metricsList, symbolStrategyList)
             }
         }
@@ -67,13 +69,18 @@ class BacktestPerfFragment : Fragment() {
                 symbolStrategyList
             )
             Spacer(modifier = Modifier.height(10.dp))
+            MetricsCard(metricsList, symbolStrategyList)
+            Spacer(modifier = Modifier.height(10.dp))
         }
     }
 
     @Composable
-    fun EquityCurvePlotCard(seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>, labels: List<String?>) {
-        Card(
-            shape = RoundedCornerShape(20.dp)) {
+    fun EquityCurvePlotCard(
+        seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>,
+        labels: List<String>,
+    ) {
+        val enabledLines = labels.map { mutableStateOf(true) }
+        MyCard {
             Column(
                 modifier = Modifier.padding(20.dp)
             ) {
@@ -90,27 +97,56 @@ class BacktestPerfFragment : Fragment() {
                         v,
                         seriesTradingRecord,
                         labels,
+                        enabledLines.map { it.value },
                         requireContext()
                     )
                 }
+                Spacer(modifier = Modifier.height(20.dp))
+                // Legend
+                MyLegend(labels, enabledLines)
             }
         }
     }
 
     @Composable
     fun SummaryCard(metricsList: List<Metrics>, symbolStrategyList: List<String>) {
-        Card(shape = RoundedCornerShape(20.dp)) {
+        MyCard {
             Column(Modifier.padding(20.dp)) {
                 Text("Summary", style = MaterialTheme.typography.h6)
-                RadarChartPlot()
-                Spacer(modifier = Modifier.height(10.dp))
+                RadarChartPlot(metricsList, labels = symbolStrategyList)
+            }
+        }
+    }
+
+    @Composable
+    fun MetricsCard(metricsList: List<Metrics>, symbolStrategyList: List<String>) {
+        MyCard {
+            Column(Modifier.padding(20.dp)) {
+                Text("Metrics", style = MaterialTheme.typography.h6)
                 MetricsTable(metricsList, symbolStrategyList)
             }
         }
     }
 
     @Composable
-    fun RadarChartPlot() {
+    fun RadarChartPlot(metricsList: List<Metrics>, labels: List<String>) {
+        val criterion = resources.getStringArray(R.array.radar_label).toList()
+        // val metrics = listOf(pnlPct, -mdd, nTrade, pnlList.average(), winRate)
+        val scores = metricsList
+            .map { listOf(it.pnlPct, -it.mdd, it.nTrade, it.pnlList.average(), it.winRate) }
+            .map { metrics ->
+                List(criterion.size) { i ->
+                    val k = criterion[i]
+                    val v = metrics[i]
+                    val score =
+                        staticDataViewModel.radarChartRange.value[k]!!.binarySearch(v.toFloat())
+                    when {
+                        score < 0 -> -score - 1
+                        else -> score
+                    }.toFloat()
+                }
+            }
+        val enabledLines = labels.map { mutableStateOf(true) }
         Column {
             AndroidView(
                 ::RadarChart,
@@ -118,25 +154,11 @@ class BacktestPerfFragment : Fragment() {
                     .height(300.dp)
                     .fillMaxWidth()
             ) { radarPlot ->
-                val labels = resources.getStringArray(R.array.radar_label).toList()
-                //                    val metrics = listOf(pnlPct, -mdd, nTrade, pnlList.average(), winRate)
-                val scores = viewModel.metrics.value
-                    .map { it.second }
-                    .map { listOf(it.pnlPct, -it.mdd, it.nTrade, it.pnlList.average(), it.winRate) }
-                    .map { metrics ->
-                        List(labels.size) { i ->
-                            val k = labels[i]
-                            val v = metrics[i]
-                            val score =
-                                staticDataViewModel.radarChartRange.value[k]!!.binarySearch(v.toFloat())
-                            when {
-                                score < 0 -> -score - 1
-                                else -> score
-                            }.toFloat()
-                        }
-                    }
-                plotRadarChart(radarPlot, scores, labels, requireContext())
+                plotRadarChart(radarPlot, scores, criterion,enabledLines.map{it.value}, requireContext())
             }
+            Spacer(modifier = Modifier.height(20.dp))
+            // Legend
+            MyLegend(labels, enabledLines)
         }
     }
 
@@ -149,8 +171,7 @@ class BacktestPerfFragment : Fragment() {
             metricsList.map { MyApplication.intFormat.format(it.profitCount) },
             metricsList.map { MyApplication.intFormat.format(it.lossCount) }
         )
-        
-        Text(text = "Metrics", style = MaterialTheme.typography.h6)
+
         StackedTable(primaryIndex, symbolStrategyList, data)
     }
 }

@@ -19,11 +19,11 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
+import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
@@ -33,7 +33,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -41,15 +40,17 @@ import yahoofinance.YahooFinance
 import java.io.FileNotFoundException
 import java.util.*
 import com.example.alphabet.MyApplication.Companion.sdfLong
-import com.example.alphabet.components.ClickableOutlinedTextField
-import com.example.alphabet.components.MyTopAppBar
+import com.example.alphabet.components.*
+import com.example.alphabet.ui.theme.amber500
 import com.example.alphabet.ui.theme.grayBackground
 
 //TODO: Recent Backtests
 class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
     private val viewModel: StrategyViewModel by activityViewModels()
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
+    private val symbolStrategyWeight = listOf(0.85f, 0.15f)
 
+    @ExperimentalComposeUiApi
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -108,7 +109,8 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
             }
         }
     }
-    
+
+    @ExperimentalComposeUiApi
     @Composable
     fun BacktestInputScreen() {
         Scaffold(
@@ -130,7 +132,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                         .verticalScroll(rememberScrollState())
                 ) {
 //                    Spacer(modifier = Modifier.height(10.dp))
-                    SymbolStrategyCard(viewModel.symbolStrategyList)
+                    SymbolStrategyCard(viewModel.symbolStrategyList) { viewModel.addEmpty() }
                     Spacer(modifier = Modifier.height(10.dp))
                     DateRangeCard()
                     Button(onClick = {
@@ -149,9 +151,11 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
         )
     }
 
+    @ExperimentalComposeUiApi
     @Composable
     fun SymbolStrategyCard(
-        symbolStrategyList: SnapshotStateList<Pair<MutableState<String>, MutableState<Int>>>
+        symbolStrategyList: SnapshotStateList<BacktestInput>,
+        onAddClick: () -> Unit
     ) {
         Card(
             modifier = Modifier
@@ -159,18 +163,17 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                 .animateContentSize(
                     animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
                 ),
-            shape = RoundedCornerShape(20.dp)
+            shape = RoundedCornerShape(20.dp),
+            elevation = 0.dp
         ) {
             Column(Modifier.padding(20.dp)) {
                 Row(verticalAlignment = Alignment.CenterVertically) {
                     Text(
                         "Symbol and Strategy",
                         style = MaterialTheme.typography.h6,
-                        modifier = Modifier.weight(0.8f)
+                        modifier = Modifier.weight(symbolStrategyWeight[0])
                     )
-                    IconButton(onClick = {
-                        symbolStrategyList.add(Pair(mutableStateOf(""), mutableStateOf(-1)))
-                    }, modifier = Modifier.weight(0.2f)) {
+                    IconButton(onClick = onAddClick, modifier = Modifier.weight(symbolStrategyWeight[1])) {
                         Icon(
                             imageVector = Icons.Default.Add,
                             contentDescription = "Add symbol and strategy"
@@ -186,16 +189,13 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
 
     @Composable
     fun DateRangeCard() {
-        Card(modifier = Modifier
+        MyCard(modifier = Modifier
             .fillMaxWidth(),
-            shape = RoundedCornerShape(20.dp)
         ) {
             Column(Modifier.padding(20.dp)) {
                 Text("Date Range", style = MaterialTheme.typography.h6)
                 Spacer(modifier = Modifier.height(10.dp))
-                Row(
-                    Modifier
-                        .fillMaxWidth()) {
+                Row(Modifier.fillMaxWidth()) {
                     Column(
                         Modifier
                             .weight(0.5f)
@@ -209,7 +209,23 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                         DateTextField(label = "End Date", cal = viewModel.end)
                     }
                 }
+                Spacer(modifier = Modifier.height(20.dp))
+                Row {
+                    listOf(1, 2, 5, 10).forEach { year ->
+                        DefaultTimeButton(year = year)
+                        Spacer(modifier = Modifier.width(15.dp))
+                    }
+                }
             }
+        }
+    }
+
+    @Composable
+    fun DefaultTimeButton(year: Int) {
+        OutlinedButton(onClick = {
+            viewModel.setDateRange(year)
+        }) {
+            Text("$year Y")
         }
     }
 
@@ -220,13 +236,13 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
 
-        ClickableOutlinedTextField(value = sdfLong.format(c.time),
-            onValueChange = {},
+        ClickableTextField(value = sdfLong.format(c.time),
+//            onValueChange = {},
             label = { Text(label) },
             leadingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_date_range_24),
-                    contentDescription = "date"
+                    contentDescription = "date",
                 )
             },
             modifier = Modifier
@@ -242,29 +258,50 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                         day
                     )
                     dpd.show()
-                })
+                }
+        )
     }
 
 
+    @ExperimentalComposeUiApi
     @Composable
     fun SymbolStrategyRow(index: Int) {
-        val symbolStrategyPair = viewModel.symbolStrategyList[index]
-        val symbol = symbolStrategyPair.first
-        val strategy = symbolStrategyPair.second
+        val backtestInput = viewModel.symbolStrategyList[index]
+        val symbol = backtestInput.symbol
+        val strategy = backtestInput.strategyInput
         Row(Modifier.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(0.8f)) {
-                OutlinedTextField(
+            Column(Modifier.weight(symbolStrategyWeight[0])) {
+                MyTextField(
                     value = symbol.value,
                     onValueChange = { symbol.value = it },
-                    label = { Text("Symbol") },
                     leadingIcon = {
                         Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_trending_up_24),
-                            contentDescription = "Symbol"
+                            painter = painterResource(id = R.drawable.ic_baseline_timeline_24),
+                            contentDescription = "Symbol",
+                            tint = Color.LightGray
                         )
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    trailingIcon = {
+                        if (symbol.value.isNotEmpty()) {
+                            IconButton(onClick = { symbol.value = "" }) {
+                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+                            }
+                        }
+                    },
+                    label = { Text("Symbol") }
                 )
+//                OutlinedTextField(
+//                    value = symbol.value,
+//                    onValueChange = { symbol.value = it },
+//                    label = { Text("Symbol") },
+//                    leadingIcon = {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.ic_baseline_timeline_24),
+//                            contentDescription = "Symbol",
+//                        )
+//                    },
+//                    modifier = Modifier.fillMaxWidth()
+//                )
                 // hint text
                 Text(
                     "e.g., TSLA, BRK-B, BTC-USD, 2800.HK",
@@ -272,31 +309,75 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                     style = MaterialTheme.typography.caption,
                     color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
                 )
-                ClickableOutlinedTextField(
-                    value = if(strategy.value != -1) staticDataViewModel.defaultStrategy.value[strategy.value].first else "",
-                    onValueChange = {  },
-                    label = { Text("Strategy") },
+                Spacer(modifier = Modifier.height(10.dp))
+                ClickableTextField(
+                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
+                    label = if(strategy.isEmpty()) null else {{Text("Strategy")}},
                     placeholder = { Text("Select a Strategy") },
                     leadingIcon = {
                         Icon(
                             painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
-                            contentDescription = "Strategy"
+                            contentDescription = "Strategy",
+                            tint = if(strategy.isEmpty()) Color.LightGray else amber500
                         )
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    trailingIcon = {
+                        if(!strategy.isEmpty()){
+                            IconButton(onClick = {
+                                viewModel.inputToSelectStrategy.value = index
+                                val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToEditStrategyFragment()
+                                findNavController().navigate(action)
+                            }) {
+                                Icon(
+                                    imageVector = Icons.Default.Settings,
+                                    contentDescription = null,
+                                    tint = Color.LightGray
+                                )
+                            }
+                        } else {
+                            Icon(
+                                imageVector = Icons.Default.KeyboardArrowRight,
+                                contentDescription = null,
+                                tint = Color.LightGray
+                            )
+                        }
+                    },
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .clickable {
                         viewModel.inputToSelectStrategy.value = index
-                        val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+                        val action =
+                            BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
                         findNavController().navigate(action)
-                    }
+                    },
                 )
+//                ClickableOutlinedTextField(
+//                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
+//                    onValueChange = {  },
+//                    label = { Text("Strategy") },
+//                    placeholder = { Text("Select a Strategy") },
+//                    leadingIcon = {
+//                        Icon(
+//                            painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
+//                            contentDescription = "Strategy",
+//                        )
+//                    },
+//                    modifier = Modifier
+//                        .fillMaxWidth()
+//                        .clickable {
+//                            viewModel.inputToSelectStrategy.value = index
+//                            val action =
+//                                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+//                            findNavController().navigate(action)
+//                        }
+//                )
             }
             if (viewModel.symbolStrategyList.size > 1) {
                 IconButton(
                     onClick = {
                         viewModel.symbolStrategyList.removeAt(index)
                     },
-                    modifier = Modifier.weight(0.2f),
+                    modifier = Modifier.weight(symbolStrategyWeight[1]),
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.ic_baseline_cancel_24),
@@ -306,7 +387,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                 }
             }
             else {
-                Spacer(modifier = Modifier.weight(0.2f))
+                Spacer(modifier = Modifier.weight(symbolStrategyWeight[1]))
             }
         }
     }
@@ -332,7 +413,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
 
     private fun processUserInput() {
         lifecycleScope.launch {
-            val symbols = viewModel.symbolStrategyList.map { it.first.value }.toSet()
+            val symbols = viewModel.symbolStrategyList.map { it.symbol.value }.toSet()
             val isValid = symbols.map { it to false }.toMap().toMutableMap()
             for (symbol in symbols) {
                 try {

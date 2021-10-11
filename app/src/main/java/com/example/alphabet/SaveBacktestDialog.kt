@@ -43,26 +43,25 @@ class SaveBacktestDialog: DialogFragment() {
                 .setPositiveButton("OK"
                 ) { dialog, id ->
                     selectedItems.forEach { i ->
-                        val strategyId = viewModel.symbolStrategyList[i].second.value
-                        val (strategyName, strategyInput) = staticDataViewModel.defaultStrategy.value[strategyId]
-                        val symbol = viewModel.symbolStrategyList[i].first.value
+//                        val strategyId = viewModel.symbolStrategyList[i].second.value
+                        val strategyInput = viewModel.symbolStrategyList[i].strategyInput
+                        val symbol = viewModel.symbolStrategyList[i].symbol.value
                         val series = viewModel.seriesMap[symbol]!!
 
                         val date = List(series.barCount) { j ->
                             Date.from(series.getBar(j).endTime.toInstant())
                                 .run { sdfISO.format(this) }
                         }
-                        val tradingRecord = viewModel.metrics.value[i].second.tradingRecord
+                        val tradingRecord = viewModel.metrics.value[i].tradingRecord
                         val cashFlow = getCashFlow(series, tradingRecord)
 
                         staticDataViewModel.myBacktestResults.add(
-                            BacktestResult(strategyName, symbol, strategyInput, date, cashFlow)
+                            BacktestResult(symbol, strategyInput, date, cashFlow)
                         )
                     }
 
                     staticDataViewModel.myBacktestResults
-                        .mapIndexed { index, backtestResult -> index to backtestResult }
-                        .toMap()
+                        .toList()
                         .apply {
                             File(requireContext().filesDir, "myBacktestResults.json")
                                 .writeText(Json.encodeToString(this))

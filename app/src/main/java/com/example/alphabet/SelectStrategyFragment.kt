@@ -4,17 +4,23 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.semantics.Role
@@ -25,8 +31,12 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
+import com.example.alphabet.components.MyCard
 import com.example.alphabet.components.MyTopAppBar
+import com.example.alphabet.components.SearchBar
+import com.example.alphabet.components.StrategyList
 import com.example.alphabet.example.DataExample
+import com.example.alphabet.ui.theme.grayBackground
 
 class SelectStrategyFragment: Fragment() {
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
@@ -44,113 +54,55 @@ class SelectStrategyFragment: Fragment() {
 //                    .run { max(this, 0) }
                 SelectStrategy(
                     staticDataViewModel.defaultStrategy.value,
-                    viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].second.value
+//                    viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].second.value
                 )
             }
         }
     }
 
     @Composable
-    fun StrategyList(strategies: List<Pair<String, StrategyInput>>, selected: Int, onOptionSelected: (Int) -> Unit) {
-        var selectedOption by remember { mutableStateOf(selected)}
-        Column {
-            strategies.forEachIndexed { index, pair ->
-                Row(
-                    Modifier
-                        .fillMaxWidth()
-                        .selectable(
-                            selected = (index == selectedOption),
-                            onClick = {
-                                selectedOption = index
-                                onOptionSelected(index)
-                            },
-                            role = Role.RadioButton
-                        ),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Column(
-                        Modifier
-                            .fillMaxWidth()
-                            .weight(0.05f),
-                    horizontalAlignment = Alignment.CenterHorizontally) {
-//                        RadioButton(selected = index == selectedOption, onClick = null)
-                    }
-                    Column(
-                        Modifier.weight(0.8f)
+    fun SelectStrategy(strategies: List<StrategyInput>) {
+        var searchText by remember { mutableStateOf("")}
+        val filteredStrategies = if (searchText.isEmpty()) strategies else
+            strategies.filter { it.strategyName.lowercase().contains(searchText.lowercase()) }
+
+        Scaffold(
+            topBar = {
+                MyTopAppBar {
+                    SearchBar(value = searchText, onValueChange = { searchText = it })
+                }
+            },
+            content = { paddingValues ->
+                Column(Modifier
+                    .fillMaxSize()
+                    .background(grayBackground)) {
+                    MyCard(
+                        shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
+                        modifier = Modifier.fillMaxSize()
                     ) {
-                        Text(
-                            text = pair.first,
-                            style = MaterialTheme.typography.body1,
-                            fontSize = 18.sp
-//                            fontWeight = FontWeight.Bold,
-                        )
-//                        Spacer(modifier = Modifier.padding(vertical = 3.dp))
-//                        Text(
-//                            text = pair.second.des,
-//                            style = MaterialTheme.typography.body1
-//                        )
-                    }
-                    Column(Modifier.weight(0.15f),
-                        horizontalAlignment = Alignment.CenterHorizontally) {
-                        IconButton(onClick = {
-                            viewModel.selectToEditStrategy.value = index
-                            val action = SelectStrategyFragmentDirections.actionSelectStrategyFragmentToEditStrategyFragment()
-                            findNavController().navigate(action)
-                        },) {
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowRight,
-                                contentDescription = "",
-                                tint = Color.LightGray
+                        Column(
+                            Modifier
+                                .padding(horizontal = 20.dp)
+//                            .padding(paddingValues)
+                                .verticalScroll(rememberScrollState())
+                        ) {
+                            StrategyList(
+                                filteredStrategies,
+                                onOptionSelected = {
+                                    viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].strategyInput = staticDataViewModel.defaultStrategy.value[it].copy()
+                                    findNavController().popBackStack()
+                                },
+//                        onIconClick = { index ->
+////                            viewModel.selectToEditStrategy.value = index
+//                            viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].strategyInput = staticDataViewModel.defaultStrategy.value[index].copy()
+//                            val action = SelectStrategyFragmentDirections.actionSelectStrategyFragmentToEditStrategyFragment()
+//                            findNavController().navigate(action)
+//                        }
                             )
                         }
                     }
                 }
-                if (index < strategies.lastIndex)
-                    Divider(modifier = Modifier.padding(vertical = 10.dp), thickness = 1.dp)
-            }
-        }
 
-    }
-    
-    @Composable
-    fun SelectStrategy(strategies: List<Pair<String, StrategyInput>>, selected: Int) {
-        Scaffold(
-            topBar = {
-                MyTopAppBar(
-                    title = { Text("Strategy List") },
-                    navigationIcon = {
-                        IconButton(onClick = {
-                            findNavController().popBackStack()
-                        }) {
-                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "Back")
-                        }
-                    })
-            },
-//            bottomBar = { BottomAppBar {
-//                BottomBarItem(icon = R.drawable.ic_baseline_add_24, text = "Create", onClick = {  })
-//                BottomBarItem(
-//                    icon = R.drawable.ic_baseline_check_24,
-//                    text = "Done",
-//                    onClick = {
-//                        with(viewModel) {
-//                            symbolStrategyList[inputToSelectStrategy.value].second.value = strategies[selectedOption].first
-//                        }
-//                        val action = SelectStrategyFragmentDirections.actionSelectStrategyFragmentToBacktestInputFragment()
-//                        findNavController().navigate(action)
-//                    })
-//            } },
-            content = { paddingValues ->
-                Column(
-                    Modifier
-                        .padding(10.dp)
-                        .padding(paddingValues)
-                        .verticalScroll(rememberScrollState())
-                ) {
-                    StrategyList(strategies, selected = selected, onOptionSelected = {
-                        viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].second.value = it
-                        findNavController().popBackStack()
-                    })
-                }
             }
         )
 
@@ -161,8 +113,8 @@ class SelectStrategyFragment: Fragment() {
     @Composable
     fun PreviewStrategyRow() {
         val strategies =  listOf(
-            Pair("RSI Strategy", DataExample().strategyInput)
+            DataExample().strategyInput
         )
-        SelectStrategy(strategies, 0)
+        SelectStrategy(strategies)
     }
 }

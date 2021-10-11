@@ -23,6 +23,13 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_backtestInputFragment_to_editStrategyFragment"
+            app:destination="@id/editStrategyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
     <action
         android:id="@+id/action_backtestInputFragment_to_selectStrategyFragment"
@@ -49,7 +56,9 @@
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:popExitAnim="@anim/to_right"
+            app:popUpTo="@id/backtestInputFragment"
+            app:popUpToInclusive="false" />
     </fragment>
     <action
         android:id="@+id/action_selectStrategyFragment_to_editStrategyFragment"
@@ -70,6 +79,10 @@
             app:destination="@id/backtestResultFragment" />
         <action
             android:id="@+id/action_homeFragment_to_backtestInputFragment"
-            app:destination="@id/backtestInputFragment" />
+            app:destination="@id/backtestInputFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
 </navigation>

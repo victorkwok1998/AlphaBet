@@ -1,6 +1,6 @@
-{
-  "RSI Strategy":
+[
   {
+    "strategyName": "RSI Strategy",
     "des": "RSI is a momentum indicator that measures the magnitude of recent price changes to evaluate overbought or oversold conditions in the price of a stock or other asset.",
     "entryRulesInput": [
       {
@@ -19,8 +19,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "Bollinger Bands Strategy":
   {
+    "strategyName": "Bollinger Bands Strategy",
     "des": "Bollinger Bands are envelopes plotted at a standard deviation level above and below a simple moving average of the price. The closer the prices move to the upper band, the more overbought the market, and the closer the prices move to the lower band, the more oversold the market",
     "entryRulesInput": [
       {
@@ -39,8 +39,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "SMA Strategy":
   {
+    "strategyName": "SMA Strategy",
     "des": "SMA calculates the average of a selected range of prices. A security’s short-term SMA crossing above its long-term SMA is a bullish signal. A security’s short-term SMA crossing below its long-term SMA is a bearish signal",
     "entryRulesInput": [
       {
@@ -59,7 +59,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "Buy and Hold" : {
+  {
+    "strategyName": "Buy and Hold",
     "des": "Buy at start and sell at end. Enjoy the benefit of passive investing :)",
     "entryRulesInput": [
       {
@@ -78,7 +79,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "Awesome Oscillator Strategy": {
+  {
+    "strategyName": "Awesome Oscillator Strategy",
     "des": "Awesome Oscillator indicator is a good indicator for measuring the market dynamics, it reflects specific changes in the driving force of the market, which helps to identify the strength of the trend, including the points of its formation and reversal.",
     "entryRulesInput": [
       {
@@ -97,7 +99,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "3 EMA Strategy": {
+  {
+    "strategyName": "3 EMA Strategy",
     "des": "The three moving average crossover strategy is an approach to trading that uses 3 exponential moving averages of various lengths.",
     "entryRulesInput": [
       {
@@ -126,7 +129,8 @@
     "stopGain": "",
     "stopLoss": ""
   },
-  "MACD Strategy": {
+  {
+    "strategyName": "MACD Strategy",
     "des": "",
     "entryRulesInput": [
       {
@@ -155,4 +159,4 @@
     "stopGain": "",
     "stopLoss": ""
   }
-}
+]

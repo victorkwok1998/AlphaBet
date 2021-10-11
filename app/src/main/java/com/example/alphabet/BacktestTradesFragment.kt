@@ -42,8 +42,8 @@ class BacktestTradesFragment : Fragment() {
                     viewModel.metrics.value.forEachIndexed { index, it ->
                         TradeTable(
                             symbolStrategy = symbolStrategyList[index],
-                            series = viewModel.seriesMap[it.first.first]!!,
-                            tradingRecord = it.second.tradingRecord
+                            series = viewModel.seriesMap[viewModel.symbolStrategyList[index].symbol.value]!!,
+                            tradingRecord = it.tradingRecord
                         )
                     }
                 }

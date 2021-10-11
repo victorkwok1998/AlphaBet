@@ -9,6 +9,6 @@ class DataExample {
     val exit = RuleInput(
         IndicatorInput(IndType.INDICATOR, "RSI", mutableListOf("14")), IndicatorInput(
             IndType.VALUE, "70", mutableListOf()), Cond.CROSS_UP)
-    val strategyInput = StrategyInput("Trade based on current and historical strength and weakness of a stock", mutableListOf(entry), mutableListOf(exit), "", "")
+    val strategyInput = StrategyInput("RSI Strategy", "Trade based on current and historical strength and weakness of a stock", mutableListOf(entry), mutableListOf(exit), "", "")
 
 }

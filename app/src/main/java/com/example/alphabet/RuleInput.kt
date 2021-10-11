@@ -51,4 +51,10 @@ class RuleInput(
         }
         return "${indInput1.indName}${paramString1} $condNameString ${indInput2.indName}${paramString2}"
     }
+
+    fun copy(
+        indInput1: IndicatorInput = this.indInput1.copy(),
+        indInput2: IndicatorInput = this.indInput2.copy(),
+        condName: Cond = this.condName
+    ) = RuleInput(indInput1, indInput2, condName)
 }

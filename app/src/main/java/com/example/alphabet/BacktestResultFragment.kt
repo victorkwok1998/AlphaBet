@@ -171,7 +171,7 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
         Scaffold(
             topBar = {
                 MyTopAppBar(
-                    title = { Text("Strategy Report") },
+                    title = { Text("Backtest Report") },
                     navigationIcon = {
                                      IconButton(onClick = { findNavController().popBackStack() }) {
                                          Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
@@ -187,7 +187,7 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
                             }
                         ) {
                             Icon(
-                                painter = painterResource(id = R.drawable.ic_baseline_favorite_24),
+                                painter = painterResource(id = R.drawable.ic_baseline_favorite_border_24),
                                 contentDescription = ""
                             )
                         }
@@ -198,7 +198,7 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
                                 findNavController().navigate(action)
                             }
                         ) {
-                            Icon(painter = painterResource(id = R.drawable.ic_baseline_home_24), contentDescription = null)
+                            Icon(painter = painterResource(id = R.drawable.ic_outline_home_24), contentDescription = null)
                         }
                     }
                 )

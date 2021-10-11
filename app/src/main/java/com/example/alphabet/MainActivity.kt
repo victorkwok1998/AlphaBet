@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.activity.viewModels
+import androidx.core.view.WindowCompat
 import androidx.fragment.app.activityViewModels
 import com.google.android.material.textfield.TextInputEditText
 import org.ta4j.core.BaseBarSeries
