@@ -2,17 +2,12 @@ package com.example.alphabet
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import org.ta4j.core.*
 import org.ta4j.core.analysis.criteria.MaximumDrawdownCriterion
-import org.ta4j.core.indicators.helpers.ClosePriceIndicator
-import org.ta4j.core.reports.TradingStatement
 import org.ta4j.core.reports.TradingStatementGenerator
-import org.ta4j.core.rules.StopGainRule
 import yahoofinance.YahooFinance
 import yahoofinance.histquotes.Interval
-import java.time.Year
 import java.time.ZoneId
 import java.time.ZonedDateTime
 import java.util.*
@@ -24,19 +19,32 @@ class StrategyViewModel: ViewModel() {
         add(Calendar.YEAR, -1)
     } // one year before
     private val EMPTY_STRATEGY = StrategyInput("EMPTY", "", mutableListOf(), mutableListOf(), "", "")
+    private val EMPTY_INDICATOR = IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+    private val EMPTY_RULE = RuleInput(
+        EMPTY_INDICATOR.copy(),
+        EMPTY_INDICATOR.copy(),
+        Cond.CROSS_UP
+    )
 
     val start = mutableStateOf(defaultStart)
     val end = mutableStateOf(defaultEnd)
 
-//    val selectToEditStrategy = mutableStateOf(0)
     val inputToSelectStrategy = mutableStateOf(0)
 
-//    val symbolStrategyList = mutableStateListOf(Pair(mutableStateOf(""), mutableStateOf(-1)))
     val symbolStrategyList = mutableStateListOf(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
-//    val stratIdMap = mutableStateOf(listOf<Pair<String, StrategyInput>>())
+
     val seriesMap = mutableMapOf<String, BaseBarSeries>()
 
     var metrics = mutableStateOf(listOf<Metrics>())
+
+    // Create Strategy
+    val customStrategy = mutableStateOf(EMPTY_STRATEGY.copy("Custom Strategy", "").toCustomStrategyInput())
+    val selectedRule = mutableStateOf(EMPTY_RULE)
+    val selectedIndicator = mutableStateOf(EMPTY_INDICATOR)
+    val isEdit = mutableStateOf(true)
+
+    // Home Screen
+    val selectedItem = mutableStateOf(0)
 
     fun reset() {
         start.value = defaultStart
@@ -44,9 +52,15 @@ class StrategyViewModel: ViewModel() {
 //        selectToEditStrategy.value = 0
         inputToSelectStrategy.value = 0
         symbolStrategyList.clear()
-        addEmpty()
+        addEmptyStrategy()
         seriesMap.clear()
         metrics.value = listOf()
+    }
+
+    fun resetCustomStrategy() {
+        customStrategy.value = EMPTY_STRATEGY
+            .copy("Custom Strategy", "")
+            .toCustomStrategyInput()
     }
 
     fun loadData() {
@@ -104,8 +118,20 @@ class StrategyViewModel: ViewModel() {
         }
     }
 
-    fun addEmpty() {
+    fun addEmptyStrategy() {
         symbolStrategyList.add(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
+    }
+
+    fun addEmptyEntryRule() {
+        val tmp = EMPTY_RULE.copy()
+        customStrategy.value.entryRulesInput.add(tmp)
+        selectedRule.value = tmp
+    }
+
+    fun addEmptyExitRule() {
+        val tmp = EMPTY_RULE.copy()
+        customStrategy.value.exitRulesInput.add(tmp)
+        selectedRule.value = tmp
     }
 
 //    fun updateStrategy() {

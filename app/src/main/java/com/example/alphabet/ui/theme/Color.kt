@@ -2,7 +2,7 @@ package com.example.alphabet.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
-val grayBackground = Color.LightGray.copy(alpha = 0.2f)
+val grayBackground = Color(0xFFF5F5F5)
 val amber500 = Color(0xFFFFC107)
 val blue500 = Color(0xff2196F3)
 val green500 = Color(0xFF4CAF50)

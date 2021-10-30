@@ -24,14 +24,14 @@
     "des": "Bollinger Bands are envelopes plotted at a standard deviation level above and below a simple moving average of the price. The closer the prices move to the upper band, the more overbought the market, and the closer the prices move to the lower band, the more oversold the market",
     "entryRulesInput": [
       {
-        "indInput1": {"indType": "PRICE", "indName": "Close Price", "indParamList": []},
+        "indInput1": {"indType": "INDICATOR", "indName": "Close Price", "indParamList": []},
         "indInput2":  {"indType": "INDICATOR", "indName": "Bollinger Band Lower", "indParamList": ["14", "2"]},
         "condName": "CROSS_DOWN"
       }
     ],
     "exitRulesInput": [
       {
-        "indInput1": {"indType": "PRICE", "indName": "Close Price", "indParamList": []},
+        "indInput1": {"indType": "INDICATOR", "indName": "Close Price", "indParamList": []},
         "indInput2":  {"indType": "INDICATOR", "indName": "Bollinger Band Upper", "indParamList": ["14", "2"]},
         "condName": "CROSS_UP"
       }

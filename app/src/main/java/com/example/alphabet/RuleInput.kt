@@ -27,7 +27,6 @@ class RuleInput(
                 series,
                 ind1.numOf(indInput2.indName.toInt())
             )  // convert to Indicator<Num>
-            IndType.PRICE -> close
             else -> throw IllegalArgumentException("Indicator 2 cannot be a bool")
         }
         return when (condName) {

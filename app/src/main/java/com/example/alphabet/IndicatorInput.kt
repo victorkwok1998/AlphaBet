@@ -32,6 +32,7 @@ class IndicatorInput(
             "Stochastic Oscillator K" -> StochasticOscillatorKIndicator(series, paramsInt[0])
             "ATR" -> ATRIndicator(series, paramsInt[0])
             "Awesome Oscillator" -> AwesomeOscillatorIndicator(MedianPriceIndicator(series), paramsInt[0], paramsInt[1])
+            "Close Price" -> close
             else -> throw IllegalArgumentException("Cannot find $indName Indicator")
         }
     }

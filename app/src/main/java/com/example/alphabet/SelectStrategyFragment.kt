@@ -4,33 +4,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.selection.selectable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material.*
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.material.icons.filled.KeyboardArrowDown
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.alphabet.components.MyCard
 import com.example.alphabet.components.MyTopAppBar
 import com.example.alphabet.components.SearchBar
@@ -49,13 +42,11 @@ class SelectStrategyFragment: Fragment() {
     ): View? {
         return ComposeView(requireContext()).apply {
             setContent {
-//                val selected = staticDataViewModel.defaultStrategy.value
-//                    .indexOfFirst { it.first == viewModel.stratName.value }
-//                    .run { max(this, 0) }
-                SelectStrategy(
-                    staticDataViewModel.defaultStrategy.value,
-//                    viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].second.value
-                )
+                MaterialTheme {
+                    SelectStrategy(
+                        staticDataViewModel.defaultStrategy.value,
+                    )
+                }
             }
         }
     }
@@ -68,28 +59,37 @@ class SelectStrategyFragment: Fragment() {
 
         Scaffold(
             topBar = {
-                MyTopAppBar {
+                MyTopAppBar(
+                    title = {
                     SearchBar(value = searchText, onValueChange = { searchText = it })
-                }
+                },
+                    navigationIcon = {
+                        IconButton(onClick = { findNavController().popBackStack() }) {
+                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        }
+                    }
+                )
             },
             content = { paddingValues ->
-                Column(Modifier
-                    .fillMaxSize()
-                    .background(grayBackground)) {
+                Column(
+                    Modifier
+                        .fillMaxSize()
+                        .background(grayBackground)) {
                     MyCard(
                         shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp),
                         modifier = Modifier.fillMaxSize()
                     ) {
                         Column(
                             Modifier
-                                .padding(horizontal = 20.dp)
 //                            .padding(paddingValues)
                                 .verticalScroll(rememberScrollState())
                         ) {
                             StrategyList(
                                 filteredStrategies,
                                 onOptionSelected = {
-                                    viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].strategyInput = staticDataViewModel.defaultStrategy.value[it].copy()
+                                    with(viewModel) {
+                                        symbolStrategyList[inputToSelectStrategy.value].strategyInput = it.copy()
+                                    }
                                     findNavController().popBackStack()
                                 },
 //                        onIconClick = { index ->

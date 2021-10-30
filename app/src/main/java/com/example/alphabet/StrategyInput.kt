@@ -1,5 +1,8 @@
 package com.example.alphabet
 
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.toMutableStateList
 import kotlinx.serialization.Serializable
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.BaseStrategy
@@ -11,8 +14,8 @@ import org.ta4j.core.rules.StopLossRule
 
 @Serializable
 class StrategyInput(
-    val strategyName: String,
-    val des: String,
+    var strategyName: String,
+    var des: String,
     val entryRulesInput: MutableList<RuleInput>,
     val exitRulesInput: MutableList<RuleInput>,
     var stopGain: String,
@@ -50,4 +53,15 @@ class StrategyInput(
         stopGain: String = this.stopGain,
         stopLoss: String = this.stopLoss
     ) = StrategyInput(strategyName, des, entryRulesInput, exitRulesInput, stopGain, stopLoss)
+
+    fun toCustomStrategyInput(): CustomStrategyInput {
+        return CustomStrategyInput(
+            mutableStateOf(strategyName),
+            mutableStateOf(des),
+            entryRulesInput.toMutableStateList(),
+            exitRulesInput.toMutableStateList(),
+            mutableStateOf(stopGain),
+            mutableStateOf(stopLoss),
+        )
+    }
 }

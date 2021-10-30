@@ -20,22 +20,24 @@ import com.example.alphabet.StrategyInput
 @Composable
 fun StrategyList(
     strategies: List<StrategyInput>,
-    onOptionSelected: (Int) -> Unit,
+    onOptionSelected: (StrategyInput) -> Unit,
 ) {
     Column {
+        Spacer(modifier = Modifier.height(10.dp))
+        Text("Strategy", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(horizontal = 20.dp))
         strategies.forEachIndexed { index, strategyInput ->
             Row(
                 Modifier
                     .fillMaxWidth()
                     .clickable {
-                        onOptionSelected(index)
+                        onOptionSelected(strategyInput)
                     },
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 StrategyRow(strategyInput = strategyInput)
             }
             if (index < strategies.lastIndex)
-                Divider(thickness = 1.dp)
+                Divider(thickness = 1.dp, modifier = Modifier.padding(horizontal = 20.dp))
         }
     }
 }
@@ -45,12 +47,15 @@ fun StrategyRow(strategyInput: StrategyInput) {
     var isExpanded by remember { mutableStateOf(false) }
     val rotationState by animateFloatAsState(targetValue = if(isExpanded) 180f else 0f)
 
-    Box(Modifier.fillMaxWidth().padding(vertical = 15.dp)) {
+    Box(
+        Modifier
+            .fillMaxWidth()
+            .padding(vertical = 16.dp, horizontal = 20.dp)) {
         Column() {
             Text(
                 text = strategyInput.strategyName,
                 style = MaterialTheme.typography.body1,
-                fontSize = 18.sp
+                fontSize = 16.sp
 //                            fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.padding(vertical = 5.dp))
@@ -59,6 +64,7 @@ fun StrategyRow(strategyInput: StrategyInput) {
                 style = MaterialTheme.typography.body1,
                 maxLines = if(isExpanded) Int.MAX_VALUE else 1,
                 overflow = TextOverflow.Ellipsis,
+                fontSize = 14.sp,
                 modifier = Modifier.padding(
                     bottom = if (isExpanded) 20.dp else 0.dp,
                     end = 20.dp

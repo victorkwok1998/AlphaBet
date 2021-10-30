@@ -558,7 +558,7 @@
       "entryRulesInput": [
         {
           "indInput1": {
-            "indType": "PRICE",
+            "indType": "INDICATOR",
             "indName": "Close Price",
             "indParamList": []
           },
@@ -576,7 +576,7 @@
       "exitRulesInput": [
         {
           "indInput1": {
-            "indType": "PRICE",
+            "indType": "INDICATOR",
             "indName": "Close Price",
             "indParamList": []
           },

@@ -173,9 +173,9 @@ class BacktestResultFragment: Fragment(R.layout.fragment_backtest_result) {
                 MyTopAppBar(
                     title = { Text("Backtest Report") },
                     navigationIcon = {
-                                     IconButton(onClick = { findNavController().popBackStack() }) {
-                                         Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                                     }
+                        IconButton(onClick = { findNavController().popBackStack() }) {
+                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+                        }
                     },
                     actions = {
                         IconButton(

@@ -156,6 +156,7 @@ fun MyTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    keyboardOptions: KeyboardOptions = KeyboardOptions.Default,
     colors: TextFieldColors = TextFieldDefaults.textFieldColors(
         backgroundColor = grayBackground,
         focusedIndicatorColor = Color.Transparent,
@@ -172,6 +173,7 @@ fun MyTextField(
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
         shape = RoundedCornerShape(20.dp),
+        keyboardOptions = keyboardOptions,
         colors = colors
     )
 }
@@ -181,4 +183,33 @@ fun MyTextField(
 @Composable
 fun PreviewMyTextField() {
     MyTextField(value = "", onValueChange = {}, placeholder = { Text("Enter a Symbol") })
+}
+
+@Composable
+fun ThemedTextField(
+    value: String,
+    onValueChange: (String) -> Unit,
+    modifier: Modifier = Modifier,
+    label: @Composable (() -> Unit)? = null,
+    placeholder: @Composable (() -> Unit)? = null,
+    leadingIcon: @Composable (() -> Unit)? = null,
+    trailingIcon: @Composable (() -> Unit)? = null,
+    colors: TextFieldColors = TextFieldDefaults.textFieldColors(
+        backgroundColor = grayBackground,
+        focusedIndicatorColor = Color.Transparent,
+        unfocusedIndicatorColor = Color.Transparent,
+        disabledIndicatorColor = Color.Transparent
+    )
+) {
+    TextField(
+        value = value,
+        onValueChange = onValueChange,
+        modifier = modifier,
+        label = label,
+        placeholder = placeholder,
+        leadingIcon = leadingIcon,
+        trailingIcon = trailingIcon,
+        shape = RoundedCornerShape(20.dp),
+        colors = colors
+    )
 }

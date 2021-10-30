@@ -43,6 +43,7 @@ import com.example.alphabet.MyApplication.Companion.sdfLong
 import com.example.alphabet.components.*
 import com.example.alphabet.ui.theme.amber500
 import com.example.alphabet.ui.theme.grayBackground
+import java.net.SocketTimeoutException
 
 //TODO: Recent Backtests
 class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
@@ -105,7 +106,9 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
 ////        return binding.root
         return ComposeView(requireContext()).apply {
             setContent {
-                BacktestInputScreen()
+                MaterialTheme {
+                    BacktestInputScreen()
+                }
             }
         }
     }
@@ -132,7 +135,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                         .verticalScroll(rememberScrollState())
                 ) {
 //                    Spacer(modifier = Modifier.height(10.dp))
-                    SymbolStrategyCard(viewModel.symbolStrategyList) { viewModel.addEmpty() }
+                    SymbolStrategyCard(viewModel.symbolStrategyList) { viewModel.addEmptyStrategy() }
                     Spacer(modifier = Modifier.height(10.dp))
                     DateRangeCard()
                     Button(onClick = {
@@ -345,11 +348,11 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                     modifier = Modifier
                         .fillMaxWidth()
                         .clickable {
-                        viewModel.inputToSelectStrategy.value = index
-                        val action =
-                            BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
-                        findNavController().navigate(action)
-                    },
+                            viewModel.inputToSelectStrategy.value = index
+                            val action =
+                                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+                            findNavController().navigate(action)
+                        },
                 )
 //                ClickableOutlinedTextField(
 //                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
@@ -399,13 +402,13 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
         val day = c.get(Calendar.DAY_OF_MONTH)
 
         if (editText.text.toString().isEmpty()) {
-            editText.setText(MyApplication.sdfLong.format(c.time))
+            editText.setText(sdfLong.format(c.time))
         }
 
         editText.setOnClickListener {
             val dpd = DatePickerDialog(requireContext(), R.style.MySpinnerDatePickerStyle, { view, mYear, mMonth, mDay ->
                 val cal = createCalandar(mYear, mMonth, mDay)
-                editText.setText(MyApplication.sdfLong.format(cal.time))
+                editText.setText(sdfLong.format(cal.time))
             }, year, month, day)
             dpd.show()
         }
@@ -424,6 +427,9 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                 } catch (e: FileNotFoundException) {
                     Log.e("YahooFinance", "Failed to get stock $symbol")
                     Toast.makeText(context, "Invalid Symbol", Toast.LENGTH_LONG).show()
+                    break
+                } catch (e: SocketTimeoutException) {
+                    Toast.makeText(context, "Please Check Internet Connection", Toast.LENGTH_LONG).show()
                     break
                 }
             }

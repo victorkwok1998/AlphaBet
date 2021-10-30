@@ -89,20 +89,22 @@ class EditStrategyFragment : Fragment() {
 //                EditStrategyScreen()
                 val selectedStrategy =
                     viewModel.symbolStrategyList[viewModel.inputToSelectStrategy.value].strategyInput
-                Scaffold(
-                    topBar = {
-                        MyTopAppBar(
-                            title = { Text("Edit") },
-                            navigationIcon = {
-                                IconButton(onClick = {
-                                    findNavController().popBackStack()
-                                }) {
-                                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
-                                }
-                            }) },
-                ) {
-                    MyScrollView {
-                        EditStrategyScreenContent(selectedStrategy)
+                MaterialTheme {
+                    Scaffold(
+                        topBar = {
+                            MyTopAppBar(
+                                title = { Text("Edit") },
+                                navigationIcon = {
+                                    IconButton(onClick = {
+                                        findNavController().popBackStack()
+                                    }) {
+                                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = "")
+                                    }
+                                }) },
+                    ) {
+                        MyScrollView {
+                            EditStrategyScreenContent(selectedStrategy)
+                        }
                     }
                 }
             }
@@ -198,11 +200,17 @@ class EditStrategyFragment : Fragment() {
 //                    Spacer(modifier = Modifier.height(10.dp))
 //            StrategyDescCard(selectedStrategy)
 //            Spacer(modifier = Modifier.height(10.dp))
-            RuleCard(text = "Entry Rules") {
+            RuleCard(
+                text = "Entry Rules",
+                isButtonVisible = false
+            ) {
                 RuleInputList(rules = selectedStrategy.entryRulesInput)
             }
             Spacer(modifier = Modifier.height(10.dp))
-            RuleCard(text = "Exit Rules") {
+            RuleCard(
+                text = "Exit Rules",
+                isButtonVisible = false
+            ) {
                 RuleInputList(rules = selectedStrategy.exitRulesInput)
                 Divider(Modifier.padding(vertical = 10.dp))
                 ParameterRow(
@@ -300,25 +308,6 @@ class EditStrategyFragment : Fragment() {
         }
     }
 
-    @Composable
-    fun RuleCard (text: String, content: @Composable () -> Unit) {
-        MyCard(modifier = Modifier
-            .fillMaxWidth()
-            .animateContentSize(
-                animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
-            ),
-        ) {
-            Column(Modifier.padding(20.dp)) {
-                Text(
-                    text = text,
-                    style = MaterialTheme.typography.h6
-                )
-                Spacer(modifier = Modifier.height(20.dp))
-                content()
-            }
-        }
-    }
-
     @ExperimentalComposeUiApi
     @Composable
     fun RuleInputList(rules: List<RuleInput>) {
@@ -327,9 +316,11 @@ class EditStrategyFragment : Fragment() {
                 var isExpanded by remember { mutableStateOf(false) }
                 val rotationState by animateFloatAsState(targetValue = if(isExpanded) 180f else 0f)
 
-                Row(Modifier.clickable {
-                    isExpanded = !isExpanded
-                },
+                Row(
+                    Modifier
+                        .clickable { isExpanded = !isExpanded }
+                        .padding(vertical = 10.dp)
+                    ,
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Text("Rule ${index + 1}", 
@@ -376,7 +367,7 @@ class EditStrategyFragment : Fragment() {
                     }
                 }
                 if (index < rules.lastIndex)
-                    Divider(modifier = Modifier.padding(vertical = 10.dp))
+                    Divider()
             }
         }
     }

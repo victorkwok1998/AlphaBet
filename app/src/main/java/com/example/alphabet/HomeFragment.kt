@@ -14,6 +14,10 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
@@ -23,9 +27,13 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
@@ -62,7 +70,9 @@ class HomeFragment: Fragment()  {
     ): View? {
         return ComposeView(requireContext()).apply { 
             setContent {
-                HomeScreen()
+                MaterialTheme() {
+                    HomeScreen()
+                }
             }
         }
     }
@@ -86,6 +96,7 @@ class HomeFragment: Fragment()  {
                         staticDataViewModel.defaultStrategy.value =
                             Json.decodeFromString<List<StrategyInput>>(getJsonDataFromAsset(requireContext(), "defaultStrategy.json"))
                                 .sortedBy { it.strategyName }
+                                .toMutableList()
 
                         staticDataViewModel.radarChartRange.value =
                             Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
@@ -102,7 +113,7 @@ class HomeFragment: Fragment()  {
                 isLoading = false
             }
         }
-        var selectedItem by remember { mutableStateOf(0)}
+        val selectedItem = viewModel.selectedItem.value
         var searchText by remember { mutableStateOf("") }
         val filteredStrategies =
             if (searchText.isEmpty()) staticDataViewModel.defaultStrategy.value else staticDataViewModel.defaultStrategy.value.filter {
@@ -113,12 +124,19 @@ class HomeFragment: Fragment()  {
                 if(selectedItem == 0)
                     MyTopAppBar(title = { Text("AlphaBet") })
                 else{
-                    MyTopAppBar {
-                        SearchBar(
-                            value = searchText,
-                            onValueChange = { searchText = it },
-                        )
-                    }
+                    MyTopAppBar(
+                        title = {
+                            SearchBar(
+                                value = searchText,
+                                onValueChange = { searchText = it },
+                            )
+                        },
+//                        navigationIcon = {
+//                            IconButton(onClick = { /*TODO*/ }) {
+//                                Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+//                            }
+//                        }
+                    )
                 }
 
             },
@@ -145,6 +163,22 @@ class HomeFragment: Fragment()  {
                     }
                 }
             },
+            floatingActionButton = {
+                if (selectedItem == 1) {
+                    ExtendedFloatingActionButton(
+                        text = { Text(text = "Custom") },
+                        icon = { Icon(
+                            imageVector = Icons.Outlined.Edit,
+                            contentDescription = null
+                        ) },
+                        onClick = {
+                            viewModel.resetCustomStrategy()
+                            viewModel.isEdit.value = false
+                            val action =  HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment()
+                            findNavController().navigate(action)
+                        })
+                }
+            },
             bottomBar = {
                 if (!isLoading) {
                     BottomNavigation(backgroundColor = MaterialTheme.colors.background) {
@@ -164,7 +198,7 @@ class HomeFragment: Fragment()  {
                                     label = { Text(item, color = selectedColor) },
                                     selected = selectedItem == index,
                                     onClick = {
-                                        selectedItem = index
+                                        viewModel.selectedItem.value = index
                                         //                                val action = HomeFragmentDirections.actionHomeFragmentToSelectStrategyFragment()
                                         //                                findNavController().navigate(action)
                                     })
@@ -199,12 +233,24 @@ class HomeFragment: Fragment()  {
             Modifier
                 .background(grayBackground)
         ) {
-            MyCard {
+            MyCard(
+                shape = RoundedCornerShape(topStart = 20.dp, topEnd = 20.dp)
+            )
+            {
                 Column(
                     Modifier
-                        .padding(horizontal = 20.dp)
                         .verticalScroll(rememberScrollState())) {
-                    StrategyList(strategies = strategies, onOptionSelected = {})
+                    StrategyList(
+                        strategies = strategies,
+                        onOptionSelected = {
+                            viewModel.customStrategy.value = it.toCustomStrategyInput()
+                            viewModel.isEdit.value = true
+                            val action = HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment()
+                            findNavController().navigate(action)
+                        }
+                    )
+                    // Extra space for scroll above fab
+                    Spacer(modifier = Modifier.height(60.dp))
                 }
             }
         }
@@ -273,8 +319,15 @@ class HomeFragment: Fragment()  {
                     ) {
                         Column(Modifier.weight(weights[0])) {
                             Text(
-                                "${backtestResult.symbol}, ${backtestResult.strategyInput.strategyName}",
-                                style = MaterialTheme.typography.subtitle1
+                                buildAnnotatedString {
+                                    append(backtestResult.symbol)
+                                    append(", ")
+                                    withStyle(style = SpanStyle(color = Color.Gray, fontSize = 14.sp)) {
+                                        append(backtestResult.strategyInput.strategyName)
+                                    }
+                                },
+//                                "${backtestResult.symbol}, ${backtestResult.strategyInput.strategyName}",
+//                                style = MaterialTheme.typography.subtitle1
                             )
                             Text(
                                 "${isoToDisplay(backtestResult.date.first())} - ${isoToDisplay(backtestResult.date.last())}",
@@ -333,7 +386,9 @@ class HomeFragment: Fragment()  {
                         val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment()
                         findNavController().navigate(action)
                     },
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(45.dp)
                 ) {
                     Text("Create a Backtest", style = MaterialTheme.typography.subtitle1)
                 }

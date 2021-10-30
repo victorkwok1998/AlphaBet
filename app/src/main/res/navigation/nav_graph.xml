@@ -84,5 +84,40 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_createStrategyFragment"
+            app:destination="@id/createStrategyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
     </fragment>
+    <fragment
+        android:id="@+id/createStrategyFragment"
+        android:name="com.example.alphabet.CreateStrategyFragment"
+        android:label="CreateStrategyFragment" >
+        <action
+            android:id="@+id/action_createStrategyFragment_to_createRuleFragment"
+            app:destination="@id/createRuleFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/createRuleFragment"
+        android:name="CreateRuleFragment"
+        android:label="CreateRuleFragment" >
+        <action
+            android:id="@+id/action_createRuleFragment_to_indicatorListFragment"
+            app:destination="@id/indicatorListFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/indicatorListFragment"
+        android:name="com.example.alphabet.IndicatorListFragment"
+        android:label="IndicatorListFragment" />
 </navigation>
