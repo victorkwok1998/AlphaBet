@@ -61,7 +61,7 @@ android {
         implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
         implementation("org.ta4j:ta4j-core:0.14")
         implementation("org.slf4j:slf4j-simple:1.7.30")
-        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0-RC'
+        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.2'
 //    implementation 'com.github.AAChartModel:AAChartCore-Kotlin:-SNAPSHOT'
         implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
         implementation 'com.beust:klaxon:5.5'

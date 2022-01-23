@@ -33,6 +33,12 @@ class IndicatorInput(
             "ATR" -> ATRIndicator(series, paramsInt[0])
             "Awesome Oscillator" -> AwesomeOscillatorIndicator(MedianPriceIndicator(series), paramsInt[0], paramsInt[1])
             "Close Price" -> close
+            "Double EMA" -> DoubleEMAIndicator(close, paramsInt[0])
+            "Triple EMA" -> TripleEMAIndicator(close, paramsInt[0])
+            "HMA" -> HMAIndicator(close, paramsInt[0])
+            "LWMA" -> LWMAIndicator(close, paramsInt[0])
+            "MMA" -> MMAIndicator(close, paramsInt[0])
+            "WMA" -> WMAIndicator(close, paramsInt[0])
             else -> throw IllegalArgumentException("Cannot find $indName Indicator")
         }
     }

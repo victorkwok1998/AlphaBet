@@ -1,8 +1,11 @@
 # AlphaBet
 
+## Download APK
+[AlphaBet.apk](AlphaBet.apk)
+
 ## Features
 * Backtest strategy with one tap
-* Create your own strategy with more than 130 technical indicators
+* Create your own strategy with more than 10 technical indicators
 * Provide in-depth backtest report
 * Visualize strategy performance and trade details
 

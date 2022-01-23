@@ -9,5 +9,11 @@
   "Stochastic Oscillator K": ["Bar Count"],
   "ATR" : ["Bar Count"],
   "Awesome Oscillator": ["Bar Count SMA1", "Bar Count SMA2"],
-  "Close Price": []
+  "Close Price": [],
+  "Double EMA": ["Bar Count"],
+  "Triple EMA": ["Bar Count"],
+  "HMA": ["Bar Count"],
+  "LWMA": ["Bar Count"],
+  "MMA": ["Bar Count"],
+  "WMA": ["Bar Count"]
 }
