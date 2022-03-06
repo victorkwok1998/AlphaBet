@@ -5,6 +5,8 @@
     <color name="purple_700">#FF3700B3</color>
     <color name="teal_200">#FF03DAC5</color>
     <color name="teal_700">#FF018786</color>
+    <color name="light_blue_200">#81D4FA</color>
+    <color name="light_blue_900">#01579B</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4CAF50</color>
@@ -18,4 +20,12 @@
     <color name="c3">#009988</color>
     <color name="c4">#9467bd</color>
     <color name="gray_background">#F5F5F5</color>
+    <color name="plotColor1">#277da1</color>
+    <color name="plotColor2">#E76F51</color>
+    <color name="plotColor3">#2A9D8F</color>
+    <color name="plotColor4">#F4A261</color>
+    <color name="plotColor5">#E9C46A</color>
+    <color name="dark_grey">#212121</color>
+    <color name="grey_300">#e0e0e0</color>
+    <color name="grey_800">#424242</color>
 </resources>

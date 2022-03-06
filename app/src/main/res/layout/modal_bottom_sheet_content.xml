@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textView"
+        android:padding="16dp"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Create" />
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TableRow android:padding="16dp"
+            android:id="@+id/create_backtest"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                app:srcCompat="@drawable/ic_baseline_leaderboard_24"
+                app:tint="@color/gray" />
+
+            <TextView
+                android:id="@+id/textView2"
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:text="Backtest" />
+        </TableRow>
+
+        <TableRow android:padding="16dp"
+            android:id="@+id/create_strategy"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_emoji_objects_24"
+                app:tint="@color/gray" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:text="Strategy" />
+        </TableRow>
+
+        <TableRow android:padding="16dp"
+            android:id="@+id/create_portfolio"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_pie_chart_24"
+                app:tint="@color/gray" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:text="Portfolio" />
+        </TableRow>
+    </TableLayout>
+
+
+    <!--    <TextView-->
+    <!--        style="@style/TextAppearance.MaterialComponents.Subtitle1"-->
+    <!--        android:background="?attr/selectableItemBackgroundBorderless"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        android:text="Strategy"/>-->
+
+</LinearLayout>

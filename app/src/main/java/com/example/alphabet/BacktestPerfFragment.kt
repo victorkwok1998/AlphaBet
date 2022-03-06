@@ -40,8 +40,8 @@ class BacktestPerfFragment : Fragment() {
             setContent {
                 val seriesTradingRecord = viewModel.symbolStrategyList
                     .zip(viewModel.metrics.value)
-                    .map { (bactestInput, metric) ->
-                    viewModel.seriesMap[bactestInput.symbol.value]!! to metric.tradingRecord
+                    .map { (backtestInput, metric) ->
+                    viewModel.seriesMap[backtestInput.symbol]!! to metric.tradingRecord
                 }
                 val symbolStrategyList = viewModel.symbolStrategyStringList()
                 val metricsList = viewModel.metrics.value

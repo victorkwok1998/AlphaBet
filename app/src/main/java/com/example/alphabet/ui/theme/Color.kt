@@ -8,3 +8,8 @@ val blue500 = Color(0xff2196F3)
 val green500 = Color(0xFF4CAF50)
 val red500 = Color(0xFFF44336)
 val deepPurple500 = Color(0xff673AB7)
+val lightblue200 = Color(0xff81D4FA)
+
+fun Color.toInt(): Int {
+    return android.graphics.Color.rgb(this.red, this.green, this.blue)
+}

@@ -1,27 +1,16 @@
 package com.example.alphabet
 
 import android.os.Bundle
-import android.text.Editable
-import android.text.InputType
-import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
-import android.widget.LinearLayout
-import android.widget.ScrollView
-import android.widget.TextView
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
@@ -29,27 +18,19 @@ import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.alphabet.components.*
 import com.example.alphabet.databinding.FragmentEditStrategyBinding
-import com.example.alphabet.ui.theme.grayBackground
 
 //import com.example.alphabet.components.DropDownTextField
 
@@ -60,7 +41,7 @@ class EditStrategyFragment : Fragment() {
     private val binding get() = _binding!!
 
 
-    @ExperimentalComposeUiApi
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -186,11 +167,11 @@ class EditStrategyFragment : Fragment() {
 //        )
 //    }
 
-    @ExperimentalComposeUiApi
+
     @Composable
     fun EditStrategyScreenContent(selectedStrategy: StrategyInput) {
-        var stopGain by remember { mutableStateOf(selectedStrategy.stopGain)}
-        var stopLoss by remember { mutableStateOf(selectedStrategy.stopLoss)}
+//        var stopGain by remember { mutableStateOf(selectedStrategy.stopGain)}
+//        var stopLoss by remember { mutableStateOf(selectedStrategy.stopLoss)}
 
         Column(
             Modifier
@@ -213,27 +194,27 @@ class EditStrategyFragment : Fragment() {
             ) {
                 RuleInputList(rules = selectedStrategy.exitRulesInput)
                 Divider(Modifier.padding(vertical = 10.dp))
-                ParameterRow(
-                    rowName = "Stop Gain (%)",
-                    value = stopGain,
-                    onValueChange = {
-                        stopGain = it
-                        selectedStrategy.stopGain = it
-                    })
+//                ParameterRow(
+//                    rowName = "Stop Gain (%)",
+//                    value = stopGain,
+//                    onValueChange = {
+//                        stopGain = it
+//                        selectedStrategy.stopGain = it
+//                    })
                 Spacer(Modifier.height(10.dp))
-                ParameterRow(
-                    rowName = "Stop Loss (%)",
-                    value = stopLoss,
-                    onValueChange = {
-                        stopLoss = it
-                        selectedStrategy.stopLoss = it
-                    })
+//                ParameterRow(
+//                    rowName = "Stop Loss (%)",
+//                    value = stopLoss,
+//                    onValueChange = {
+//                        stopLoss = it
+//                        selectedStrategy.stopLoss = it
+//                    })
             }
             Spacer(modifier = Modifier.height(10.dp))
         }
     }
 
-    @ExperimentalComposeUiApi
+
     @Composable
     fun IndicatorInputRow(label: String, indInput: IndicatorInput) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -245,7 +226,7 @@ class EditStrategyFragment : Fragment() {
             )
             if (indInput.indType == IndType.VALUE) {
                 var text by remember { mutableStateOf(indInput.indName) }
-                MyBasicTextField(
+                BasicTextField(
                     value = text,
                     onValueChange = {
                         indInput.indName = it
@@ -289,7 +270,7 @@ class EditStrategyFragment : Fragment() {
     }
 
 
-    @ExperimentalComposeUiApi
+
     @Composable
     fun ParameterRow (rowName: String, value: String, onValueChange: (String) -> Unit ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -299,7 +280,7 @@ class EditStrategyFragment : Fragment() {
                 style = MaterialTheme.typography.subtitle1,
                 color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
             )
-            MyBasicTextField(
+            BasicTextField(
                 value = value,
                 onValueChange = onValueChange,
                 modifier = Modifier.weight(0.7f),
@@ -308,7 +289,7 @@ class EditStrategyFragment : Fragment() {
         }
     }
 
-    @ExperimentalComposeUiApi
+
     @Composable
     fun RuleInputList(rules: List<RuleInput>) {
         Column() {
@@ -343,7 +324,7 @@ class EditStrategyFragment : Fragment() {
                         Icon(imageVector = Icons.Default.ArrowDropDown, contentDescription = "")
                     }
                 }
-                if(isExpanded && rule.indInput1.indType != IndType.BOOL) {
+                if(isExpanded && rule.indInput1.indType != IndType.OTHER) {
                     Column(Modifier
                         .padding(horizontal = 10.dp)) {
                         IndicatorInputRow("Primary Indicator", rule.indInput1)

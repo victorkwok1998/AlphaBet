@@ -5,24 +5,24 @@ import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshots.SnapshotStateList
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.alphabet.BacktestInput
+import androidx.compose.ui.unit.sp
+import com.example.alphabet.*
 import com.example.alphabet.R
-import com.example.alphabet.RuleInput
 import com.example.alphabet.example.DataExample
+import com.example.alphabet.ui.theme.green500
+import com.example.alphabet.ui.theme.red500
 
 @Composable
 fun RuleCard (
@@ -31,17 +31,21 @@ fun RuleCard (
     onButtonClicked: () -> Unit = {},
     content: @Composable () -> Unit = {},
 ) {
-    MyCard(modifier = Modifier
+    MyCard(shape = MaterialTheme.shapes.medium,
+        modifier = Modifier
         .fillMaxWidth()
         .animateContentSize(
             animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
         ),
     ) {
-        Column(Modifier.padding(20.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+        Column() {
+            Spacer(modifier = Modifier.height(5.dp))
+            Row(modifier = Modifier.padding(horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text = text,
                     style = MaterialTheme.typography.h6,
+                    fontSize = 18.sp,
                     modifier = Modifier.weight(0.8f)
                 )
                 if (isButtonVisible){
@@ -53,7 +57,6 @@ fun RuleCard (
                     }
                 }
             }
-//            Spacer(modifier = Modifier.height(10.dp))
             content()
         }
     }
@@ -62,25 +65,35 @@ fun RuleCard (
 @Composable
 fun RuleList(
     rules: MutableList<RuleInput>,
-    onOptionSelected: (RuleInput) -> Unit,
+    onOptionSelected: (Int) -> Unit,
+    entryExit: EntryExit
 ) {
     Column {
         rules.forEachIndexed { index, rule ->
             Row(
                 Modifier
-                    .clickable { onOptionSelected(rule) }
-                    .padding(vertical = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                    .clickable { onOptionSelected(index) }
+                    .padding(vertical = 12.dp, horizontal = 20.dp),
+                verticalAlignment = Alignment.CenterVertically,
             ) {
-                Text("Rule ${index + 1}",
-                    style = MaterialTheme.typography.subtitle1,
-                    modifier = Modifier.weight(0.2f),
-                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
+                Icon(
+                    painter = painterResource(id = R.drawable.ic_baseline_line_axis_24),
+                    contentDescription = null,
+                    tint = when (entryExit) {
+                        EntryExit.ENTRY -> green500
+                        EntryExit.EXIT -> red500
+                    },
+                    modifier = Modifier.padding(end = 10.dp),
                 )
+//                Text("Rule ${index + 1}",
+//                    style = MaterialTheme.typography.subtitle1,
+//                    modifier = Modifier.weight(0.2f),
+//                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
+//                )
                 Text(
                     rule.toString(),
                     style = MaterialTheme.typography.subtitle1,
-                    modifier = Modifier.weight(0.6f)
+                    modifier = Modifier.weight(0.7f)
                 )
                 IconButton(
                     onClick = { rules.removeAt(index) },
@@ -100,8 +113,9 @@ fun RuleList(
                 "Click \"+\" to create first rule",
                 style = MaterialTheme.typography.subtitle1,
                 color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium),
-                modifier = Modifier.padding(vertical = 10.dp)
+                modifier = Modifier.padding(horizontal = 20.dp)
             )
+            Spacer(modifier = Modifier.height(20.dp))
         }
     }
 }
@@ -111,16 +125,17 @@ fun CreateRuleCard(
     text: String,
     rules: MutableList<RuleInput>,
     onButtonClicked: () -> Unit,
-    onOptionSelected: (RuleInput) -> Unit,
+    onOptionSelected: (Int) -> Unit,
+    entryExit: EntryExit = EntryExit.ENTRY
 ) {
-    Box {
+//    Box {
         RuleCard(
             text = text,
             onButtonClicked = onButtonClicked
         ) {
-            RuleList(rules = rules, onOptionSelected = onOptionSelected)
+            RuleList(rules = rules, onOptionSelected = onOptionSelected, entryExit = entryExit)
         }
-    }
+//    }
 //    RuleCard(text = text) {
 //        RuleList(rules = rules)
 ////        Spacer(modifier = Modifier.padding(10.dp))
@@ -143,6 +158,6 @@ fun PreviewCreateRuleCard() {
         text = "Entry Rules",
         rules = rules,
         onButtonClicked = {},
-        onOptionSelected = {}
+        onOptionSelected = {},
     )
 }

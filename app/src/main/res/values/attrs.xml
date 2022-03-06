@@ -3,4 +3,11 @@
         <attr name="strat_title" format="string"/>
         <attr name="strat_detail" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="SelectButton">
+        <attr name="leading_icon" format="reference"/>
+        <attr name="text" format="string"/>
+        <attr name="text_color" format="color"/>
+        <attr name="trailing_icon" format="reference"/>
+    </declare-styleable>
 </resources>

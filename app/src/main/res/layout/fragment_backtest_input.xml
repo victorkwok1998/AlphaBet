@@ -3,156 +3,275 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/strat_app_bar"
+            android:id="@+id/top_app_bar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:title="AlphaBet" />
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:menu="@menu/date_confirm_app_bar"
+            app:title="Backtest" />
     </com.google.android.material.appbar.AppBarLayout>
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
-            android:orientation="vertical">
+            android:layout_height="wrap_content">
 
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/add_symbol_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:hint="@string/symbol"
-                app:helperText="e.g., TSLA, BRK-B, BTC-USD"
-                app:helperTextEnabled="true"
-                app:startIconDrawable="@drawable/ic_baseline_trending_up_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/symbol"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:maxLines="1" />
-
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginVertical="5dp"
-                android:hint="Strategy"
-                app:startIconDrawable="@drawable/ic_baseline_emoji_objects_24">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/strategy_text"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:inputType="text"
-                    android:cursorVisible="false"
-                    android:focusable="false"/>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:layout_weight="1"
-                    android:hint="@string/start"
-                    app:startIconDrawable="@drawable/ic_baseline_date_range_24">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/start_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-
-                <com.google.android.material.textfield.TextInputLayout
-                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_weight="1"
-                    android:hint="@string/end"
-                    app:startIconDrawable="@drawable/ic_baseline_date_range_24">
-
-                    <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/end_date"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:focusable="false"
-                        android:inputType="text"
-                        android:maxLines="1" />
-                </com.google.android.material.textfield.TextInputLayout>
-            </LinearLayout>
-
-
-<!--            <TextView-->
-<!--                android:id="@+id/strat_des_headline"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:text="Strategy Description"-->
-<!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />-->
-
-<!--            <TextView-->
-<!--                android:id="@+id/strat_des"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_margin="5dp"-->
-<!--                android:textAppearance="?attr/textAppearanceBody2"-->
-<!--                android:textColor="?android:attr/textColorSecondary"-->
-<!--                android:textSize="16sp"-->
-<!--                tools:text="Will be shown after strategy is selected" />-->
-
-<!--            <Button-->
-<!--                android:id="@+id/adv_opts_button"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:layout_marginTop="10dp"-->
-<!--                android:text="Tune Parameters"-->
-<!--                style="?attr/materialButtonOutlinedStyle"-->
-<!--                app:cornerRadius="30dp"-->
-<!--                />-->
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="16dp"
+                android:text="Add"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/symbol_text_layout" />
 
             <Button
-                android:id="@+id/backtest_button"
-                style="@style/round_button"
-                android:text="Backtest" />
+                android:id="@+id/create_strategy_button"
+                style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="16dp"
+                android:text="Add"
+                app:icon="@drawable/ic_baseline_add_24"
+                app:layout_constraintBottom_toBottomOf="@+id/textView5"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+            <TextView
+                android:id="@+id/textView4"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Symbol"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/symbol_text_layout"
+                style="@style/SymbolTextField"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                app:helperText="@string/helper_text"
+                app:layout_constraintEnd_toStartOf="@+id/add_symbol_button"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/symbol_text"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:imeOptions="actionDone"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="@+id/guideline7"
+                    app:layout_constraintTop_toTopOf="parent" />
 
 
-            <!--        <TextView-->
-            <!--            style="@style/margin_vertical"-->
-            <!--            android:layout_width="wrap_content"-->
-            <!--            android:layout_height="wrap_content"-->
-            <!--            android:text="Recent Backtests"-->
-            <!--            android:textAppearance="@style/TextAppearance.MaterialComponents.Headline5" />-->
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </LinearLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/symbol_chip_group"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:animateLayoutChanges="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/symbol_text_layout" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/divider_1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/symbol_chip_group" />
+
+<!--            <com.google.android.material.divider.MaterialDivider-->
+<!--                android:id="@+id/divider_2"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="5dp"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@id/barrier" />-->
+
+            <TextView
+                android:id="@+id/textView5"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Strategy"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider_1" />
+
+            <LinearLayout
+                android:id="@+id/strategy_rv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginEnd="24dp"
+                android:animateLayoutChanges="true"
+                android:orientation="vertical"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/create_strategy_button" />
+
+            <!--            <androidx.recyclerview.widget.RecyclerView-->
+            <!--                android:id="@+id/strategy_rv"-->
+            <!--                android:layout_width="0dp"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:layout_marginStart="24dp"-->
+            <!--                android:layout_marginEnd="24dp"-->
+            <!--                android:nestedScrollingEnabled="false"-->
+            <!--                android:overScrollMode="never"-->
+            <!--                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toBottomOf="@+id/create_strategy_button"-->
+            <!--                tools:itemCount="2"-->
+            <!--                tools:listitem="@layout/backtest_strategy_row" />-->
+
+<!--            <androidx.compose.ui.platform.ComposeView-->
+<!--                android:id="@+id/date_range_layout"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginTop="16dp"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toBottomOf="@+id/divider_2"-->
+<!--                tools:layout_height="150dp" />-->
+
+<!--            <Button-->
+<!--                android:id="@+id/backtest_button"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:layout_marginStart="24dp"-->
+<!--                android:layout_marginEnd="24dp"-->
+<!--                android:backgroundTint="@color/light_blue_900"-->
+<!--                android:text="Backtest"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="@+id/divider_2" />-->
+
+            <TextView
+                android:id="@+id/empty_rv_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:text="Click + to add strategy"
+                android:textSize="15sp"
+                app:layout_constraintStart_toStartOf="@+id/textView5"
+                app:layout_constraintTop_toBottomOf="@+id/textView5" />
+
+            <androidx.constraintlayout.widget.Barrier
+                android:id="@+id/barrier"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:barrierDirection="bottom"
+                app:constraint_referenced_ids="empty_rv_text,strategy_rv"
+                tools:layout_editor_absoluteY="531dp" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
 
+    <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:orientation="vertical"-->
+    <!--        app:layout_behavior="@string/appbar_scrolling_view_behavior">-->
+
+    <!--        <TextView-->
+    <!--            android:id="@+id/textView3"-->
+    <!--            style="@style/TextAppearance.MaterialComponents.Headline6"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginStart="24dp"-->
+    <!--            android:text="Symbol and Strategy"-->
+    <!--            android:textSize="20sp"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/date_range_layout" />-->
+
+    <!--        <ImageButton-->
+    <!--            android:id="@+id/add_button"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:background="?attr/selectableItemBackgroundBorderless"-->
+    <!--            android:padding="6dp"-->
+    <!--            app:layout_constraintBottom_toBottomOf="@+id/textView3"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="@+id/guideline3"-->
+    <!--            app:layout_constraintTop_toTopOf="@+id/textView3"-->
+    <!--            app:srcCompat="@drawable/ic_baseline_add_24"-->
+    <!--            app:tint="@color/light_blue_900" />-->
+
+    <!--        <androidx.recyclerview.widget.RecyclerView-->
+    <!--            android:id="@+id/symbol_strategy_list"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="0dp"-->
+    <!--            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            app:layout_constraintBottom_toTopOf="@id/backtest_button"-->
+    <!--            app:layout_constraintTop_toBottomOf="@id/textView3"/>-->
+
+    <!--        <androidx.compose.ui.platform.ComposeView-->
+    <!--            android:id="@+id/date_range_layout"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            tools:layout_height="150dp" />-->
+
+    <!--        <Button-->
+    <!--            android:id="@+id/backtest_button"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_marginHorizontal="16dp"-->
+    <!--            android:backgroundTint="@color/light_blue_900"-->
+    <!--            android:text="Backtest"-->
+    <!--            app:layout_constraintEnd_toEndOf="parent"-->
+    <!--            app:layout_constraintStart_toStartOf="parent"-->
+    <!--            tools:layout_editor_absoluteY="627dp" />-->
+
+    <!--        <androidx.constraintlayout.widget.Guideline-->
+    <!--            android:id="@+id/guideline3"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:orientation="vertical"-->
+    <!--            app:layout_constraintGuide_percent="0.8" />-->
+
+    <!--    </androidx.constraintlayout.widget.ConstraintLayout>-->
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

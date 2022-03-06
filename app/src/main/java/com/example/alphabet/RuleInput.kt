@@ -13,10 +13,18 @@ class RuleInput(
     var condName: Cond
 ) {
     fun parseRule(series: BaseBarSeries): Rule {
-        if (indInput1.indType == IndType.BOOL) {
-            return if (indInput1.indName == "Buy at start") FixedRule(0)  else FixedRule(series.endIndex)
-        }
         val close = ClosePriceIndicator(series)
+        if (indInput1.indType == IndType.OTHER) {
+            return when (indInput1.indName) {
+                "Stop Gain" -> StopGainRule(close, indInput1.indParamList[0].toFloat())
+                "Stop Loss" -> StopLossRule(close, indInput1.indParamList[0].toFloat())
+                "Trailing Stop Loss" -> TrailingStopLossRule(close, series.numOf(indInput1.indParamList[0].toFloat()))
+                "Buy at Start" -> FixedRule(0)
+                "Sell at End" -> FixedRule(series.endIndex)
+                else -> throw IllegalArgumentException("Cannot find ${indInput1.indName} rule")
+            }
+        }
+
         val ind1 = when (indInput1.indType) {
             IndType.INDICATOR -> indInput1.calIndicator(series)
             else -> close
@@ -25,7 +33,7 @@ class RuleInput(
             IndType.INDICATOR -> indInput2.calIndicator(series)
             IndType.VALUE -> ConstantIndicator(
                 series,
-                ind1.numOf(indInput2.indName.toInt())
+                ind1.numOf(indInput2.indParamList[0].toInt())
             )  // convert to Indicator<Num>
             else -> throw IllegalArgumentException("Indicator 2 cannot be a bool")
         }
@@ -38,9 +46,9 @@ class RuleInput(
     }
 
     override fun toString(): String {
-        if (indInput1.indType == IndType.BOOL)
-            return indInput1.indName
         val paramString1 = if (indInput1.indParamList.isNotEmpty()) indInput1.indParamList.joinToString(prefix = "(", postfix = ")") else ""
+        if (indInput1.indType == IndType.OTHER)
+            return "${indInput1.indName}${paramString1}"
         val paramString2 = if (indInput2.indParamList.isNotEmpty()) indInput2.indParamList.joinToString(prefix = "(", postfix = ")") else ""
         val condNameString = when (condName) {
             Cond.CROSS_UP -> "cross up"

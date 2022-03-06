@@ -1,5 +1,8 @@
 package com.example.alphabet.components
 
+import android.graphics.drawable.Drawable
+import android.text.InputType
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -21,15 +24,20 @@ import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.focus.onFocusEvent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
-import androidx.compose.ui.layout.RelocationRequester
 import androidx.compose.ui.layout.relocationRequester
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.widget.doAfterTextChanged
 import com.example.alphabet.R
 import com.example.alphabet.ui.theme.grayBackground
+import com.example.alphabet.ui.theme.toInt
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
@@ -68,7 +76,7 @@ import kotlinx.coroutines.launch
 //    }
 //}
 
-@ExperimentalComposeUiApi
+
 @Composable
 fun FixedTextField (
     value: String,
@@ -97,8 +105,7 @@ fun FixedTextField (
         disabledIndicatorColor = Color.Transparent
     )
 ) {
-    val relocationRequester = remember { RelocationRequester() }
-    val scope = rememberCoroutineScope()
+//    val scope = rememberCoroutineScope()
 //    AndroidView(
 //        ::EditText,
 //        modifier = modifier.fillMaxWidth().padding(vertical = 5.dp)
@@ -118,15 +125,16 @@ fun FixedTextField (
         onValueChange = onValueChange,
         modifier = modifier
             .fillMaxWidth()
-            .relocationRequester(relocationRequester)
-            .onFocusEvent {
-                if (it.isFocused) {
-                    scope.launch {
-                        delay(200)
-                        relocationRequester.bringIntoView()
-                    }
-                }
-            },
+//            .relocationRequester(relocationRequester)
+//            .onFocusEvent {
+//                if (it.isFocused) {
+//                    scope.launch {
+//                        delay(200)
+//                        relocationRequester.bringIntoView()
+//                    }
+//                }
+//            }
+        ,
         enabled = enabled,
         readOnly = readOnly,
         textStyle = textStyle,
@@ -146,7 +154,6 @@ fun FixedTextField (
     )
 }
 
-@ExperimentalComposeUiApi
 @Composable
 fun MyTextField(
     value: String,
@@ -164,7 +171,7 @@ fun MyTextField(
         disabledIndicatorColor = Color.Transparent
     )
 ) {
-    FixedTextField(
+    TextField(
         value = value,
         onValueChange = onValueChange,
         modifier = modifier,
@@ -178,11 +185,10 @@ fun MyTextField(
     )
 }
 
-@ExperimentalComposeUiApi
 @Preview
 @Composable
 fun PreviewMyTextField() {
-    MyTextField(value = "", onValueChange = {}, placeholder = { Text("Enter a Symbol") })
+    TextField(value = "", onValueChange = {}, placeholder = { Text("Enter a Symbol") })
 }
 
 @Composable

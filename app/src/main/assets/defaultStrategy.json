@@ -5,23 +5,22 @@
     "entryRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "RSI", "indParamList": ["14"]},
-        "indInput2":  {"indType": "VALUE", "indName": "30", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["30"]},
         "condName": "CROSS_DOWN"
       }
     ],
     "exitRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "RSI", "indParamList": ["14"]},
-        "indInput2":  {"indType": "VALUE", "indName": "70", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["70"]},
         "condName": "CROSS_UP"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Reversal"
   },
   {
     "strategyName": "Bollinger Bands Strategy",
-    "des": "Bollinger Bands are envelopes plotted at a standard deviation level above and below a simple moving average of the price. The closer the prices move to the upper band, the more overbought the market, and the closer the prices move to the lower band, the more oversold the market",
+    "des": "Bollinger Bands Strategy identifies when an asset is oversold or overbought",
     "entryRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "Close Price", "indParamList": []},
@@ -36,8 +35,7 @@
         "condName": "CROSS_UP"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Reversal"
   },
   {
     "strategyName": "SMA Strategy",
@@ -56,48 +54,45 @@
         "condName": "CROSS_DOWN"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Momentum"
   },
   {
     "strategyName": "Buy and Hold",
     "des": "Buy at start and sell at end. Enjoy the benefit of passive investing :)",
     "entryRulesInput": [
       {
-        "indInput1": {"indType":  "BOOL", "indName": "Buy at start", "indParamList": []},
-        "indInput2": {"indType":  "BOOL", "indName": "Buy at start", "indParamList": []},
+        "indInput1": {"indType":  "OTHER", "indName": "Buy at start", "indParamList": []},
+        "indInput2": {"indType":  "OTHER", "indName": "", "indParamList": []},
         "condName": "OVER"
       }
     ],
     "exitRulesInput": [
       {
-        "indInput1": {"indType": "BOOL", "indName": "Sell at end", "indParamList": []},
-        "indInput2":  {"indType": "BOOL", "indName": "Sell at end", "indParamList": []},
+        "indInput1": {"indType": "OTHER", "indName": "Sell at end", "indParamList": []},
+        "indInput2":  {"indType": "OTHER", "indName": "", "indParamList": []},
         "condName": "OVER"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Passive"
   },
   {
     "strategyName": "Awesome Oscillator Strategy",
-    "des": "Awesome Oscillator indicator is a good indicator for measuring the market dynamics, it reflects specific changes in the driving force of the market, which helps to identify the strength of the trend, including the points of its formation and reversal.",
+    "des": "Awesome Oscillator indicator reflects specific changes in the driving force of the market, which helps to identify the strength of the trend, including the points of its formation and reversal.",
     "entryRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "Awesome Oscillator", "indParamList": ["5", "34"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "CROSS_UP"
       }
     ],
     "exitRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "Awesome Oscillator", "indParamList": ["5", "34"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "CROSS_DOWN"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Reversal"
   },
   {
     "strategyName": "3 EMA Strategy",
@@ -126,37 +121,35 @@
         "condName": "UNDER"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Momentum"
   },
   {
     "strategyName": "MACD Strategy",
-    "des": "",
+    "des": "MACD is a trend-following momentum indicator that shows the relationship between two moving averages of a security’s price",
     "entryRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "MACD Histogram", "indParamList": ["12", "26", "9"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "CROSS_UP"
       },
       {
         "indInput1": {"indType": "INDICATOR", "indName": "MACD Line", "indParamList": ["12", "26"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "UNDER"
       }
     ],
     "exitRulesInput": [
       {
         "indInput1": {"indType": "INDICATOR", "indName": "MACD Histogram", "indParamList": ["12", "26", "9"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "CROSS_DOWN"
       },
       {
         "indInput1": {"indType": "INDICATOR", "indName": "MACD Line", "indParamList": ["12", "26"]},
-        "indInput2":  {"indType": "VALUE", "indName": "0", "indParamList": []},
+        "indInput2":  {"indType": "VALUE", "indName": "", "indParamList": ["0"]},
         "condName": "OVER"
       }
     ],
-    "stopGain": "",
-    "stopLoss": ""
+    "strategyType": "Momentum"
   }
 ]

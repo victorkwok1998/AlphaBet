@@ -14,7 +14,9 @@ import java.util.*
 import kotlin.reflect.KFunction
 
 class StaticDataViewModel: ViewModel() {
+    val indicatorStatic = mutableStateOf(listOf<IndicatorStatic>())
     val indToParamList = mutableStateOf(mapOf<String, List<String>>())
+    val ruleToParamList = mutableStateOf(mapOf<String, List<String>>())
 //    var indToParamList: MutableLiveData<Map<String, List<String>>> = MutableLiveData()
 //    var stratToDes: MutableLiveData<Map<String, String>> = MutableLiveData()
     val defaultStrategy = mutableStateOf(mutableListOf<StrategyInput>())

@@ -38,9 +38,9 @@ class BacktestDescFragment: Fragment() {
                     viewModel.symbolStrategyList.forEach { backtestInput ->
                         BackTestDesc(
                             backtestInput.strategyInput,
-                            backtestInput.symbol.value,
-                            viewModel.start.value,
-                            viewModel.end.value
+                            backtestInput.symbol,
+                            viewModel.start.value!!,
+                            viewModel.end.value!!
                         )
                         Spacer(modifier = Modifier.height(10.dp))
                     }

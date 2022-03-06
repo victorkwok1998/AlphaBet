@@ -5,41 +5,41 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--    <com.google.android.material.appbar.AppBarLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        app:elevation="0dp">-->
+    <!--    <com.google.android.material.appbar.AppBarLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="wrap_content"-->
+    <!--        app:elevation="0dp">-->
 
-<!--        <com.google.android.material.appbar.MaterialToolbar-->
-<!--            android:id="@+id/opt_app_bar"-->
-<!--            style="@style/Widget.MaterialComponents.Toolbar.Primary"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="?attr/actionBarSize"-->
-<!--            app:menu="@menu/option_app_bar"-->
-<!--            app:title="Strategy Report" />-->
-<!--    </com.google.android.material.appbar.AppBarLayout>-->
+    <!--        <com.google.android.material.appbar.MaterialToolbar-->
+    <!--            android:id="@+id/opt_app_bar"-->
+    <!--            style="@style/Widget.MaterialComponents.Toolbar.Primary"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="?attr/actionBarSize"-->
+    <!--            app:menu="@menu/option_app_bar"-->
+    <!--            app:title="Strategy Report" />-->
+    <!--    </com.google.android.material.appbar.AppBarLayout>-->
 
-<!--    <RelativeLayout-->
-<!--        android:id="@+id/trading_result_progress"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_centerInParent="true"-->
-<!--        android:layout_gravity="center" >-->
+    <!--    <RelativeLayout-->
+    <!--        android:id="@+id/trading_result_progress"-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_centerInParent="true"-->
+    <!--        android:layout_gravity="center" >-->
 
-<!--        <ProgressBar-->
-<!--            android:id="@+id/backtest_progress_bar"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_centerInParent="true"/>-->
+    <!--        <ProgressBar-->
+    <!--            android:id="@+id/backtest_progress_bar"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_centerInParent="true"/>-->
 
-<!--        <TextView-->
-<!--            android:id="@+id/trading_result_progress_Text"-->
-<!--            android:layout_centerHorizontal="true"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_margin="15dp"-->
-<!--            android:layout_below="@+id/backtest_progress_bar"/>-->
-<!--    </RelativeLayout>-->
+    <!--        <TextView-->
+    <!--            android:id="@+id/trading_result_progress_Text"-->
+    <!--            android:layout_centerHorizontal="true"-->
+    <!--            android:layout_width="wrap_content"-->
+    <!--            android:layout_height="wrap_content"-->
+    <!--            android:layout_margin="15dp"-->
+    <!--            android:layout_below="@+id/backtest_progress_bar"/>-->
+    <!--    </RelativeLayout>-->
 
 
     <LinearLayout
@@ -47,7 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tab_layout"
@@ -56,7 +56,9 @@
             android:background="@color/design_default_color_primary"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:tabIndicatorColor="@color/design_default_color_on_primary"
+            app:tabIndicatorFullWidth="false"
             app:tabSelectedTextColor="@color/design_default_color_on_primary"
+            app:tabTextAppearance="@style/CustomTextAppearanceTab"
             app:tabTextColor="@color/material_on_primary_disabled">
 
             <com.google.android.material.tabs.TabItem
@@ -75,251 +77,251 @@
                 android:text="@string/tab_desc" />
 
         </com.google.android.material.tabs.TabLayout>
-            <androidx.viewpager2.widget.ViewPager2
-                android:id="@+id/view_pager2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                />
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical"-->
-<!--            style="@style/layout_padding">-->
+        <androidx.viewpager2.widget.ViewPager2
+            android:id="@+id/view_pager2"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
-<!--            <TextView-->
-<!--                style="@style/padding_vertical"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Strategy Description"-->
-<!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                style="@style/margin_vertical">-->
-<!--                <LinearLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:orientation="vertical"-->
-<!--                    android:layout_margin="15dp">-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/symbol_result"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
-<!--                        android:layout_marginBottom="5dp"/>-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/start_date_result"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
-<!--                        android:layout_marginBottom="5dp"/>-->
-<!--                    <TextView-->
-<!--                        android:id="@+id/end_date_result"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
-<!--                        android:layout_marginBottom="5dp"/>-->
-<!--                </LinearLayout>-->
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="vertical"-->
+        <!--            style="@style/layout_padding">-->
 
-<!--            </com.google.android.material.card.MaterialCardView>-->
+        <!--            <TextView-->
+        <!--                style="@style/padding_vertical"-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Strategy Description"-->
+        <!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
+        <!--            <com.google.android.material.card.MaterialCardView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                style="@style/margin_vertical">-->
+        <!--                <LinearLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="wrap_content"-->
+        <!--                    android:orientation="vertical"-->
+        <!--                    android:layout_margin="15dp">-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/symbol_result"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
+        <!--                        android:layout_marginBottom="5dp"/>-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/start_date_result"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
+        <!--                        android:layout_marginBottom="5dp"/>-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/end_date_result"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"-->
+        <!--                        android:layout_marginBottom="5dp"/>-->
+        <!--                </LinearLayout>-->
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                style="@style/margin_vertical">-->
+        <!--            </com.google.android.material.card.MaterialCardView>-->
 
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_margin="15dp">-->
+        <!--            <com.google.android.material.card.MaterialCardView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                style="@style/margin_vertical">-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/entry_desc"-->
-<!--                        android:layout_marginBottom="10dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Entry Strategy"-->
-<!--                        android:textAppearance="?attr/textAppearanceHeadline6" />-->
+        <!--                <RelativeLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:layout_margin="15dp">-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/entry_strategy_text"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_below="@+id/entry_desc"-->
-<!--                        android:lineSpacingMultiplier="1.2"-->
-<!--                        android:textAppearance="?attr/textAppearanceBody2"-->
-<!--                        android:textColor="?android:attr/textColorSecondary" />-->
-<!--                </RelativeLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/entry_desc"-->
+        <!--                        android:layout_marginBottom="10dp"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:text="Entry Strategy"-->
+        <!--                        android:textAppearance="?attr/textAppearanceHeadline6" />-->
 
-<!--            <com.google.android.material.card.MaterialCardView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                style="@style/margin_vertical">-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/entry_strategy_text"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_below="@+id/entry_desc"-->
+        <!--                        android:lineSpacingMultiplier="1.2"-->
+        <!--                        android:textAppearance="?attr/textAppearanceBody2"-->
+        <!--                        android:textColor="?android:attr/textColorSecondary" />-->
+        <!--                </RelativeLayout>-->
+        <!--            </com.google.android.material.card.MaterialCardView>-->
 
-<!--                <RelativeLayout-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="match_parent"-->
-<!--                    android:layout_margin="15dp">-->
+        <!--            <com.google.android.material.card.MaterialCardView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                style="@style/margin_vertical">-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/exit_desc"-->
-<!--                        android:layout_marginBottom="10dp"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:text="Exit Strategy"-->
-<!--                        android:textAppearance="?attr/textAppearanceHeadline6" />-->
+        <!--                <RelativeLayout-->
+        <!--                    android:layout_width="match_parent"-->
+        <!--                    android:layout_height="match_parent"-->
+        <!--                    android:layout_margin="15dp">-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/exit_strategy_text"-->
-<!--                        android:layout_width="wrap_content"-->
-<!--                        android:layout_height="wrap_content"-->
-<!--                        android:layout_below="@+id/exit_desc"-->
-<!--                        android:lineSpacingMultiplier="1.2"-->
-<!--                        android:textAppearance="?attr/textAppearanceBody2"-->
-<!--                        android:textColor="?android:attr/textColorSecondary" />-->
-<!--                </RelativeLayout>-->
-<!--            </com.google.android.material.card.MaterialCardView>-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/exit_desc"-->
+        <!--                        android:layout_marginBottom="10dp"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:text="Exit Strategy"-->
+        <!--                        android:textAppearance="?attr/textAppearanceHeadline6" />-->
+
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/exit_strategy_text"-->
+        <!--                        android:layout_width="wrap_content"-->
+        <!--                        android:layout_height="wrap_content"-->
+        <!--                        android:layout_below="@+id/exit_desc"-->
+        <!--                        android:lineSpacingMultiplier="1.2"-->
+        <!--                        android:textAppearance="?attr/textAppearanceBody2"-->
+        <!--                        android:textColor="?android:attr/textColorSecondary" />-->
+        <!--                </RelativeLayout>-->
+        <!--            </com.google.android.material.card.MaterialCardView>-->
 
 
-<!--            <TextView-->
-<!--                style="@style/margin_vertical"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="@string/equity_curve"-->
-<!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
+        <!--            <TextView-->
+        <!--                style="@style/margin_vertical"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="@string/equity_curve"-->
+        <!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
 
-<!--            <com.github.mikephil.charting.charts.LineChart-->
-<!--                android:id="@+id/equity_curve_plot"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="350dp"-->
-<!--                android:paddingVertical="10dp" />-->
+        <!--            <com.github.mikephil.charting.charts.LineChart-->
+        <!--                android:id="@+id/equity_curve_plot"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="350dp"-->
+        <!--                android:paddingVertical="10dp" />-->
 
-<!--            <TextView-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Compare With:"-->
-<!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
-<!--                style="@style/margin_vertical"/>-->
+        <!--            <TextView-->
+        <!--                android:layout_width="wrap_content"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:text="Compare With:"-->
+        <!--                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6"-->
+        <!--                style="@style/margin_vertical"/>-->
 
-<!--            <com.google.android.material.switchmaterial.SwitchMaterial-->
-<!--                android:id="@+id/buy_and_hold_check_box"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="match_parent"-->
-<!--                android:text="Buy And Hold" />-->
+        <!--            <com.google.android.material.switchmaterial.SwitchMaterial-->
+        <!--                android:id="@+id/buy_and_hold_check_box"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="match_parent"-->
+        <!--                android:text="Buy And Hold" />-->
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingTop="20dp"-->
-<!--                android:paddingBottom="5dp"-->
-<!--                android:text="@string/trading_summary"-->
-<!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:paddingTop="20dp"-->
+        <!--                android:paddingBottom="5dp"-->
+        <!--                android:text="@string/trading_summary"-->
+        <!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
 
-<!--            <com.github.mikephil.charting.charts.RadarChart-->
-<!--                android:id="@+id/radar_plot"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="300dp" />-->
-<!--            <TableLayout-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+        <!--            <com.github.mikephil.charting.charts.RadarChart-->
+        <!--                android:id="@+id/radar_plot"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="300dp" />-->
+        <!--            <TableLayout-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content">-->
 
-<!--                <TableRow>-->
+        <!--                <TableRow>-->
 
-<!--                    <TextView-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="Total PnL" />-->
+        <!--                    <TextView-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="Total PnL" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/total_pnl_text"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp" />-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/total_pnl_text"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp" />-->
 
-<!--                </TableRow>-->
-<!--                <TableRow>-->
+        <!--                </TableRow>-->
+        <!--                <TableRow>-->
 
-<!--                    <TextView-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="Maximum Drawdown" />-->
+        <!--                    <TextView-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="Maximum Drawdown" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/mdd_text"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp" />-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/mdd_text"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp" />-->
 
-<!--                </TableRow>-->
+        <!--                </TableRow>-->
 
-<!--                <TableRow>-->
+        <!--                <TableRow>-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="Winning Trades" />-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="Winning Trades" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/winning_trades_text"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp" />-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/winning_trades_text"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp" />-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="Losing Trades" />-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="Losing Trades" />-->
 
-<!--                    <TextView-->
-<!--                        android:id="@+id/losing_trades_text"-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp" />-->
-<!--                </TableRow>-->
-<!--            </TableLayout>-->
+        <!--                    <TextView-->
+        <!--                        android:id="@+id/losing_trades_text"-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp" />-->
+        <!--                </TableRow>-->
+        <!--            </TableLayout>-->
 
-<!--            <TextView-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:paddingTop="20dp"-->
-<!--                android:paddingBottom="5dp"-->
-<!--                android:text="@string/trade_table"-->
-<!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
+        <!--            <TextView-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:paddingTop="20dp"-->
+        <!--                android:paddingBottom="5dp"-->
+        <!--                android:text="@string/trade_table"-->
+        <!--                android:textAppearance="?attr/textAppearanceHeadline5" />-->
 
-<!--            <TableLayout-->
-<!--                android:id="@+id/trade_table"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content">-->
+        <!--            <TableLayout-->
+        <!--                android:id="@+id/trade_table"-->
+        <!--                android:layout_width="match_parent"-->
+        <!--                android:layout_height="wrap_content">-->
 
-<!--                <TableRow>-->
+        <!--                <TableRow>-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="@string/trade_table_header_tradeid"-->
-<!--                        android:textColor="@color/black" />-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="@string/trade_table_header_tradeid"-->
+        <!--                        android:textColor="@color/black" />-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="@string/trade_table_header_entry_price"-->
-<!--                        android:textColor="@color/black" />-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="@string/trade_table_header_entry_price"-->
+        <!--                        android:textColor="@color/black" />-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="@string/trade_table_header_exit_price"-->
-<!--                        android:textColor="@color/black" />-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="@string/trade_table_header_exit_price"-->
+        <!--                        android:textColor="@color/black" />-->
 
-<!--                    <TextView-->
-<!--                        android:layout_weight="1"-->
-<!--                        android:padding="10sp"-->
-<!--                        android:text="@string/trade_table_header_pnl"-->
-<!--                        android:textColor="@color/black" />-->
-<!--                </TableRow>-->
-<!--            </TableLayout>-->
+        <!--                    <TextView-->
+        <!--                        android:layout_weight="1"-->
+        <!--                        android:padding="10sp"-->
+        <!--                        android:text="@string/trade_table_header_pnl"-->
+        <!--                        android:textColor="@color/black" />-->
+        <!--                </TableRow>-->
+        <!--            </TableLayout>-->
 
-<!--            <com.google.android.material.button.MaterialButton-->
-<!--                android:id="@+id/back_to_home"-->
-<!--                style="@style/round_button"-->
-<!--                android:text="Back To Home" />-->
-<!--        </LinearLayout>-->
+        <!--            <com.google.android.material.button.MaterialButton-->
+        <!--                android:id="@+id/back_to_home"-->
+        <!--                style="@style/round_button"-->
+        <!--                android:text="Back To Home" />-->
+        <!--        </LinearLayout>-->
 
     </LinearLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

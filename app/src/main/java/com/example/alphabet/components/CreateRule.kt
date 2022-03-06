@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import com.example.alphabet.Cond
 import com.example.alphabet.R
 
-@ExperimentalComposeUiApi
+
 @Composable
 fun CreateRule(
     primaryIndicator: String,
@@ -80,7 +80,7 @@ fun CreateRule(
     }
 }
 
-@ExperimentalComposeUiApi
+
 @Composable
 fun IndicatorSelector(
     value: String,
@@ -117,7 +117,7 @@ fun IndicatorSelector(
     }
 }
 
-@ExperimentalComposeUiApi
+
 @Composable
 fun ColumnScope.ParameterTextFieldGroup(
     paramNames: List<String>,
@@ -128,7 +128,7 @@ fun ColumnScope.ParameterTextFieldGroup(
         .zip(paramValues)
         .forEachIndexed { index, (paramName, paramValue) ->
         var value by remember { mutableStateOf(paramValue) }
-        MyTextField(
+        TextField(
             value = value,
             onValueChange = {
                 value = it
@@ -160,7 +160,7 @@ fun ColumnScope.ParameterTextFieldGroup(
     }
 }
 
-@ExperimentalComposeUiApi
+
 @Preview
 @Composable
 fun PreviewCreateRule() {

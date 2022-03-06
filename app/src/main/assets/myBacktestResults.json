@@ -15,8 +15,8 @@
           },
           "indInput2": {
             "indType": "VALUE",
-            "indName": "30",
-            "indParamList": []
+            "indName": "",
+            "indParamList": ["30"]
           },
           "condName": "CROSS_DOWN"
         }
@@ -32,8 +32,8 @@
           },
           "indInput2": {
             "indType": "VALUE",
-            "indName": "70",
-            "indParamList": []
+            "indName": "",
+            "indParamList": ["70"]
           },
           "condName": "CROSS_UP"
         }

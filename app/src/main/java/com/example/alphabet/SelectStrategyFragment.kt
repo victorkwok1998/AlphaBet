@@ -23,23 +23,48 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alphabet.components.MyCard
 import com.example.alphabet.components.MyTopAppBar
 import com.example.alphabet.components.SearchBar
 import com.example.alphabet.components.StrategyList
+import com.example.alphabet.database.DatabaseViewModel
+import com.example.alphabet.databinding.FragmentSelectStrategyBinding
 import com.example.alphabet.example.DataExample
 import com.example.alphabet.ui.theme.grayBackground
 
-class SelectStrategyFragment: Fragment() {
+class SelectStrategyFragment: Fragment(), StrategyListAdapter.OnItemClickListener {
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
     private val viewModel: StrategyViewModel by activityViewModels()
+    private lateinit var databaseViewModel: DatabaseViewModel
+    private lateinit var strategyListAdapter: StrategyListAdapter
+    private val args: SelectStrategyFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        databaseViewModel = ViewModelProvider(this).get(DatabaseViewModel::class.java)
+        val binding = FragmentSelectStrategyBinding.inflate(inflater, container, false)
+        strategyListAdapter = StrategyListAdapter(this)
+
+        binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
+
+        val strategyListView = binding.strategyList.myStrategyList
+        strategyListView.adapter = strategyListAdapter
+        strategyListView.layoutManager = LinearLayoutManager(requireContext())
+        strategyListView.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+
+        databaseViewModel.readAllStrategy.observe(viewLifecycleOwner) {
+            strategyListAdapter.updateList(it)
+        }
+        return binding.root
+
         return ComposeView(requireContext()).apply {
             setContent {
                 MaterialTheme {
@@ -49,6 +74,17 @@ class SelectStrategyFragment: Fragment() {
                 }
             }
         }
+    }
+
+    override fun onItemClick(position: Int) {
+        val item = strategyListAdapter.getList()[position].strategy
+        if (args.position == -1) {
+            viewModel.strategyList.value = viewModel.strategyList.value?.plus(item)
+        } else {
+//            viewModel.strategyList.value!![args.position] = item
+        }
+//        viewModel.symbolStrategyList[args.position].strategyInput = item
+        findNavController().popBackStack()
     }
 
     @Composable

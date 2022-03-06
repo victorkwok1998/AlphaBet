@@ -1,13 +1,13 @@
 package com.example.alphabet
 
 
-enum class IndType(val id: Int) {
-    INDICATOR(R.id.indicator_button),
-    VALUE(R.id.specific_value_button),
-    BOOL(0);
+enum class IndType() {
+    INDICATOR,
+    VALUE,
+    OTHER;
 
-    companion object {
-        private val map = values().associateBy(IndType::id)
-        fun fromId(id: Int) = map[id] ?: throw IllegalArgumentException()
-    }
+//    companion object {
+//        private val map = values().associateBy(IndType::id)
+//        fun fromId(id: Int) = map[id] ?: throw IllegalArgumentException()
+//    }
 }

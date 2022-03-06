@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/set_time_period"
+        android:icon="@drawable/ic_baseline_date_range_24"
+        android:title="Set Time Period"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/confirm_button"
+        android:icon="@drawable/ic_baseline_done_24"
+        android:iconTint="?attr/colorOnBackground"
+        android:title="Done"
+        app:showAsAction="ifRoom"/>
+</menu>

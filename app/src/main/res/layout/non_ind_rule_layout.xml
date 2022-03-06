@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:id="@+id/non_ind_rule_layout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    style="@style/layout_padding">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/non_ind_rule_name_text_layout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Rule"
+        android:visibility="visible"
+        app:startIconDrawable="@drawable/ic_baseline_candlestick_chart_24">
+
+        <AutoCompleteTextView
+            android:id="@+id/non_ind_rule_name_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="none"/>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Space style="@style/space"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/non_ind_rule_param_layout"/>
+</LinearLayout>

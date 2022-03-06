@@ -2,7 +2,9 @@ package com.example.alphabet
 
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.alphabet.database.PortfolioResultSchema
 import org.ta4j.core.*
 import org.ta4j.core.analysis.criteria.MaximumDrawdownCriterion
 import org.ta4j.core.reports.TradingStatementGenerator
@@ -13,25 +15,28 @@ import java.time.ZonedDateTime
 import java.util.*
 
 class StrategyViewModel: ViewModel() {
-    private val defaultEnd = Calendar.getInstance().apply { add(Calendar.DATE, -1) }  // yesterday
-    private val defaultStart = Calendar.getInstance().apply {
+    val defaultEnd = Calendar.getInstance().apply { add(Calendar.DATE, -1) }  // yesterday
+    val defaultStart = Calendar.getInstance().apply {
         time = defaultEnd.time
         add(Calendar.YEAR, -1)
     } // one year before
-    private val EMPTY_STRATEGY = StrategyInput("EMPTY", "", mutableListOf(), mutableListOf(), "", "")
-    private val EMPTY_INDICATOR = IndicatorInput(IndType.INDICATOR, "", mutableListOf())
-    private val EMPTY_RULE = RuleInput(
-        EMPTY_INDICATOR.copy(),
-        EMPTY_INDICATOR.copy(),
-        Cond.CROSS_UP
-    )
+    private val EMPTY_STRATEGY = StrategyInput("", "", mutableListOf(), mutableListOf())
+//    private val EMPTY_INDICATOR = IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+//    private val EMPTY_RULE = RuleInput(
+//        EMPTY_INDICATOR.copy(),
+//        EMPTY_INDICATOR.copy(),
+//        Cond.CROSS_UP
+//    )
 
-    val start = mutableStateOf(defaultStart)
-    val end = mutableStateOf(defaultEnd)
+    val start = MutableLiveData(defaultStart)
+    val end = MutableLiveData(defaultEnd)
 
     val inputToSelectStrategy = mutableStateOf(0)
 
-    val symbolStrategyList = mutableStateListOf(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
+//    val symbolStrategyList = mutableStateListOf(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
+    val symbolStrategyList = mutableStateListOf<BacktestInput>()
+    val strategyList = MutableLiveData(listOf<StrategyInput>())
+    val symbolList = mutableListOf<String>()
 
     val seriesMap = mutableMapOf<String, BaseBarSeries>()
 
@@ -39,20 +44,30 @@ class StrategyViewModel: ViewModel() {
 
     // Create Strategy
     val customStrategy = mutableStateOf(EMPTY_STRATEGY.copy("Custom Strategy", "").toCustomStrategyInput())
-    val selectedRule = mutableStateOf(EMPTY_RULE)
-    val selectedIndicator = mutableStateOf(EMPTY_INDICATOR)
-    val isEdit = mutableStateOf(true)
+//    val selectedRule = mutableStateOf(EMPTY_RULE)
+    val selectedIndicator = mutableStateOf(IndicatorInput.EMPTY_INDICATOR)
+
+    // create rule
+    val primaryInd by lazy { MutableLiveData(IndicatorInput.EMPTY_INDICATOR) }
+    val secondaryInd by lazy { MutableLiveData<IndicatorInput>(IndicatorInput.EMPTY_INDICATOR) }
+    val cond by lazy {MutableLiveData<Cond>(Cond.CROSS_UP) }
 
     // Home Screen
     val selectedItem = mutableStateOf(0)
+
+    // Portfolio Result
+    val symbolWeightingMap = mutableMapOf<String, PortfolioInput>()
+    lateinit var portfolioResult: PortfolioResultSchema
 
     fun reset() {
         start.value = defaultStart
         end.value = defaultEnd
 //        selectToEditStrategy.value = 0
-        inputToSelectStrategy.value = 0
+//        inputToSelectStrategy.value = 0
         symbolStrategyList.clear()
-        addEmptyStrategy()
+        symbolList.clear()
+        strategyList.value = emptyList()
+//        addEmptyStrategy()
         seriesMap.clear()
         metrics.value = listOf()
     }
@@ -65,8 +80,8 @@ class StrategyViewModel: ViewModel() {
 
     fun loadData() {
         seriesMap.clear()
-        symbolStrategyList.forEach { it.symbol.value = it.symbol.value.uppercase() }
-        val symbols = symbolStrategyList.map { it.symbol.value }.toSet()
+        symbolStrategyList.forEach { it.symbol = it.symbol.uppercase() }
+        val symbols = symbolStrategyList.map { it.symbol }.toSet()
 
         symbols.forEach { s ->
             val series = BaseBarSeries(s)
@@ -83,7 +98,7 @@ class StrategyViewModel: ViewModel() {
 
     fun runStrategy() {
         metrics.value = symbolStrategyList.map {
-            val series = seriesMap[it.symbol.value]!!
+            val series = seriesMap[it.symbol]!!
             val strategy = it.strategyInput.toStrategy(series)
             val tradingRecord = BarSeriesManager(series).run(strategy)
             val tradingStatement = TradingStatementGenerator().generate(strategy, tradingRecord, series)
@@ -107,7 +122,7 @@ class StrategyViewModel: ViewModel() {
     }
 
     fun symbolStrategyStringList(): List<String> {
-        return symbolStrategyList.map { "${it.symbol.value}, ${it.strategyInput.strategyName}" }
+        return symbolStrategyList.map { "${it.symbol}, ${it.strategyInput.strategyName}" }
     }
 
     fun setDateRange(year: Int) {
@@ -119,20 +134,39 @@ class StrategyViewModel: ViewModel() {
     }
 
     fun addEmptyStrategy() {
-        symbolStrategyList.add(BacktestInput(mutableStateOf(""), EMPTY_STRATEGY))
+        symbolStrategyList.add(BacktestInput("", EMPTY_STRATEGY))
     }
 
-    fun addEmptyEntryRule() {
-        val tmp = EMPTY_RULE.copy()
-        customStrategy.value.entryRulesInput.add(tmp)
-        selectedRule.value = tmp
+    fun clearEntryRule() {
+        primaryInd.value = IndicatorInput.EMPTY_INDICATOR
+        secondaryInd.value = IndicatorInput.EMPTY_INDICATOR
+        cond.value = Cond.CROSS_UP
     }
 
-    fun addEmptyExitRule() {
-        val tmp = EMPTY_RULE.copy()
-        customStrategy.value.exitRulesInput.add(tmp)
-        selectedRule.value = tmp
+    fun copyEntryIndicator(pos: Int) {
+        //todo: review
+        primaryInd.value = customStrategy.value.entryRulesInput[pos].indInput1
+        secondaryInd.value = customStrategy.value.entryRulesInput[pos].indInput2
+        cond.value = customStrategy.value.entryRulesInput[pos].condName
     }
+
+    fun copyExitIndicator(pos: Int) {
+        //todo: review
+        primaryInd.value = customStrategy.value.exitRulesInput[pos].indInput1
+        secondaryInd.value = customStrategy.value.exitRulesInput[pos].indInput2
+        cond.value = customStrategy.value.exitRulesInput[pos].condName
+    }
+//    fun addEmptyEntryRule() {
+//        val tmp = EMPTY_RULE.copy()
+//        customStrategy.value.entryRulesInput.add(tmp)
+//        selectedRule.value = tmp
+//    }
+//
+//    fun addEmptyExitRule() {
+//        val tmp = EMPTY_RULE.copy()
+//        customStrategy.value.exitRulesInput.add(tmp)
+//        selectedRule.value = tmp
+//    }
 
 //    fun updateStrategy() {
 //        entryRules.value = entryRulesInput.map { it.parseRule(series.value) }

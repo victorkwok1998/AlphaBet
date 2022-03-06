@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    style="@style/padding_vertical">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/TextAppearance.MaterialComponents.Headline6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Time Period"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_layout_end_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:hint="End Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/text_layout_start_date"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker_start"
+        app:startIconDrawable="@drawable/ic_baseline_date_range_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_end_date"
+            style="@style/select_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/text_layout_start_date"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:hint="Start Date"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView10"
+        app:startIconDrawable="@drawable/ic_baseline_date_range_24">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/text_start_date"
+            style='@style/select_button'
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Button
+        android:id="@+id/button_1y"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="1 Y"
+        app:layout_constraintStart_toStartOf="@+id/text_layout_start_date"
+        app:layout_constraintTop_toBottomOf="@+id/datePicker_end" />
+
+    <Button
+        android:id="@+id/button_2y"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="2 Y"
+        app:layout_constraintStart_toEndOf="@+id/button_1y"
+        app:layout_constraintTop_toTopOf="@+id/button_1y" />
+
+    <Button
+        android:id="@+id/button_5y"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="5 Y"
+        app:layout_constraintStart_toEndOf="@+id/button_2y"
+        app:layout_constraintTop_toTopOf="@+id/button_1y" />
+
+    <Button
+        android:id="@+id/button_10y"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="10 Y"
+        app:layout_constraintStart_toEndOf="@+id/button_5y"
+        app:layout_constraintTop_toTopOf="@+id/button_1y" />
+
+    <DatePicker
+        android:id="@+id/datePicker_start"
+        style="@style/spinner_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/text_layout_start_date"
+        app:layout_constraintStart_toStartOf="@+id/text_layout_start_date"
+        app:layout_constraintTop_toBottomOf="@+id/text_layout_start_date" />
+
+    <DatePicker
+        android:id="@+id/datePicker_end"
+        style="@style/spinner_date_picker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        tools:visibility="visible"
+        app:layout_constraintEnd_toEndOf="@+id/text_layout_start_date"
+        app:layout_constraintStart_toStartOf="@+id/text_layout_start_date"
+        app:layout_constraintTop_toBottomOf="@+id/text_layout_end_date" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

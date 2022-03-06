@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/home_nav_graph"
+    app:startDestination="@id/myBacktestFragment">
+
+    <fragment
+        android:id="@+id/myBacktestFragment"
+        android:name="com.example.alphabet.MyBacktestFragment"
+        android:label="MyBacktestFragment" />
+    <fragment
+        android:id="@+id/myStrategyFragment"
+        android:name="com.example.alphabet.MyStrategyFragment"
+        android:label="MyStrategyFragment" />
+</navigation>

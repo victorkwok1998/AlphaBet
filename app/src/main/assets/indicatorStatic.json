@@ -1,0 +1,23 @@
+[
+  {"indName": "RSI", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "SMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "EMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "MACD Histogram", "indType": "INDICATOR", "paramName": ["Short Bar Count", "Long Bar Count", "EMA Bar Count"]},
+  {"indName": "MACD Line", "indType": "INDICATOR", "paramName": ["Short Bar Count", "Long Bar Count"]},
+  {"indName": "Bollinger Band Upper", "indType": "INDICATOR", "paramName": ["Bar Count", "Scaling Factor"]},
+  {"indName": "Bollinger Band Lower", "indType": "INDICATOR", "paramName": ["Bar Count", "Scaling Factor"]},
+  {"indName": "Stochastic Oscillator K", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "Awesome Oscillator", "indType": "INDICATOR", "paramName": ["Bar Count SMA1", "Bar Count SMA2"]},
+  {"indName": "Double EMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "Triple EMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "HMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "LWMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "MMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "WMA", "indType": "INDICATOR", "paramName": ["Bar Count"]},
+  {"indName": "Stop Gain", "indType": "OTHER", "paramName": ["Gain Percentage"]},
+  {"indName": "Stop Loss", "indType": "OTHER", "paramName": ["Loss Percentage"]},
+  {"indName": "Trailing Stop Loss", "indType": "OTHER", "paramName": ["Loss Percentage"]},
+  {"indName": "Buy at Start", "indType": "OTHER", "paramName": []},
+  {"indName": "Sell at End", "indType": "OTHER", "paramName": []}
+
+]

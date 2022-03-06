@@ -6,27 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.EditorInfo
 import android.widget.EditText
+import android.widget.TextView
 import android.widget.Toast
-import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
 import androidx.compose.runtime.*
-import androidx.compose.runtime.snapshots.SnapshotStateList
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.ExperimentalComposeUiApi
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.Fragment
@@ -41,187 +29,239 @@ import java.io.FileNotFoundException
 import java.util.*
 import com.example.alphabet.MyApplication.Companion.sdfLong
 import com.example.alphabet.components.*
-import com.example.alphabet.ui.theme.amber500
-import com.example.alphabet.ui.theme.grayBackground
+import com.example.alphabet.databinding.BacktestStrategyRowBinding
+import com.example.alphabet.databinding.FragmentBacktestInputBinding
+import com.example.alphabet.databinding.InputChipBinding
 import java.net.SocketTimeoutException
 
 //TODO: Recent Backtests
-class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
+class BacktestInputFragment: Fragment() {
     private val viewModel: StrategyViewModel by activityViewModels()
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
     private val symbolStrategyWeight = listOf(0.85f, 0.15f)
+    private var _binding:FragmentBacktestInputBinding? = null
+    private val binding get() = _binding!!
 
-    @ExperimentalComposeUiApi
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-//        _binding = FragmentBacktestInputBinding.inflate(inflater, container, false)
-//
-//        val defaultEnd = Calendar.getInstance().apply {add(Calendar.DATE, -1)}  // yesterday
-//        setDatePicker(binding.endDate, defaultEnd)
-//
-//        val defaultStart = defaultEnd.apply { add(Calendar.YEAR, -1) }  // one year before
-//        setDatePicker(binding.startDate, defaultStart)
-//
-//        binding.strategyText.apply {
-//            setText(viewModel.stratName.value.run {
-//                when {
-//                    this.isEmpty() -> ""
-//                    else -> "$this Strategy"
-//                }
-//            })
-//            setOnClickListener {
-//                viewModel.symbol.value = binding.symbol.text.toString()
-//                val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
-//                findNavController().navigate(action)
+        _binding = FragmentBacktestInputBinding.inflate(inflater, container, false)
+
+        binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
+        binding.topAppBar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.set_time_period -> {
+                    val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToTimePeriodBottomSheetFragment()
+                    findNavController().navigate(action)
+                    true
+                }
+                R.id.confirm_button -> {
+                    // todo: review viewModel.symbolStrategyList
+                    viewModel.symbolStrategyList.clear()
+                    for (symbol in viewModel.symbolList) {
+                        for (strategy in viewModel.strategyList.value!!) {
+                            viewModel.symbolStrategyList.add(BacktestInput(symbol, strategy))
+                        }
+                    }
+                    val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToBacktestResultFragment()
+                    findNavController().navigate(action)
+                    true
+                }
+                else -> false
+            }
+        }
+
+//        binding.dateRangeLayout.apply {
+//            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+//            setContent {
+//                DateRangeCard()
 //            }
 //        }
-//
-//        binding.symbol.setText(viewModel.symbol.value)
-//
-////        val strategyNameList = StrategyName.values().map { requireContext().getString(R.string.strategy_name, it.fullName) }
-//
-////        val adapter = ArrayAdapter(requireContext(), R.layout.strategy_list_item, strategyNameList)
-////        val actv = binding.strategyListDropdown.editText as AutoCompleteTextView
-//
-////        actv.setAdapter(adapter)
-////        selectedStrategyName = StrategyName.values().first()
-////        actv.setText(strategyNameList.first(), false)
-////        setStrategyDes(selectedStrategyName)
-////        actv.setOnItemClickListener { parent, view, position, id ->
-////            selectedStrategyName = StrategyName.values()[position]
-////            setStrategyDes(selectedStrategyName)
-////            binding.backtestButton.visibility = if (selectedStrategyName == StrategyName.CUSTOM) View.GONE else View.VISIBLE
-////        }
-//
-//        binding.backtestButton.setOnClickListener {
-//            processUserInput()
+
+        viewModel.strategyList.observe(viewLifecycleOwner) {
+            if (it.isEmpty()) {
+                binding.emptyRvText.visibility = View.VISIBLE
+            } else {
+                binding.emptyRvText.visibility = View.GONE
+            }
+        }
+        viewModel.strategyList.value?.forEachIndexed { i, v ->
+            val row = BacktestStrategyRowBinding.inflate(inflater, binding.strategyRv, false)
+            row.strategyText.text = v.strategyName
+            row.cancelButton.setOnClickListener {
+                viewModel.strategyList.value = viewModel.strategyList.value?.filterIndexed { index, _ -> index != binding.strategyRv.indexOfChild(row.root) }
+                binding.strategyRv.removeView(row.root)
+            }
+            binding.strategyRv.addView(row.root)
+        }
+        binding.addSymbolButton.setOnClickListener {
+            addSymbol(binding.symbolText)
+        }
+
+        viewModel.symbolList.forEach { addSymbolChip(it) }
+        binding.symbolText.setOnEditorActionListener { textView, i, keyEvent ->
+            if (i == EditorInfo.IME_ACTION_DONE) {
+                addSymbol(textView)
+                true
+            } else {
+                false
+            }
+        }
+        binding.createStrategyButton.setOnClickListener {
+            val action =
+                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment(-1)
+            findNavController().navigate(action)
+        }
+
+        return binding.root
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                MaterialTheme {
+//                    BacktestInputScreen()
+//                }
+//            }
 //        }
-////        binding.advOptsButton.setOnClickListener {
-////            processUserInput(true)
-////        }
-//
-////        return binding.root
-        return ComposeView(requireContext()).apply {
-            setContent {
-                MaterialTheme {
-                    BacktestInputScreen()
+    }
+
+    fun addSymbolChip(symbol: String) {
+        val chip = InputChipBinding.inflate(LayoutInflater.from(requireContext())).chip
+        chip.text = symbol
+        chip.setOnCloseIconClickListener {
+            binding.symbolChipGroup.removeView(chip)
+            viewModel.symbolList.remove(chip.text)
+        }
+        binding.symbolChipGroup.addView(chip)
+    }
+
+    fun addSymbol(textView: TextView) {
+        lifecycleScope.launch {
+            val symbol = textView.text.toString().uppercase()
+            if (isValid(symbol)) {
+                if (symbol in viewModel.symbolList) {
+                    binding.symbolTextLayout.error = "You've already input this symbol"
+                } else {
+                    addSymbolChip(symbol)
+                    viewModel.symbolList.add(symbol)
+                    textView.text = ""
+                    binding.symbolTextLayout.error = null
                 }
+            } else {
+                binding.symbolTextLayout.error = "Invalid symbol"
             }
         }
     }
 
-    @ExperimentalComposeUiApi
-    @Composable
-    fun BacktestInputScreen() {
-        Scaffold(
-            topBar = {
-                        MyTopAppBar(
-                            title = { Text("Create") },
-                            navigationIcon = {
-                                IconButton(onClick = { findNavController().popBackStack() }) {
-                                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                                }
-                            }
-                        )
-                     },
-            content = {
-                Column(
-                    Modifier
-                        .fillMaxSize()
-                        .background(grayBackground)
-                        .verticalScroll(rememberScrollState())
-                ) {
+//    @Composable
+//    fun BacktestInputScreen() {
+//        Scaffold(
+//            topBar = {
+//                        MyTopAppBar(
+//                            title = { Text("Backtest") },
+//                            navigationIcon = {
+//                                IconButton(onClick = { findNavController().popBackStack() }) {
+//                                    Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+//                                }
+//                            }
+//                        )
+//                     },
+//            content = {
+//                Column(
+//                    Modifier
+//                        .fillMaxSize()
+//                        .background(grayBackground)
+//                        .verticalScroll(rememberScrollState())
+//                ) {
+////                    Spacer(modifier = Modifier.height(10.dp))
+//                    SymbolStrategyCard(viewModel.symbolStrategyList) { viewModel.addEmptyStrategy() }
 //                    Spacer(modifier = Modifier.height(10.dp))
-                    SymbolStrategyCard(viewModel.symbolStrategyList) { viewModel.addEmptyStrategy() }
-                    Spacer(modifier = Modifier.height(10.dp))
-                    DateRangeCard()
-                    Button(onClick = {
-                        processUserInput()
-                    },
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .height(70.dp)
-                            .padding(10.dp),
-                        shape = RoundedCornerShape(50)
-                    ) {
-                        Text("BACKTEST")
-                    }
-                }
-            }
-        )
-    }
+//                    DateRangeCard()
+//                    Button(onClick = {
+//                        processUserInput()
+//                    },
+//                        modifier = Modifier
+//                            .fillMaxWidth()
+//                            .height(70.dp)
+//                            .padding(10.dp),
+//                        shape = RoundedCornerShape(50)
+//                    ) {
+//                        Text("BACKTEST")
+//                    }
+//                }
+//            }
+//        )
+//    }
 
-    @ExperimentalComposeUiApi
-    @Composable
-    fun SymbolStrategyCard(
-        symbolStrategyList: SnapshotStateList<BacktestInput>,
-        onAddClick: () -> Unit
-    ) {
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .animateContentSize(
-                    animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
-                ),
-            shape = RoundedCornerShape(20.dp),
-            elevation = 0.dp
-        ) {
-            Column(Modifier.padding(20.dp)) {
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Text(
-                        "Symbol and Strategy",
-                        style = MaterialTheme.typography.h6,
-                        modifier = Modifier.weight(symbolStrategyWeight[0])
-                    )
-                    IconButton(onClick = onAddClick, modifier = Modifier.weight(symbolStrategyWeight[1])) {
-                        Icon(
-                            imageVector = Icons.Default.Add,
-                            contentDescription = "Add symbol and strategy"
-                        )
-                    }
-                }
-                for (i in symbolStrategyList.indices) {
-                    SymbolStrategyRow(index = i)
-                }
-            }
-        }
-    }
 
-    @Composable
-    fun DateRangeCard() {
-        MyCard(modifier = Modifier
-            .fillMaxWidth(),
-        ) {
-            Column(Modifier.padding(20.dp)) {
-                Text("Date Range", style = MaterialTheme.typography.h6)
-                Spacer(modifier = Modifier.height(10.dp))
-                Row(Modifier.fillMaxWidth()) {
-                    Column(
-                        Modifier
-                            .weight(0.5f)
-                            .padding(end = 10.dp)) {
-                        DateTextField(label = "Start Date", cal = viewModel.start)
-                    }
-                    Column(
-                        Modifier
-                            .weight(0.5f)
-                            .padding(start = 10.dp)) {
-                        DateTextField(label = "End Date", cal = viewModel.end)
-                    }
-                }
-                Spacer(modifier = Modifier.height(20.dp))
-                Row {
-                    listOf(1, 2, 5, 10).forEach { year ->
-                        DefaultTimeButton(year = year)
-                        Spacer(modifier = Modifier.width(15.dp))
-                    }
-                }
-            }
-        }
-    }
+//    @Composable
+//    fun SymbolStrategyCard(
+//        symbolStrategyList: SnapshotStateList<BacktestInput>,
+//        onAddClick: () -> Unit
+//    ) {
+//        Card(
+//            modifier = Modifier
+//                .fillMaxWidth()
+//                .animateContentSize(
+//                    animationSpec = tween(easing = LinearOutSlowInEasing, durationMillis = 300)
+//                ),
+//            shape = RoundedCornerShape(20.dp),
+//            elevation = 0.dp
+//        ) {
+//            Column(Modifier.padding(20.dp)) {
+//                Row(verticalAlignment = Alignment.CenterVertically) {
+//                    Text(
+//                        "Symbol and Strategy",
+//                        style = MaterialTheme.typography.h6,
+//                        modifier = Modifier.weight(symbolStrategyWeight[0])
+//                    )
+//                    IconButton(onClick = onAddClick, modifier = Modifier.weight(symbolStrategyWeight[1])) {
+//                        Icon(
+//                            imageVector = Icons.Default.Add,
+//                            contentDescription = "Add symbol and strategy"
+//                        )
+//                    }
+//                }
+//                for (i in symbolStrategyList.indices) {
+//                    SymbolStrategyRow(index = i)
+//                }
+//            }
+//        }
+//    }
+
+//    @Composable
+//    fun DateRangeCard() {
+//        MyCard(modifier = Modifier
+//            .fillMaxWidth(),
+//        ) {
+//            Column(Modifier.padding(20.dp)) {
+//                Text("Date Range", style = MaterialTheme.typography.h6)
+//                Spacer(modifier = Modifier.height(10.dp))
+//                Row(Modifier.fillMaxWidth()) {
+//                    Column(
+//                        Modifier
+//                            .weight(0.5f)
+//                            .padding(end = 10.dp)) {
+//                        DateTextField(label = "Start Date", cal = viewModel.start)
+//                    }
+//                    Column(
+//                        Modifier
+//                            .weight(0.5f)
+//                            .padding(start = 10.dp)) {
+//                        DateTextField(label = "End Date", cal = viewModel.end)
+//                    }
+//                }
+//                Spacer(modifier = Modifier.height(20.dp))
+//                Row {
+//                    listOf(1, 2, 5, 10).forEach { year ->
+//                        DefaultTimeButton(year = year)
+//                        Spacer(modifier = Modifier.width(15.dp))
+//                    }
+//                }
+//            }
+//        }
+//    }
 
     @Composable
     fun DefaultTimeButton(year: Int) {
@@ -248,152 +288,151 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
                     contentDescription = "date",
                 )
             },
-            modifier = Modifier
-                .clickable {
-                    val dpd = DatePickerDialog(
-                        requireContext(),
-                        R.style.MySpinnerDatePickerStyle,
-                        { view, mYear, mMonth, mDay ->
-                            cal.value = createCalandar(mYear, mMonth, mDay)
-                        },
-                        year,
-                        month,
-                        day
-                    )
-                    dpd.show()
-                }
+            onClick = {
+                val dpd = DatePickerDialog(
+                    requireContext(),
+                    R.style.MySpinnerDatePickerStyle,
+                    { view, mYear, mMonth, mDay ->
+                        cal.value = createCalendar(mYear, mMonth, mDay)
+                    },
+                    year,
+                    month,
+                    day
+                )
+                dpd.show()
+            }
         )
     }
 
 
-    @ExperimentalComposeUiApi
-    @Composable
-    fun SymbolStrategyRow(index: Int) {
-        val backtestInput = viewModel.symbolStrategyList[index]
-        val symbol = backtestInput.symbol
-        val strategy = backtestInput.strategyInput
-        Row(Modifier.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
-            Column(Modifier.weight(symbolStrategyWeight[0])) {
-                MyTextField(
-                    value = symbol.value,
-                    onValueChange = { symbol.value = it },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_timeline_24),
-                            contentDescription = "Symbol",
-                            tint = Color.LightGray
-                        )
-                    },
-                    trailingIcon = {
-                        if (symbol.value.isNotEmpty()) {
-                            IconButton(onClick = { symbol.value = "" }) {
-                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
-                            }
-                        }
-                    },
-                    label = { Text("Symbol") }
-                )
-//                OutlinedTextField(
+
+//    @Composable
+//    fun SymbolStrategyRow(index: Int) {
+//        val backtestInput = viewModel.symbolStrategyList[index]
+//        val symbol = backtestInput.symbol
+//        val strategy = backtestInput.strategyInput
+//        Row(Modifier.padding(vertical = 10.dp), verticalAlignment = Alignment.CenterVertically) {
+//            Column(Modifier.weight(symbolStrategyWeight[0])) {
+//                MyTextField(
 //                    value = symbol.value,
 //                    onValueChange = { symbol.value = it },
-//                    label = { Text("Symbol") },
 //                    leadingIcon = {
 //                        Icon(
 //                            painter = painterResource(id = R.drawable.ic_baseline_timeline_24),
 //                            contentDescription = "Symbol",
+//                            tint = Color.LightGray
 //                        )
 //                    },
-//                    modifier = Modifier.fillMaxWidth()
+//                    trailingIcon = {
+//                        if (symbol.value.isNotEmpty()) {
+//                            IconButton(onClick = { symbol.value = "" }) {
+//                                Icon(imageVector = Icons.Default.Clear, contentDescription = null)
+//                            }
+//                        }
+//                    },
+//                    label = { Text("Symbol") }
 //                )
-                // hint text
-                Text(
-                    "e.g., TSLA, BRK-B, BTC-USD, 2800.HK",
-                    modifier = Modifier.padding(start = 5.dp),
-                    style = MaterialTheme.typography.caption,
-                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
-                )
-                Spacer(modifier = Modifier.height(10.dp))
-                ClickableTextField(
-                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
-                    label = if(strategy.isEmpty()) null else {{Text("Strategy")}},
-                    placeholder = { Text("Select a Strategy") },
-                    leadingIcon = {
-                        Icon(
-                            painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
-                            contentDescription = "Strategy",
-                            tint = if(strategy.isEmpty()) Color.LightGray else amber500
-                        )
-                    },
-                    trailingIcon = {
-                        if(!strategy.isEmpty()){
-                            IconButton(onClick = {
-                                viewModel.inputToSelectStrategy.value = index
-                                val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToEditStrategyFragment()
-                                findNavController().navigate(action)
-                            }) {
-                                Icon(
-                                    imageVector = Icons.Default.Settings,
-                                    contentDescription = null,
-                                    tint = Color.LightGray
-                                )
-                            }
-                        } else {
-                            Icon(
-                                imageVector = Icons.Default.KeyboardArrowRight,
-                                contentDescription = null,
-                                tint = Color.LightGray
-                            )
-                        }
-                    },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable {
-                            viewModel.inputToSelectStrategy.value = index
-                            val action =
-                                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
-                            findNavController().navigate(action)
-                        },
-                )
-//                ClickableOutlinedTextField(
+////                OutlinedTextField(
+////                    value = symbol.value,
+////                    onValueChange = { symbol.value = it },
+////                    label = { Text("Symbol") },
+////                    leadingIcon = {
+////                        Icon(
+////                            painter = painterResource(id = R.drawable.ic_baseline_timeline_24),
+////                            contentDescription = "Symbol",
+////                        )
+////                    },
+////                    modifier = Modifier.fillMaxWidth()
+////                )
+//                // hint text
+//                Text(
+//                    "e.g., TSLA, BRK-B, BTC-USD, 2800.HK",
+//                    modifier = Modifier.padding(start = 5.dp),
+//                    style = MaterialTheme.typography.caption,
+//                    color = MaterialTheme.colors.onSurface.copy(alpha = ContentAlpha.medium)
+//                )
+//                Spacer(modifier = Modifier.height(10.dp))
+//                ClickableTextField(
 //                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
-//                    onValueChange = {  },
-//                    label = { Text("Strategy") },
+//                    label = if(strategy.isEmpty()) null else {{Text("Strategy")}},
 //                    placeholder = { Text("Select a Strategy") },
 //                    leadingIcon = {
 //                        Icon(
 //                            painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
 //                            contentDescription = "Strategy",
+//                            tint = if(strategy.isEmpty()) Color.LightGray else amber500
 //                        )
 //                    },
-//                    modifier = Modifier
-//                        .fillMaxWidth()
-//                        .clickable {
-//                            viewModel.inputToSelectStrategy.value = index
-//                            val action =
-//                                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
-//                            findNavController().navigate(action)
+//                    trailingIcon = {
+//                        if(!strategy.isEmpty()){
+//                            IconButton(onClick = {
+//                                viewModel.inputToSelectStrategy.value = index
+//                                val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToEditStrategyFragment()
+//                                findNavController().navigate(action)
+//                            }) {
+//                                Icon(
+//                                    imageVector = Icons.Default.Settings,
+//                                    contentDescription = null,
+//                                    tint = Color.LightGray
+//                                )
+//                            }
+//                        } else {
+//                            Icon(
+//                                imageVector = Icons.Default.KeyboardArrowRight,
+//                                contentDescription = null,
+//                                tint = Color.LightGray
+//                            )
 //                        }
+//                    },
+//                    modifier = Modifier
+//                        .fillMaxWidth(),
+//                    onClick = {
+////                        viewModel.inputToSelectStrategy.value = index
+//                        val action =
+//                            BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment(index)
+//                        findNavController().navigate(action)
+//                    }
 //                )
-            }
-            if (viewModel.symbolStrategyList.size > 1) {
-                IconButton(
-                    onClick = {
-                        viewModel.symbolStrategyList.removeAt(index)
-                    },
-                    modifier = Modifier.weight(symbolStrategyWeight[1]),
-                ) {
-                    Icon(
-                        painter = painterResource(R.drawable.ic_baseline_cancel_24),
-                        contentDescription = "Cancel",
-                        tint = Color.Gray
-                    )
-                }
-            }
-            else {
-                Spacer(modifier = Modifier.weight(symbolStrategyWeight[1]))
-            }
-        }
-    }
+////                ClickableOutlinedTextField(
+////                    value = if(strategy.isEmpty()) "" else strategy.strategyName,
+////                    onValueChange = {  },
+////                    label = { Text("Strategy") },
+////                    placeholder = { Text("Select a Strategy") },
+////                    leadingIcon = {
+////                        Icon(
+////                            painter = painterResource(id = R.drawable.ic_baseline_emoji_objects_24),
+////                            contentDescription = "Strategy",
+////                        )
+////                    },
+////                    modifier = Modifier
+////                        .fillMaxWidth()
+////                        .clickable {
+////                            viewModel.inputToSelectStrategy.value = index
+////                            val action =
+////                                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment()
+////                            findNavController().navigate(action)
+////                        }
+////                )
+//            }
+//            if (viewModel.symbolStrategyList.size > 1) {
+//                IconButton(
+//                    onClick = {
+//                        viewModel.symbolStrategyList.removeAt(index)
+//                    },
+//                    modifier = Modifier.weight(symbolStrategyWeight[1]),
+//                ) {
+//                    Icon(
+//                        painter = painterResource(R.drawable.ic_baseline_cancel_24),
+//                        contentDescription = "Cancel",
+//                        tint = Color.Gray
+//                    )
+//                }
+//            }
+//            else {
+//                Spacer(modifier = Modifier.weight(symbolStrategyWeight[1]))
+//            }
+//        }
+//    }
     
 
     private fun setDatePicker(editText: EditText, c: Calendar) {
@@ -407,7 +446,7 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
 
         editText.setOnClickListener {
             val dpd = DatePickerDialog(requireContext(), R.style.MySpinnerDatePickerStyle, { view, mYear, mMonth, mDay ->
-                val cal = createCalandar(mYear, mMonth, mDay)
+                val cal = createCalendar(mYear, mMonth, mDay)
                 editText.setText(sdfLong.format(cal.time))
             }, year, month, day)
             dpd.show()
@@ -416,13 +455,12 @@ class BacktestInputFragment: Fragment(R.layout.fragment_backtest_input) {
 
     private fun processUserInput() {
         lifecycleScope.launch {
-            val symbols = viewModel.symbolStrategyList.map { it.symbol.value }.toSet()
+            val symbols = viewModel.symbolStrategyList.map { it.symbol }.toSet()
             val isValid = symbols.map { it to false }.toMap().toMutableMap()
             for (symbol in symbols) {
                 try {
                     withContext(Dispatchers.IO) {
                         YahooFinance.get(symbol)
-                        isValid[symbol] = true
                     }
                 } catch (e: FileNotFoundException) {
                     Log.e("YahooFinance", "Failed to get stock $symbol")

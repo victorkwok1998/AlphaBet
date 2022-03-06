@@ -1,49 +1,62 @@
 package com.example.alphabet
 
+import android.app.DatePickerDialog
 import android.content.Context
-import android.view.ActionMode
 import android.view.LayoutInflater
-import android.view.MenuItem
-import android.widget.*
-import androidx.recyclerview.widget.LinearLayoutManager
+import android.view.View
+import android.widget.DatePicker
+import android.widget.TextView
+import androidx.fragment.app.FragmentManager
+import com.example.alphabet.MyApplication.Companion.pct
 import com.example.alphabet.MyApplication.Companion.sdfISO
-import com.example.alphabet.databinding.CreateStrategyBinding
-import com.example.alphabet.databinding.FragmentCreateRuleBinding
-import com.example.alphabet.databinding.IndicatorParamBinding
-import com.example.alphabet.databinding.SelectIndicatorBinding
-import com.google.android.material.card.MaterialCardView
-import com.google.android.material.textfield.TextInputLayout
+import com.example.alphabet.MyApplication.Companion.sdfLong
+import com.example.alphabet.databinding.DialogTimePeriodBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import org.jetbrains.kotlinx.dataframe.math.mean
+import org.nield.kotlinstatistics.standardDeviation
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.Rule
 import org.ta4j.core.TradingRecord
 import org.ta4j.core.analysis.CashFlow
 import org.ta4j.core.rules.BooleanRule
+import yahoofinance.YahooFinance
+import yahoofinance.histquotes.HistoricalQuote
+import yahoofinance.histquotes.Interval
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
+import java.io.Serializable
 import java.util.*
+import kotlin.math.sqrt
 
 
-
-fun setStratList(context: Context?, createStrategyBinding: CreateStrategyBinding, adapter: StrategyAdapter) {
-    createStrategyBinding.stratList.run {
-        this.layoutManager = LinearLayoutManager(context)
-        this.adapter = adapter
-        this.setHasFixedSize(true)
-    }
+fun parameterDialog(
+    indicatorInput: IndicatorInput,
+    primSec: Serializable?,
+    childFragmentManager: FragmentManager,
+    isPopBackStack: Boolean = true,
+) {
+    ParameterDialogFragment.newInstance(indicatorInput, primSec, isPopBackStack)
+        .show(
+            childFragmentManager,
+            ParameterDialogFragment.TAG
+        )
 }
 
-fun setParamInput(layout: LinearLayout, indParamList: List<Int>?, paramNameList: List<String>, layoutInflater: LayoutInflater) {
-    layout.removeAllViews()
-    paramNameList.forEachIndexed { i, v ->
-        IndicatorParamBinding.inflate(layoutInflater, layout, false).apply {
-            this.paramValueText.hint = v
-            // fill param list if not null
-            indParamList?.let { this.paramValueText.editText?.setText(it[i].toString()) }
-            layout.addView(this.root)
-        }
-    }
-}
+//fun setParamInput(layout: LinearLayout, indParamList: List<Int>?, paramNameList: List<String>, layoutInflater: LayoutInflater) {
+//    layout.removeAllViews()
+//    paramNameList.forEachIndexed { i, v ->
+//        IndicatorParamBinding.inflate(layoutInflater, layout, false).apply {
+//            this.paramValueText.hint = v
+//            // fill param list if not null
+//            indParamList?.let { this.paramValueText.editText?.setText(it[i].toString()) }
+//            layout.addView(this.root)
+//        }
+//    }
+//}
 
 fun aggRule(indRules: List<Rule>, nonIndRules: List<Rule>): Rule {
     return when {
@@ -61,7 +74,7 @@ fun getCashFlow(series: BaseBarSeries, tradingRecord: TradingRecord): List<Float
     return List(cashFlow.size) {i ->  cashFlow.getValue(i).floatValue()}
 }
 
-fun createCalandar(year: Int, month: Int, date: Int): Calendar {
+fun createCalendar(year: Int, month: Int, date: Int): Calendar {
     return Calendar.getInstance().also { it.set(year, month, date) }
 }
 
@@ -97,4 +110,47 @@ fun Context.copyFromAsset(fileName: String) {
             }
         }
     }
+}
+
+fun isoToDisplay(dateString: String): String {
+    return dateString
+        .run { MyApplication.sdfISO.parse(this) }
+        .run { MyApplication.sdfShort.format(this!!) }
+}
+
+fun datePickerDialog(context: Context, defaultDate: Calendar, onDateSet: (Calendar) -> Unit) {
+    val year = defaultDate.get(Calendar.YEAR)
+    val month = defaultDate.get(Calendar.MONTH)
+    val day = defaultDate.get(Calendar.DAY_OF_MONTH)
+
+    val dpd = DatePickerDialog(
+        context,
+        R.style.MySpinnerDatePickerStyle,
+        { view, mYear, mMonth, mDay ->
+            onDateSet(createCalendar(mYear, mMonth, mDay))
+        },
+        year,
+        month,
+        day
+    )
+    dpd.show()
+}
+
+fun switchVisibility(v: View) {
+    if (v.visibility == View.VISIBLE)
+        v.visibility = View.GONE
+    else
+        v.visibility = View.VISIBLE
+}
+
+fun sharpeRatio(portRet: List<Float>): Float {
+    return (portRet.mean() / portRet.standardDeviation() * sqrt(252.0)).toFloat()
+}
+
+fun setReturnText(context: Context, tv: TextView, ret: Float, formatter: (Float) -> String) {
+    tv.text = formatter(ret)
+    if (ret > 0)
+        tv.setTextColor(context.getColor(R.color.green))
+    else
+        tv.setTextColor(context.getColor(R.color.red))
 }

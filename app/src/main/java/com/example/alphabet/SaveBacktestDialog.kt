@@ -7,8 +7,12 @@ import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.navGraphViewModels
 import com.example.alphabet.MyApplication.Companion.sdfISO
+//import com.example.alphabet.database.BacktestResultCashFlowSchema
+import com.example.alphabet.database.BacktestResultSchema
+import com.example.alphabet.database.DatabaseViewModel
 import kotlinx.serialization.json.Json
 import java.io.File
 import java.util.*
@@ -18,8 +22,11 @@ import kotlinx.serialization.encodeToString
 class SaveBacktestDialog: DialogFragment() {
     private val viewModel: StrategyViewModel by activityViewModels()
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
+    private lateinit var databaseViewModel: DatabaseViewModel
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+        databaseViewModel = ViewModelProvider(this).get(DatabaseViewModel::class.java)
+
         return requireActivity().let {
             val selectedItems = ArrayList<Int>()
             val builder = AlertDialog.Builder(it)
@@ -45,7 +52,7 @@ class SaveBacktestDialog: DialogFragment() {
                     selectedItems.forEach { i ->
 //                        val strategyId = viewModel.symbolStrategyList[i].second.value
                         val strategyInput = viewModel.symbolStrategyList[i].strategyInput
-                        val symbol = viewModel.symbolStrategyList[i].symbol.value
+                        val symbol = viewModel.symbolStrategyList[i].symbol
                         val series = viewModel.seriesMap[symbol]!!
 
                         val date = List(series.barCount) { j ->
@@ -54,6 +61,8 @@ class SaveBacktestDialog: DialogFragment() {
                         }
                         val tradingRecord = viewModel.metrics.value[i].tradingRecord
                         val cashFlow = getCashFlow(series, tradingRecord)
+
+                        databaseViewModel.addBacktestResult(BacktestResultSchema(0, BacktestResult(symbol, strategyInput, date, cashFlow)))
 
                         staticDataViewModel.myBacktestResults.add(
                             BacktestResult(symbol, strategyInput, date, cashFlow)

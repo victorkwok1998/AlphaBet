@@ -1,6 +1,10 @@
 package com.example.alphabet
 
 import android.content.Context
+import android.graphics.Color
+import android.util.TypedValue
+import androidx.annotation.AttrRes
+import androidx.annotation.ColorInt
 import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
 import com.github.mikephil.charting.charts.*
@@ -16,11 +20,11 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 val plotColors = listOf(
-    R.color.blue,
-    R.color.red,
-    R.color.orange,
-    R.color.green,
-    R.color.purple_200
+    R.color.plotColor1,
+    R.color.plotColor2,
+    R.color.plotColor3,
+    R.color.plotColor4,
+    R.color.plotColor5
 )
 
 fun plotEquityCurveFromCashFlow(
@@ -65,7 +69,7 @@ fun plotEquityCurve(
             lineWidth = 2f
             setDrawCircles(false)
             setDrawValues(false)
-            setColors(intArrayOf(R.color.blue), context)
+            color = context.getColor(R.color.blue)
         }
 
     with (chart) {
@@ -118,8 +122,7 @@ fun plotMultiLineCurve(
                     setDrawCircles(false)
                     fillAlpha = 255
                     setDrawValues(false)
-
-                    setColors(intArrayOf(plotColors[i % plotColors.size]), context)
+                    color = context.getColor(plotColors[i % plotColors.size])
                 }
             dataSets.add(set)
         }
@@ -137,6 +140,7 @@ fun plotMultiLineCurve(
         axisRight.apply {
             setDrawGridLines(false)
             textSize = 13f
+            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
         }
         xAxis.apply {
             setDrawGridLines(false)
@@ -148,6 +152,7 @@ fun plotMultiLineCurve(
             extraBottomOffset = 5f
             spaceMin = 10f
             labelCount = 5
+            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
         }
         description.isEnabled = false
 //        legend.apply {
@@ -282,4 +287,30 @@ fun plotLineScatterChart(
         legend.isEnabled = false
         invalidate()  // plot
     }
+}
+
+fun plotPieChart(pieChart: PieChart, labelToVal: Map<String, Float>, label: String, context: Context) {
+    val pieEntryList = labelToVal.map { PieEntry(it.value, it.key) }
+    val pieDataSet = PieDataSet(pieEntryList, label)
+        .apply {
+            valueTextSize = 12f
+            colors = plotColors.map { context.getColor(it) }
+        }
+
+    val pieData = PieData(pieDataSet)
+    with(pieChart) {
+        data = pieData
+        description = null
+        setHoleColor(Color.TRANSPARENT)
+        legend.textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+        isRotationEnabled = false
+        invalidate()
+    }
+}
+
+@ColorInt
+fun Context.getColorThemeRes(@AttrRes id: Int): Int {
+    val resolvedAttr = TypedValue()
+    this.theme.resolveAttribute(id, resolvedAttr, true)
+    return this.getColor(resolvedAttr.resourceId)
 }

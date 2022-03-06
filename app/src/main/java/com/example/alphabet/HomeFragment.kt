@@ -4,10 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import androidx.compose.animation.animateContentSize
 import androidx.compose.foundation.background
-import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
@@ -15,8 +12,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.outlined.Edit
 import androidx.compose.runtime.*
 import androidx.compose.runtime.snapshots.SnapshotStateList
@@ -24,8 +19,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.pointer.pointerInput
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
@@ -37,17 +30,19 @@ import androidx.compose.ui.unit.sp
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
-import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.components.MyCard
 import com.example.alphabet.components.MyTopAppBar
 import com.example.alphabet.components.SearchBar
 import com.example.alphabet.components.StrategyList
-import com.example.alphabet.ui.theme.MyTheme
+import com.example.alphabet.databinding.FragmentHomeBinding
+import com.example.alphabet.databinding.ModalBottomSheetContentBinding
 import com.example.alphabet.ui.theme.grayBackground
 import com.example.alphabet.ui.theme.green500
 import com.example.alphabet.ui.theme.red500
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -55,26 +50,81 @@ import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import java.io.File
 import kotlinx.serialization.encodeToString
-import java.util.*
 
 // /data/user/0/com.example.alphabet/files/
 
 class HomeFragment: Fragment()  {
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
     private val viewModel: StrategyViewModel by activityViewModels()
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return ComposeView(requireContext()).apply { 
-            setContent {
-                MaterialTheme() {
-                    HomeScreen()
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+        val nestedNavController = (childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment).navController
+
+        lifecycleScope.launch {
+            if (staticDataViewModel.indToParamList.value.isEmpty()) {
+                // Read static data
+                withContext(Dispatchers.IO) {
+                    staticDataViewModel.indicatorStatic.value =
+                        Json.decodeFromString<List<IndicatorStatic>>(getJsonDataFromAsset(requireContext(), "indicatorStatic.json")).sortedBy { it.indName }
+                    staticDataViewModel.indToParamList.value = staticDataViewModel.indicatorStatic.value.map{it.indName to it.paramName}.toMap()
+
+                    staticDataViewModel.radarChartRange.value =
+                        Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
                 }
             }
         }
+
+//        binding.bottomNavigation.setupWithNavController(nestedNavHostFragment.navController)
+        binding.bottomNavigation.setOnItemSelectedListener {
+            if(it.itemId == R.id.create_dialog) {
+                BottomSheetDialog(requireContext()).apply {
+                    val modalSheetBinding = ModalBottomSheetContentBinding.inflate(inflater, container, false)
+                    val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
+                    modalSheetBinding.createBacktest.setOnClickListener {
+                        this.dismiss()
+                        viewModel.reset()
+                        val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment()
+                        navController.navigate(action)
+
+                    }
+                    modalSheetBinding.createStrategy.setOnClickListener {
+                        this.dismiss()
+                        viewModel.resetCustomStrategy()
+                        val action = HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment(isEdit = false)
+                        navController.navigate(action)
+                    }
+                    modalSheetBinding.createPortfolio.setOnClickListener {
+                        this.dismiss()
+                        viewModel.symbolWeightingMap.clear()
+                        val action = HomeFragmentDirections.actionHomeFragmentToPortfolioFragment()
+                        navController.navigate(action)
+                    }
+                    this.setContentView(modalSheetBinding.root)
+                    this.show()
+                }
+                false
+            }
+            else{
+                nestedNavController.navigate(it.itemId)
+                true
+            }
+        }
+
+        return binding.root
+//        return ComposeView(requireContext()).apply {
+//            setContent {
+//                MaterialTheme() {
+//                    HomeScreen()
+//                }
+//            }
+//        }
     }
 
     private fun isoToDisplay(dateString: String): String {
@@ -92,7 +142,7 @@ class HomeFragment: Fragment()  {
                     // Read static data
                     withContext(Dispatchers.IO) {
                         staticDataViewModel.indToParamList.value =
-                            Json.decodeFromString<Map<String, List<String>>>(getJsonDataFromAsset(requireContext(), "indToParamList.json"))
+                            Json.decodeFromString<Map<String, List<String>>>(getJsonDataFromAsset(requireContext(), "indicatorStatic.json"))
                         staticDataViewModel.defaultStrategy.value =
                             Json.decodeFromString<List<StrategyInput>>(getJsonDataFromAsset(requireContext(), "defaultStrategy.json"))
                                 .sortedBy { it.strategyName }
@@ -173,8 +223,7 @@ class HomeFragment: Fragment()  {
                         ) },
                         onClick = {
                             viewModel.resetCustomStrategy()
-                            viewModel.isEdit.value = false
-                            val action =  HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment()
+                            val action =  HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment(false)
                             findNavController().navigate(action)
                         })
                 }
@@ -244,8 +293,7 @@ class HomeFragment: Fragment()  {
                         strategies = strategies,
                         onOptionSelected = {
                             viewModel.customStrategy.value = it.toCustomStrategyInput()
-                            viewModel.isEdit.value = true
-                            val action = HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment()
+                            val action = HomeFragmentDirections.actionHomeFragmentToCreateStrategyFragment(true)
                             findNavController().navigate(action)
                         }
                     )
@@ -297,7 +345,7 @@ class HomeFragment: Fragment()  {
                                             start.value =
                                                 stringToCalendar(backtestResult.date.first())
                                             end.value = stringToCalendar(backtestResult.date.last())
-                                            symbolStrategyList[0].symbol.value =
+                                            symbolStrategyList[0].symbol =
                                                 backtestResult.symbol
                                             symbolStrategyList[0].strategyInput =
                                                 backtestResult.strategyInput

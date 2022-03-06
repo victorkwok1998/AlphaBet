@@ -69,6 +69,7 @@ fun StrategyRow(strategyInput: StrategyInput) {
                     bottom = if (isExpanded) 20.dp else 0.dp,
                     end = 20.dp
                 ),
+                color = MaterialTheme.colors.onBackground.copy(alpha=ContentAlpha.medium)
             )
         }
         IconButton(

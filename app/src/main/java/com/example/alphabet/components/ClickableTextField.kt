@@ -1,5 +1,6 @@
 package com.example.alphabet.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
@@ -7,6 +8,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,6 +24,7 @@ fun ClickableTextField(
     placeholder: @Composable (() -> Unit)? = null,
     leadingIcon: @Composable (() -> Unit)? = null,
     trailingIcon: @Composable (() -> Unit)? = null,
+    onClick: () -> Unit = {}
 ) {
     TextField(
         value = value,
@@ -29,7 +32,9 @@ fun ClickableTextField(
         label = label,
         leadingIcon = leadingIcon,
         trailingIcon = trailingIcon,
-        modifier = modifier,
+        modifier = modifier
+            .clip(RoundedCornerShape(20.dp))
+            .clickable { onClick() },
         placeholder = placeholder,
         shape = RoundedCornerShape(20.dp),
         enabled = false,
