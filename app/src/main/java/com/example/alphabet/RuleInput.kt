@@ -1,17 +1,21 @@
 package com.example.alphabet
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.Rule
-import kotlinx.serialization.*
-import org.ta4j.core.indicators.helpers.*
+import org.ta4j.core.indicators.helpers.ClosePriceIndicator
+import org.ta4j.core.indicators.helpers.ConstantIndicator
 import org.ta4j.core.rules.*
 
+@Parcelize
 @Serializable
 class RuleInput(
     val indInput1: IndicatorInput,
     val indInput2: IndicatorInput,
     var condName: Cond
-) {
+) : Parcelable {
     fun parseRule(series: BaseBarSeries): Rule {
         val close = ClosePriceIndicator(series)
         if (indInput1.indType == IndType.OTHER) {
@@ -45,18 +49,23 @@ class RuleInput(
         }
     }
 
+    fun isValid(): Boolean {
+        if (indInput1.indName.isEmpty()) {
+            return false
+        }
+        return true
+    }
+
     override fun toString(): String {
-        val paramString1 = if (indInput1.indParamList.isNotEmpty()) indInput1.indParamList.joinToString(prefix = "(", postfix = ")") else ""
         if (indInput1.indType == IndType.OTHER)
-            return "${indInput1.indName}${paramString1}"
-        val paramString2 = if (indInput2.indParamList.isNotEmpty()) indInput2.indParamList.joinToString(prefix = "(", postfix = ")") else ""
+            return indInput1.toString()
         val condNameString = when (condName) {
             Cond.CROSS_UP -> "cross up"
             Cond.CROSS_DOWN -> "cross down"
             Cond.OVER -> "is over"
             Cond.UNDER -> "is under"
         }
-        return "${indInput1.indName}${paramString1} $condNameString ${indInput2.indName}${paramString2}"
+        return "$indInput1 $condNameString $indInput2"
     }
 
     fun copy(
@@ -64,4 +73,12 @@ class RuleInput(
         indInput2: IndicatorInput = this.indInput2.copy(),
         condName: Cond = this.condName
     ) = RuleInput(indInput1, indInput2, condName)
+
+    companion object {
+        fun getEmptyRule() = RuleInput(
+            IndicatorInput.getEmptyIndicator(),
+            IndicatorInput.getEmptyIndicator(),
+            Cond.CROSS_UP
+        )
+    }
 }

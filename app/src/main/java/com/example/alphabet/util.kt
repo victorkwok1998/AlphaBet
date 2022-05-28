@@ -1,50 +1,45 @@
 package com.example.alphabet
 
+import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.DatePicker
+import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
-import androidx.fragment.app.FragmentManager
-import com.example.alphabet.MyApplication.Companion.pct
+import androidx.fragment.app.Fragment
 import com.example.alphabet.MyApplication.Companion.sdfISO
-import com.example.alphabet.MyApplication.Companion.sdfLong
-import com.example.alphabet.databinding.DialogTimePeriodBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.textfield.TextInputEditText
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
+import com.example.alphabet.database.DatabaseViewModel
+import com.google.android.material.chip.ChipGroup
 import org.jetbrains.kotlinx.dataframe.math.mean
 import org.nield.kotlinstatistics.standardDeviation
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.Rule
+import org.ta4j.core.Trade
 import org.ta4j.core.TradingRecord
 import org.ta4j.core.analysis.CashFlow
 import org.ta4j.core.rules.BooleanRule
-import yahoofinance.YahooFinance
-import yahoofinance.histquotes.HistoricalQuote
-import yahoofinance.histquotes.Interval
 import java.io.File
 import java.io.FileInputStream
 import java.io.IOException
-import java.io.Serializable
+import java.time.ZoneId
+import java.time.ZonedDateTime
 import java.util.*
+import kotlin.math.max
 import kotlin.math.sqrt
 
 
-fun parameterDialog(
-    indicatorInput: IndicatorInput,
-    primSec: Serializable?,
-    childFragmentManager: FragmentManager,
-    isPopBackStack: Boolean = true,
-) {
-    ParameterDialogFragment.newInstance(indicatorInput, primSec, isPopBackStack)
-        .show(
-            childFragmentManager,
-            ParameterDialogFragment.TAG
-        )
-}
+//fun parameterDialog(
+//    indicatorInput: IndicatorInput,
+//    primSec: Serializable?,
+//    childFragmentManager: FragmentManager,
+//    isPopBackStack: Boolean = true,
+//) {
+//    ParameterDialogFragment.newInstance(indicatorInput, primSec, isPopBackStack)
+//        .show(
+//            childFragmentManager,
+//            ParameterDialogFragment.TAG
+//        )
+//}
 
 //fun setParamInput(layout: LinearLayout, indParamList: List<Int>?, paramNameList: List<String>, layoutInflater: LayoutInflater) {
 //    layout.removeAllViews()
@@ -78,9 +73,19 @@ fun createCalendar(year: Int, month: Int, date: Int): Calendar {
     return Calendar.getInstance().also { it.set(year, month, date) }
 }
 
-fun stringToCalendar(date: String): Calendar {
-    return Calendar.getInstance().apply { time = sdfISO.parse(date)!! }
+fun String.toCalendar(): Calendar {
+    val c = Calendar.getInstance()
+    c.time =  sdfISO.parse(this)!!
+    return c
 }
+
+fun String.toDate(): Date = this.toCalendar().time
+
+fun Calendar.toZonedDateTime(): ZonedDateTime = ZonedDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
+
+fun Trade.toTradeData() = TradeData(this.type, this.index, this.pricePerAsset.floatValue())
+
+fun ZonedDateTime.toDate() = Date.from(this.toInstant())
 
 fun getJsonDataFromAsset(context: Context, fileName: String): String {
     val jsonString: String
@@ -147,10 +152,51 @@ fun sharpeRatio(portRet: List<Float>): Float {
     return (portRet.mean() / portRet.standardDeviation() * sqrt(252.0)).toFloat()
 }
 
+fun maxDrawDown(navList: List<Float>): Float {
+    var cumMax = navList[0]
+    return navList.map { nav ->
+        cumMax = max(nav, cumMax)
+        nav / cumMax - 1
+    }.minOf { it }
+}
+
+fun navToReturn(navList: List<Float>): List<Float> {
+    return (1 until navList.size).map {
+        navList[it] / navList[it-1] - 1
+    }
+}
+
+fun diff(l: List<Float>): List<Float> {
+    return (1 until l.size).map {
+        l[it] - l[it - 1]
+    }
+}
+
 fun setReturnText(context: Context, tv: TextView, ret: Float, formatter: (Float) -> String) {
     tv.text = formatter(ret)
     if (ret > 0)
         tv.setTextColor(context.getColor(R.color.green))
     else
         tv.setTextColor(context.getColor(R.color.red))
+}
+
+fun <E> Iterable<E>.updated(index: Int, elem: E) = mapIndexed { i, existing ->  if (i == index) elem else existing }
+
+fun Fragment.hideKeyboard(): Boolean {
+    return (context?.getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager)
+        .hideSoftInputFromWindow((activity?.currentFocus ?: View(context)).windowToken, 0)
+}
+
+fun setStrategyChipGroupFilter(chipGroup: ChipGroup, db: DatabaseViewModel, adapter: StrategyListAdapter) {
+    chipGroup.setOnCheckedStateChangeListener { group, checkedIds ->
+        val tmp = when (checkedIds[0]) {
+            R.id.all_chip -> db.readAllStrategy.value
+            R.id.momentum_chip -> db.filterStrategyByType("Momentum")
+            R.id.reversal_chip -> db.filterStrategyByType("Reversal")
+            R.id.passive_chip -> db.filterStrategyByType("Passive")
+            R.id.custom_chip -> db.filterStrategyByType("Custom")
+            else -> listOf()
+        }
+        tmp?.let { adapter.updateList(it) }
+    }
 }

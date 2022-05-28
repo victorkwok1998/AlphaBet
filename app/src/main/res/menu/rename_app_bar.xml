@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <item
+        android:id="@+id/delete"
+        android:icon="@drawable/ic_outline_delete_24"
+        android:title="Delete"
+        app:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/rename"
+        android:icon="@drawable/ic_outline_drive_file_rename_outline_24"
+        android:title="Rename"
+        app:showAsAction="ifRoom"/>
+</menu>

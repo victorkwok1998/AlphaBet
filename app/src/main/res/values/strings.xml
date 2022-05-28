@@ -5,8 +5,8 @@
     <string name="end">End Date</string>
     <string name="add_rule_button">Add</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="text_view_entry_strat">Entry Strategy</string>
-    <string name="text_view_exit_strat">Exit Strategy</string>
+    <string name="entry">Entry Rules</string>
+    <string name="exit">Exit Rules</string>
     <string name="crossUp">Cross Up</string>
     <string name="crossDown">Cross Down</string>
     <string name="condition">Condition</string>
@@ -18,8 +18,8 @@
     <string name="trade_table_header_entry_price">Entry Price</string>
     <string name="trade_table_header_exit_price">Exit Price</string>
     <string name="trade_table_header_pnl">PnL</string>
-    <string name="trading_result_progress_loading_data">Loading price data</string>
-    <string name="trading_result_progress_running_strategy">Running strategy</string>
+    <string name="progress_loading_data">Loading price data</string>
+    <string name="progress_running_strategy">Running strategy</string>
     <string name="bar_count">Bar Count</string>
     <string name="equity_curve">Equity Curve</string>
     <string name="trade_table">Trade Table</string>
@@ -39,13 +39,12 @@
     <string name="under">Under</string>
     <string name="strategy_name">%s Strategy</string>
     <string name="date_range">%s - %s</string>
-    <string name="set_fav">Added to Favourite Strategy</string>
     <string name="strategy_des">Buy when:\n%s\n\nSell when:\n%s</string>
     <string-array name="radar_label">
         <item>Return</item>
         <item>Stability</item>
         <item>No. of Trades</item>
-        <item>PnL per Trade</item>
+        <item>Profit Factor</item>
         <item>Win Rate</item>
     </string-array>
     <string name="tab_perf">Performance</string>
@@ -62,5 +61,26 @@
         <item>Price</item>
         <item>Other</item>
     </string-array>
+    <string-array name="backtest_tab_titles">
+        <item>Strategy</item>
+        <item>Portfolio</item>
+    </string-array>
     <string name="helper_text">e.g., TSLA, BRK-B, BTC-USD, 0005.HK</string>
+    <string name="invalid_symbol">Invalid symbol</string>
+    <string name="input_symbol_text">Input securities to backtest</string>
+    <string name="saved">Saved</string>
+    <string name="hedge_text">%1$s $%2$s of %3$s</string>
+    <string name="empty_backtest">No backtest yet</string>
+    <string name="empty_port">No portfolio yet</string>
+    <string name="empty_holding">No holding yet</string>
+    <string name="add_strategy">Add strategy to backtest</string>
+    <string name="indicator_used">Indicators: %1$s</string>
+    <string name="required">Required</string>
+    <string name="rule_count">%d rules</string>
+    <string name="edit">Edit</string>
+    <string name="no_param">No Parameter</string>
+    <string name="equity_curve_title">Hypothetical Growth</string>
+    <string name="cancel">Cancel</string>
+    <string name="failed_to_download_data_error">Failed to download data</string>
+    <string name="duplicate_symbol_error">You have already added this symbol</string>
 </resources>

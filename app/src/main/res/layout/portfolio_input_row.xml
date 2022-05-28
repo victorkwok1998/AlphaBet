@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:paddingHorizontal="16dp"
+    android:paddingVertical="10dp">
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.5"
+        android:orientation="vertical"
+        android:layout_gravity="center_vertical">
+        <TextView
+            android:id="@+id/stock_name_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/StockText"
+            tools:text="Apple Inc."/>
+        <TextView
+            android:id="@+id/symbol_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="AAPL"
+            android:textColor="@color/gray"
+            style="@style/TextAppearance.Material3.LabelMedium"/>
+    </LinearLayout>
+
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/weighting_text"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:inputType="number"
+        android:textSize="16sp"
+        android:layout_weight="0.42"
+        android:background="@color/secondary_background"
+        android:hint="weighting (%)"
+        android:paddingHorizontal="10dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_gravity="center_vertical" />
+
+
+    <ImageButton
+        android:id="@+id/button_delete_port_row"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_weight="0.08"
+        android:layout_gravity="center_vertical"
+        app:srcCompat="@drawable/ic_baseline_delete_24"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        app:tint="@color/gray" />
+
+</LinearLayout>

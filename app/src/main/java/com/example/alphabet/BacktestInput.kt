@@ -1,8 +1,14 @@
 package com.example.alphabet
 
-import androidx.compose.runtime.MutableState
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-data class BacktestInput(
-    var symbol: String,
-    var strategyInput: StrategyInput
-)
+@Serializable
+@Parcelize
+class BacktestInput(
+    var stock: StockStatic,
+    var strategyInput: StrategyInput,
+): Parcelable {
+    fun getShortName() = "${stock.symbol}, ${strategyInput.strategyName}"
+}

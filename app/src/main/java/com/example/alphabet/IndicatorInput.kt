@@ -48,6 +48,7 @@ class IndicatorInput(
             else -> throw IllegalArgumentException("Cannot find $indName Indicator")
         }
     }
+
     fun copy(
         indType: IndType = this.indType,
         indName: String = this.indName,
@@ -55,6 +56,14 @@ class IndicatorInput(
     ) = IndicatorInput(indType, indName, indParamList)
 
     companion object{
+        fun getEmptyIndicator(): IndicatorInput {
+            return IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+        }
         val EMPTY_INDICATOR = IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+    }
+
+    override fun toString(): String {
+        val paramString1 = if (indParamList.isNotEmpty()) indParamList.joinToString(prefix = "(", postfix = ")") else ""
+        return "${indName}${paramString1}"
     }
 }

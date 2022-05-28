@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/myBacktestFragment"
-        android:name="com.example.alphabet.MyBacktestFragment"
+        android:name="com.example.alphabet.MyBacktestMainFragment"
         android:label="MyBacktestFragment" />
     <fragment
         android:id="@+id/myStrategyFragment"

@@ -2,15 +2,21 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/button_edit"
+        android:title="Edit"
+        android:icon="@drawable/ic_outline_edit_24"
+        app:showAsAction="ifRoom"
+        />
+    <item
         android:id="@+id/add_to_fav"
         android:title="Favourite"
         android:icon="@drawable/ic_baseline_favorite_border_24"
         app:showAsAction="ifRoom"
         />
-    <item
-        android:id="@+id/to_home"
-        android:title="To Home"
-        android:icon="@drawable/ic_outline_home_24"
-        app:showAsAction="ifRoom"
-        />
+<!--    <item-->
+<!--        android:id="@+id/to_home"-->
+<!--        android:title="To Home"-->
+<!--        android:icon="@drawable/ic_outline_home_24"-->
+<!--        app:showAsAction="ifRoom"-->
+<!--        />-->
 </menu>

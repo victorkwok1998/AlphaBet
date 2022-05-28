@@ -9,7 +9,7 @@
     <TextView
         android:id="@+id/textView"
         android:padding="16dp"
-        style="@style/TextAppearance.MaterialComponents.Headline6"
+        style="@style/TextAppearance.Material3.HeadlineSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Create" />
@@ -24,14 +24,14 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                app:srcCompat="@drawable/ic_baseline_leaderboard_24"
-                app:tint="@color/gray" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_outline_leaderboard_24"
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
                 android:id="@+id/textView2"
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -46,11 +46,11 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_emoji_objects_24"
-                app:tint="@color/gray" />
+                app:srcCompat="@drawable/ic_outline_emoji_objects_24"
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -65,16 +65,35 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_baseline_pie_chart_24"
-                app:tint="@color/gray" />
+                app:srcCompat="@drawable/ic_outline_pie_chart_24"
+                app:tint="?attr/colorOnSurface" />
 
             <TextView
-                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                style="@style/TextAppearance.Material3.BodyLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingHorizontal="20dp"
                 android:text="Portfolio" />
+        </TableRow>
+
+        <TableRow android:padding="16dp"
+            android:id="@+id/create_hedge"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:srcCompat="@drawable/ic_baseline_stacked_line_chart_24"
+                app:tint="?attr/colorOnSurface" />
+
+            <TextView
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingHorizontal="20dp"
+                android:text="Hedge Analysis" />
         </TableRow>
     </TableLayout>
 

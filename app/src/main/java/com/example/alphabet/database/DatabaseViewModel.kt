@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 class DatabaseViewModel(application: Application): AndroidViewModel(application) {
     val readAllBacktestResultData: LiveData<List<BacktestResultSchema>>
     val readAllStrategy: LiveData<List<StrategySchema>>
+    val readAllPortfolioResult: LiveData<List<PortfolioResultSchema>>
     private val repository: BacktestResultRepository
 
     init {
@@ -16,6 +17,7 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         repository = BacktestResultRepository(backtestResultDao)
         readAllBacktestResultData = repository.readAllBacktestResultData
         readAllStrategy = repository.readAllStrategy
+        readAllPortfolioResult = repository.readAllPortfolioResult
     }
 
     fun addBacktestResult(backtestResultSchema: BacktestResultSchema) {
@@ -44,5 +46,33 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         viewModelScope.launch {
             repository.addPortfolioResult(portfolioResultSchema)
         }
+    }
+
+    fun deletePortfolioResult(portfolioResultSchema: PortfolioResultSchema) {
+        viewModelScope.launch {
+            repository.deletePortfolioResult(portfolioResultSchema)
+        }
+    }
+
+    fun updatePortfolioResult(portfolioResultSchema: PortfolioResultSchema) {
+        viewModelScope.launch {
+            repository.updatePortfolioResult(portfolioResultSchema)
+        }
+    }
+
+    fun updateStrategy(strategy: StrategySchema) {
+        viewModelScope.launch {
+            repository.updateStrategy(strategy)
+        }
+    }
+
+    fun deleteStrategy(strategy: StrategySchema) {
+        viewModelScope.launch {
+            repository.deleteStrategy(strategy)
+        }
+    }
+
+    fun filterStrategyByType(type: String): List<StrategySchema>? {
+        return readAllStrategy.value?.filter { it.strategy.strategyType == type }
     }
 }

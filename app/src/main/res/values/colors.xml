@@ -7,6 +7,8 @@
     <color name="teal_700">#FF018786</color>
     <color name="light_blue_200">#81D4FA</color>
     <color name="light_blue_900">#01579B</color>
+    <color name="blue_800">#1565c0</color>
+    <color name="blue_600">#1e88e5</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4CAF50</color>
@@ -14,18 +16,23 @@
     <color name="blue">#2196F3</color>
     <color name="orange">#ff7f0e</color>
     <color name="gray">#808080</color>
-    <color name="c0">#1f78b4</color>
-    <color name="c1">#CC3311</color>
-    <color name="c2">#EE7733</color>
-    <color name="c3">#009988</color>
-    <color name="c4">#9467bd</color>
+<!--    <color name="c0">#1f78b4</color>-->
+<!--    <color name="c1">#CC3311</color>-->
+<!--    <color name="c2">#EE7733</color>-->
+<!--    <color name="c3">#009988</color>-->
+<!--    <color name="c4">#9467bd</color>-->
     <color name="gray_background">#F5F5F5</color>
     <color name="plotColor1">#277da1</color>
     <color name="plotColor2">#E76F51</color>
     <color name="plotColor3">#2A9D8F</color>
     <color name="plotColor4">#F4A261</color>
     <color name="plotColor5">#E9C46A</color>
+    <color name="plotColor6">#43aa8b</color>
+    <color name="plotColor7">#f94144</color>
     <color name="dark_grey">#212121</color>
+    <color name="grey_50">#fafafa</color>
     <color name="grey_300">#e0e0e0</color>
+    <color name="grey_400">#bdbdbd</color>
     <color name="grey_800">#424242</color>
+    <color name="grey_500">#9e9e9e</color>
 </resources>

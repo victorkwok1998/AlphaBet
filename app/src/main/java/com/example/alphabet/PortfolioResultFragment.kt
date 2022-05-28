@@ -5,25 +5,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.example.alphabet.MyApplication.Companion.dec
 import com.example.alphabet.MyApplication.Companion.pct
 import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.database.DatabaseViewModel
 import com.example.alphabet.database.PortfolioResultSchema
+import com.example.alphabet.databinding.DialogSavePortBinding
 import com.example.alphabet.databinding.FragmentPortfolioResultBinding
+import com.example.alphabet.viewmodel.PortfolioViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.jetbrains.kotlinx.dataframe.api.*
 import java.util.*
 
 class PortfolioResultFragment: Fragment() {
-    private val viewModel: StrategyViewModel by activityViewModels()
     private lateinit var databaseViewModel: DatabaseViewModel
+    private val args: PortfolioResultFragmentArgs by navArgs()
+    private var _binding: FragmentPortfolioResultBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,75 +38,69 @@ class PortfolioResultFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         databaseViewModel = ViewModelProvider(this).get(DatabaseViewModel::class.java)
-        val binding = FragmentPortfolioResultBinding.inflate(inflater, container, false)
+        _binding = FragmentPortfolioResultBinding.inflate(inflater, container, false)
+        val portResult = args.portResult
+
         with(binding.topAppBar) {
             setNavigationOnClickListener {
                 findNavController().popBackStack()
             }
+            title = portResult.name
             setOnMenuItemClickListener {
                 when(it.itemId) {
                     R.id.add_to_fav -> {
-                        databaseViewModel.addPortfolioResult(viewModel.portfolioResult)
-                        Toast.makeText(requireContext(), "Portfolio added to favourite", Toast.LENGTH_LONG)
+                        val dialogBinding = DialogSavePortBinding.inflate(inflater, container, false)
+                        MaterialAlertDialogBuilder(requireContext())
+                            .setTitle("Save Portfolio")
+                            .setView(dialogBinding.root)
+                            .setPositiveButton("Save") { _, _ ->
+                                val portName = dialogBinding.textLayoutSavePort.editText!!.text.toString()
+                                if (portName.isEmpty()) {
+                                    dialogBinding.textLayoutSavePort.error = "Please input portfolio name"
+                                } else {
+                                    args.portResult.apply {
+                                        this.name = portName
+                                        databaseViewModel.addPortfolioResult(this)
+                                        title = portName
+                                        Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_LONG).show()
+                                    }
+                                }
+                            }
+                            .setNegativeButton("Cancel", null)
+                            .show()
+                        true
+                    }
+                    R.id.button_edit -> {
+                        val action = PortfolioResultFragmentDirections.actionPortfolioResultFragmentToNavGraphPort(portResult)
+                        findNavController().navigate(action)
                         true
                     }
                     else -> false
                 }
             }
         }
-
-        lifecycleScope.launch {
-            binding.progressBar.visibility = View.VISIBLE
-            binding.portfolioResultContent.visibility = View.GONE
-            binding.topAppBar.visibility = View.GONE
-            val df = getClosePrice(
-                viewModel.symbolWeightingMap.keys.toList(),
-                viewModel.start.value!!,
-                viewModel.end.value!!)
-            if(df != null) {
-                val dates = df["date"].toList().map { (it as Calendar).time }
-                val symbolWeightingMapFloat = viewModel.symbolWeightingMap.mapValues { it.value.weight.toFloat() }
-                val navList = df.update { dfsOf<Float>() }
-                    .perRowCol { row, col ->
-                        df[col][row.index()] / df[col][0] * symbolWeightingMapFloat[col.name()]!!
-                    }
-                    .remove("date")
-                    .add("portRet") { rowSum() } ["portRet"]
-                    .toList()
-                    .map { it as Float }
-                val totalRet = navList.last() / navList.first() - 1
-                val portRetList = (1 until navList.size).map {
-                    navList[it] / navList[it-1] - 1
-                }
-                val sr = sharpeRatio(portRetList)
-                setReturnText(requireContext(), binding.textTotalReturn, totalRet) { pct.format(it) }
-                setReturnText(requireContext(), binding.textSharpeRatio, sr) { dec.format(it) }
-
-                plotMultiLineCurve(binding.lineChart, dates, listOf(navList), listOf("Portfolio Return"), listOf(true), requireContext())
-                plotPieChart(binding.pieChart, symbolWeightingMapFloat, "Portfolio Breakdown", requireContext())
-
-                viewModel.portfolioResult = PortfolioResultSchema(
-                    id = 0,
-                    portfolioInputList = viewModel.symbolWeightingMap.values.toList(),
-                    date = dates.map { sdfISO.format(it) },
-                    nav = navList
-                )
-            } else {
-                MaterialAlertDialogBuilder(requireContext())
-                    .setTitle("Failed to get data")
-                    .setPositiveButton("OK") { dialog, which ->
-                        findNavController().popBackStack()
-                    }
-                    .setOnDismissListener {
-                        findNavController().popBackStack()
-                    }
-                    .show()
-            }
-            binding.progressBar.visibility = View.GONE
-            binding.portfolioResultContent.visibility = View.VISIBLE
-            binding.topAppBar.visibility = View.VISIBLE
-        }
+        generateReport(portResult)
 
         return binding.root
+    }
+    private fun generateReport(portResult: PortfolioResultSchema) {
+        val navList = portResult.nav
+        val dates = portResult.date.map { it.toDate() }
+        val totalRet = navList.last() / navList.first() - 1
+        val portRetList = navToReturn(navList)
+        val sr = sharpeRatio(portRetList)
+        val mdd = maxDrawDown(navList)
+        setReturnText(requireContext(), binding.textTotalReturn, totalRet) { pct.format(it) }
+        setReturnText(requireContext(), binding.textSharpeRatio, sr) { dec.format(it) }
+        setReturnText(requireContext(), binding.textMdd, mdd) { pct.format(it) }
+
+        plotMultiLineCurve(binding.lineChart, dates, listOf(navList), listOf("Portfolio Return"), listOf(true), requireContext())
+        plotPieChart(
+            context = requireContext(),
+            pieChart = binding.pieChart,
+            labelToVal = portResult.portfolioInputList.associate { it.stock.symbol to it.weight.toFloat() },
+            label = "",
+            touchEnabled = true
+        )
     }
 }

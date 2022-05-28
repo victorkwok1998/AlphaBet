@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:endIconDrawable="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:endIconMode="custom">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_selector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/select_button"/>
+    </com.google.android.material.textfield.TextInputLayout>
+</LinearLayout>

@@ -9,5 +9,7 @@ import kotlinx.serialization.Serializable
 data class IndicatorStatic(
     val indName: String,
     val indType: IndType,
-    val paramName: List<String>
+    val paramName: List<String>,
+    val isExitOnly: Boolean,
+    val indCat: IndCat
 ): Parcelable

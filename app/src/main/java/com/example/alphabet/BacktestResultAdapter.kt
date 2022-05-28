@@ -4,7 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.Button
 
 import android.widget.TextView
 import androidx.core.content.ContextCompat
@@ -22,7 +22,6 @@ class BacktestResultAdapter(
     private val onRerunClicked: (BacktestResultSchema) -> Unit
 ) :
     ListAdapter<BacktestResultSchema, BacktestResultAdapter.BacktestResultViewHolder>(BacktestResultDiffCallback()) {
-//    private var backtestResults = listOf<BacktestResultSchema>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BacktestResultViewHolder {
         val itemView = LayoutInflater.from(parent.context)
@@ -33,8 +32,8 @@ class BacktestResultAdapter(
 
     override fun onBindViewHolder(holder: BacktestResultViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.symbolText.text = currentItem.backtestResult.symbol
-        holder.strategyText.text = currentItem.backtestResult.strategyInput.strategyName
+        holder.symbolText.text = currentItem.backtestResult.backtestInput.stock.symbol
+        holder.strategyText.text = currentItem.backtestResult.backtestInput.strategyInput.strategyName
 
         holder.moreButton.setOnClickListener {
             BottomSheetDialog(context).apply {
@@ -53,7 +52,7 @@ class BacktestResultAdapter(
             }
         }
 
-        val cashFlow = currentItem.backtestResult.cashFlow
+        val cashFlow = currentItem.backtestResult.getCashFlow()
         val date = currentItem.backtestResult.date
         if (cashFlow.isNotEmpty()) {
             holder.dateRangeText.text = "${isoToDisplay(date.first())} - ${isoToDisplay(date.last())}"
@@ -74,7 +73,7 @@ class BacktestResultAdapter(
         val strategyText: TextView = itemView.findViewById(R.id.strategy_name_text)
         val dateRangeText: TextView = itemView.findViewById(R.id.date_range_text)
         val returnText: TextView = itemView.findViewById(R.id.return_text)
-        val moreButton: ImageButton = itemView.findViewById(R.id.backtest_row_more_button)
+        val moreButton: Button = itemView.findViewById(R.id.backtest_row_more_button)
 
         init {
             itemView.setOnClickListener(this)

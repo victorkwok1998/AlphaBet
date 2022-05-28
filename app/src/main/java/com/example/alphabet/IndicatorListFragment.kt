@@ -4,28 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.alphabet.components.IndicatorList
-import com.example.alphabet.components.MyTopAppBar
+import androidx.navigation.navGraphViewModels
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alphabet.databinding.FragmentIndicatorListBinding
-import com.example.alphabet.ui.theme.grayBackground
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.alphabet.viewmodel.IndicatorViewModel
 
-class IndicatorListFragment: Fragment() {
+class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()
-    private val viewModel: StrategyViewModel by activityViewModels()
+    private val viewModel: IndicatorViewModel by navGraphViewModels(R.id.nav_graph_indicator)
     private var _binding: FragmentIndicatorListBinding? = null
     private val binding get() = _binding!!
     private val args: IndicatorListFragmentArgs by navArgs()
@@ -36,34 +27,69 @@ class IndicatorListFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentIndicatorListBinding.inflate(inflater, container, false)
+        viewModel.indicator = args.indicator
 
-        binding.indicatorAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
+        with(binding.indicatorAppBar) {
+            setNavigationOnClickListener { findNavController().popBackStack() }
+            setOnMenuItemClickListener {
+                when(it.itemId) {
+                    R.id.search -> {
 
-        val viewPager = binding.indicatorListViewPager
-        val tabLayout = binding.indicatorListTabLayout
+                        true
+                    }
+                    else -> false
+                }
+            }
+        }
 
-        val indicators = staticDataViewModel.indicatorStatic.value
-            .filter { it.indType == IndType.INDICATOR }
-            .run { ArrayList(this) }
 
-        val otherIndicators = staticDataViewModel.indicatorStatic.value
-            .filter { it.indType == IndType.OTHER }
-            .run { ArrayList(this) }
+//        val viewPager = binding.indicatorListViewPager
+//        val tabLayout = binding.indicatorListTabLayout
+
+        val indicators = staticDataViewModel.indicatorStatic
+//            .filter { it.indType == IndType.INDICATOR }
+
+        val technicalIndicators = indicators.filter { it.indCat == IndCat.TECHNICAL }
+        val priceIndicators = indicators.filter { it.indCat == IndCat.PRICE }
+
+        var otherIndicators = staticDataViewModel.indicatorStatic
+            .filter { it.indCat == IndCat.OTHER }
+
+        if (args.entryExit == EntryExit.ENTRY) {
+            otherIndicators = otherIndicators.filter { !it.isExitOnly }
+        }
+
+        with(binding.rvIndicator) {
+            setIndicatorList(technicalIndicators)
+            layoutManager = LinearLayoutManager(requireContext())
+            setHasFixedSize(true)
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        }
+
+        binding.chipGroupIndicatorType.setOnCheckedStateChangeListener { _, checkedIds ->
+            when(checkedIds[0]) {
+                R.id.chip_technical -> setIndicatorList(technicalIndicators)
+                R.id.chip_price -> setIndicatorList(priceIndicators)
+                R.id.chip_other -> setIndicatorList(otherIndicators)
+                R.id.chip_constant -> setIndicatorList(indicators.filter { it.indCat == IndCat.CONSTANT })
+            }
+        }
         // view pager
-        viewPager.adapter = ViewPagerAdapter(
-            parentFragmentManager,
-            lifecycle,
-            listOf(
-                TechnicalIndicatorListFragment.newInstance(args.primSec, indicators),
-                PriceIndicatorListFragment().apply { arguments = Bundle().apply { putSerializable("primSec", args.primSec) } },
-                TechnicalIndicatorListFragment.newInstance(args.primSec, otherIndicators)
-            )
-        )
-
-        val titles = resources.getStringArray(R.array.indicator_list_tab_titles)
-        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
-            tab.text = titles[position]
-        }.attach()
+//        viewPager.adapter = ViewPagerAdapter(
+//            childFragmentManager,
+//            lifecycle,
+//            listOf(
+//                TechnicalIndicatorListFragment.newInstance(indicators),
+//                PriceIndicatorListFragment(),
+//                    //.apply { arguments = Bundle().apply { putSerializable("primSec", args.primSec) } },
+//                TechnicalIndicatorListFragment.newInstance(otherIndicators)
+//            )
+//        )
+//
+//        val titles = resources.getStringArray(R.array.indicator_list_tab_titles)
+//        TabLayoutMediator(tabLayout, viewPager) { tab, position ->
+//            tab.text = titles[position]
+//        }.attach()
 
         return binding.root
 //        return ComposeView(requireContext()).apply {
@@ -107,31 +133,29 @@ class IndicatorListFragment: Fragment() {
 //            )
 //    }
 
-    @Composable
-    fun IndicatorListScreen(indicators: List<String>, onClick: (Int) -> Unit) {
-        Scaffold(
-            topBar = { MyTopAppBar(
-                title = { Text("Indicators") },
-                navigationIcon = {
-                    IconButton(onClick = { findNavController().popBackStack() }) {
-                        Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
-                    }
-                }
-            ) },
-        ) {
-            Column(
-                Modifier
-                    .background(grayBackground)
-                    .fillMaxSize()
-            ) {
-                IndicatorList(indicators = indicators, onClick = onClick)
+    override fun onItemClick(selectedItem: IndicatorStatic) {
+        if (selectedItem.paramName.isEmpty()) {
+            with(viewModel.indicator) {
+                indName = selectedItem.indName
+                indType = selectedItem.indType
+                indParamList = MutableList(selectedItem.paramName.size) { "" }
             }
+            findNavController().popBackStack()
+        } else {
+            val action =
+                IndicatorListFragmentDirections.actionGlobalParameterDialogFragment(
+                    viewModel.indicator,
+                    IndicatorInput(
+                        selectedItem.indType,
+                        selectedItem.indName,
+                        MutableList(selectedItem.paramName.size) { "" })
+                )
+            findNavController().navigate(action)
         }
     }
-    
-    @Preview
-    @Composable
-    fun PreviewIndicatorListScreen() {
-        IndicatorListScreen(indicators = listOf("RSI", "EMA", "SMA"), onClick = {})
+
+    private fun setIndicatorList(indicators: List<IndicatorStatic>) {
+        val adapter = IndicatorAdapter(indicators, this, requireContext())
+        binding.rvIndicator.adapter = adapter
     }
 }

@@ -1,18 +1,20 @@
 package com.example.alphabet
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.ta4j.core.TradingRecord
 import org.ta4j.core.reports.TradingStatement
 
+@Parcelize
 @Serializable
 data class Metrics(
-    val tradingRecord: TradingRecord,
-    val pnl: Double,
-    val pnlPct: Double,
-    val profitCount: Double,
-    val lossCount: Double,
-    val nTrade: Double,
-    val winRate: Double,
-    val mdd: Double,
-    val pnlList: List<Double>
-)
+    val pnl: Float,
+    val pnlPct: Float,
+    val profitCount: Int,
+    val lossCount: Int,
+    val nTrade: Int,
+    val winRate: Float,
+    val mdd: Float,
+    val profitFactor: Float
+): Parcelable

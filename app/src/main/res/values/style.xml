@@ -115,14 +115,18 @@
     <style name="Widget.App.TabLayout" parent="Widget.MaterialComponents.TabLayout">
         <item name="tabIndicatorFullWidth">false</item>
         <item name="tabTextAppearance">@style/CustomTextAppearanceTab</item>
-        <item name="tabBackground">@color/secondary_background</item>
+        <item name="tabBackground">?attr/colorSurface</item>
     </style>
 
-    <style name="SymbolTextField" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+    <style name="SymbolTextField">
         <item name="helperText">@string/helper_text</item>
         <item name="startIconDrawable">@drawable/ic_baseline_trending_up_24</item>
         <item name="android:hint">Symbol</item>
-        <item name="endIconMode">custom</item>
+    </style>
+
+    <style name="symbolEditText" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
+        <item name="android:maxLines">1</item>
+        <item name="android:imeOptions">actionDone</item>
     </style>
 
     <style name="spinner_date_picker">
@@ -130,8 +134,40 @@
         <item name="android:datePickerMode">spinner</item>
     </style>
 
-    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
-        <item name="android:textAppearance">@style/TextAppearance.MaterialComponents.Headline6</item>
+<!--    <style name="MaterialAlertDialog.App.Title.Text" parent="MaterialAlertDialog.MaterialComponents.Title.Text">-->
+<!--        <item name="android:textAppearance">@style/TextAppearance.Material3.TitleLarge</item>-->
+<!--    </style>-->
+
+    <style name="StockText" parent="TextAppearance.Material3.BodyLarge">
+        <item name="android:ellipsize">end</item>
+        <item name="android:maxLines">2</item>
     </style>
+
+    <style name="SubTitle" parent="TextAppearance.Material3.BodyMedium">
+        <item name="android:textColor">@color/gray</item>
+    </style>
+
+    <style name="Widget.App.MaterialDivider" parent="Widget.MaterialComponents.MaterialDivider">
+        <item name="dividerColor">@color/secondary_background</item>
+    </style>
+
+    <style name="DisableLiftOnScroll">
+        <item name="liftOnScroll">false</item>
+        <item name="android:stateListAnimator">@null</item>
+    </style>
+
+    <style name="rounded_corner_text_bg">
+        <item name="android:background">@drawable/rounded_corner_text_bg</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="rounded_corner_text" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:background">@drawable/rounded_corner_text_bg</item>
+        <item name="android:backgroundTint">?attr/colorPrimary</item>
+        <item name="android:paddingHorizontal">5dp</item>
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
 
 </resources>

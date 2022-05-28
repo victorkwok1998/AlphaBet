@@ -4,31 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="horizontal"
-    android:paddingVertical="5dp">
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/param_name_label"
-        style="@style/TextAppearance.MaterialComponents.Subtitle1"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="0.5"
-        android:paddingVertical="8dp"
-        tools:text="Bar Count" />
+<!--    <TextView-->
+<!--        android:id="@+id/param_name_label"-->
+<!--        style="@style/TextAppearance.MaterialComponents.Subtitle1"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="match_parent"-->
+<!--        android:layout_weight="0.5"-->
+<!--        android:paddingVertical="8dp"-->
+<!--        tools:text="Bar Count" />-->
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/param_value_text_layout"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        app:boxBackgroundColor="@null"
         app:errorEnabled="true">
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/param_value_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
-            android:paddingVertical="8dp"
+            tools:hint="Bar Count"
             tools:text="30" />
     </com.google.android.material.textfield.TextInputLayout>
 

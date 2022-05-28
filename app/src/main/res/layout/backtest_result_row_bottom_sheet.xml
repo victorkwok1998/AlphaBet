@@ -12,8 +12,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_delete_24"
-            app:tint="@color/gray" />
+            android:src="@drawable/ic_outline_delete_24"
+            app:tint="?attr/colorOnSurface" />
 
         <TextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -31,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_share_24"
-            app:tint="@color/gray" />
+            app:tint="?attr/colorOnSurface" />
 
         <TextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/ic_baseline_sync_24"
-            app:tint="@color/gray" />
+            app:tint="?attr/colorOnSurface" />
 
         <TextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"
@@ -63,8 +63,8 @@
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_build_24"
-            app:tint="@color/gray" />
+            android:src="@drawable/ic_outline_settings_24"
+            app:tint="?attr/colorOnSurface" />
 
         <TextView
             style="@style/TextAppearance.MaterialComponents.Subtitle1"

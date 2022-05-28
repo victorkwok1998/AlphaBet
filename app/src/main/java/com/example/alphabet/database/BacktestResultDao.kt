@@ -9,24 +9,17 @@ interface BacktestResultDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addBacktestResult(backtestResultSchema: BacktestResultSchema): Long
 
-//    @Insert(onConflict = OnConflictStrategy.REPLACE)
-//    suspend fun addBacktestResultCashFlow(backtestResultCashFlowSchema: List<BacktestResultCashFlowSchema>)
-
     @Delete
     fun deleteBacktestResult(backtestResultSchema: BacktestResultSchema)
-//    @Query("DELETE FROM backtest_result WHERE id = :id")
-//    suspend fun deleteBacktestResult(id: Long)
 
+    @Delete
+    fun deletePortfolioResult(portfolioResultSchema: PortfolioResultSchema)
 
-//    @Query("DELETE FROM backtest_result_cash_flow WHERE backtestResultId = :id")
-//    suspend fun deleteBacktestResultCashFlow(id: Long)
+    @Delete
+    fun deleteStrategy(strategy: StrategySchema)
 
     @Query("SELECT * FROM backtest_result ORDER BY id ASC")
     fun readAllBacktestResultData(): LiveData<List<BacktestResultSchema>>
-
-//    @Transaction
-//    @Query("SELECT * FROM backtest_result")
-//    fun readAllBacktestResultData(): LiveData<List<BacktestResultWithCashFlow>>
 
     @Query("SELECT * FROM strategy WHERE id = :id")
     fun readStrategy(id: Long): LiveData<StrategySchema>
@@ -34,10 +27,19 @@ interface BacktestResultDao {
     @Query("SELECT * FROM strategy ORDER BY strategyName ASC")
     fun readAllStrategy(): LiveData<List<StrategySchema>>
 
+    @Query("SELECT * FROM portfolio_result ORDER BY name ASC")
+    fun readAllPortfolioResult(): LiveData<List<PortfolioResultSchema>>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addStrategy(strategy: StrategySchema)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addPortfolioResult(portfolioResultSchema: PortfolioResultSchema): Long
+
+    @Update
+    fun updatePortfolioResult(portfolioResultSchema: PortfolioResultSchema)
+
+    @Update
+    fun updateStrategy(strategy: StrategySchema)
 
 }

@@ -8,7 +8,7 @@ import androidx.room.TypeConverters
 
 @Database(
     entities = [BacktestResultSchema::class, StrategySchema::class, PortfolioResultSchema::class],
-    version = 3,
+    version = 6,
     exportSchema = true
 )
 @TypeConverters(Converters::class)

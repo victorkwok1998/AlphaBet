@@ -5,165 +5,227 @@
     android:id="@+id/nav_graph"
     app:startDestination="@id/homeFragment">
     <fragment
-        android:id="@+id/editStrategyFragment"
-        android:name="com.example.alphabet.EditStrategyFragment"
-        android:label="EditStrategyFragment" />
-    <fragment
-        android:id="@+id/backtestInputFragment"
-        android:name="com.example.alphabet.BacktestInputFragment"
-        android:label="BacktestInputFragment">
+        android:id="@+id/portfolioResultFragment"
+        android:name="com.example.alphabet.PortfolioResultFragment"
+        android:label="PortfolioResultFragment"
+        tools:layout="@layout/fragment_portfolio_result">
+        <argument
+            android:name="portResult"
+            app:argType="com.example.alphabet.database.PortfolioResultSchema" />
         <action
-            android:id="@+id/action_backtestInputFragment_to_backtestResultFragment"
-            app:destination="@id/backtestResultFragment" />
-        <action
-            android:id="@+id/action_backtestInputFragment_to_selectStrategyFragment"
-            app:destination="@id/selectStrategyFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_backtestInputFragment_to_editStrategyFragment"
-            app:destination="@id/editStrategyFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_backtestInputFragment_to_timePeriodBottomSheetFragment"
-            app:destination="@id/timePeriodBottomSheetFragment" />
+            android:id="@+id/action_portfolioResultFragment_to_nav_graph_port"
+            app:destination="@id/nav_graph_port" >
+            <argument
+                android:name="portResult"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema" />
+        </action>
     </fragment>
-    <action
-        android:id="@+id/action_backtestInputFragment_to_selectStrategyFragment"
-        app:destination="@id/selectStrategyFragment"
-        app:enterAnim="@anim/from_right"
-        app:exitAnim="@anim/to_left"
-        app:popEnterAnim="@anim/from_left"
-        app:popExitAnim="@anim/to_right" />
     <fragment
         android:id="@+id/backtestResultFragment"
         android:name="com.example.alphabet.BacktestResultFragment"
-        android:label="BacktestResultFragment" >
-        <action
-            android:id="@+id/action_backtestResultFragment_to_homeFragment"
-            app:destination="@id/homeFragment"
-            app:popUpTo="@id/nav_graph" />
-    </fragment>
-    <fragment
-        android:id="@+id/selectStrategyFragment"
-        android:name="com.example.alphabet.SelectStrategyFragment"
-        android:label="SelectStrategyFragment">
-        <action
-            android:id="@+id/action_selectStrategyFragment_to_editStrategyFragment"
-            app:destination="@id/editStrategyFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:popUpTo="@id/backtestInputFragment"
-            app:popUpToInclusive="false" />
+        android:label="BacktestResultFragment"
+        tools:layout="@layout/fragment_backtest_result">
         <argument
-            android:name="position"
-            app:argType="integer" />
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+        <action
+            android:id="@+id/action_backtestResultFragment_to_saveBacktestDialog"
+            app:destination="@id/saveBacktestDialog" />
     </fragment>
-    <action
-        android:id="@+id/action_selectStrategyFragment_to_editStrategyFragment"
-        app:destination="@id/editStrategyFragment"
-        app:enterAnim="@anim/from_right"
-        app:exitAnim="@anim/to_left"
-        app:popEnterAnim="@anim/from_left"
-        app:popExitAnim="@anim/to_right" />
-    <action
-        android:id="@+id/action_backtestInputFragment_to_backtestResultFragment"
-        app:destination="@id/backtestResultFragment" />
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.alphabet.HomeFragment"
         android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
+            android:id="@+id/action_homeFragment_to_backtestInputFragment"
+            app:destination="@id/nav_graph_backtest"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentHedgeInput"
+            app:destination="@id/nav_graph_hedge" />
+        <action
+            android:id="@+id/action_homeFragment_to_nav_graph_port"
+            app:destination="@id/nav_graph_port" >
+            <argument
+                android:name="portResult"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </action>
+        <action
+            android:id="@+id/action_homeFragment_to_portfolioResultFragment"
+            app:destination="@id/portfolioResultFragment" />
+        <action
             android:id="@+id/action_homeFragment_to_backtestResultFragment"
             app:destination="@id/backtestResultFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_backtestInputFragment"
-            app:destination="@id/backtestInputFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_createStrategyFragment"
-            app:destination="@id/createStrategyFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_homeFragment_to_portfolioFragment"
-            app:destination="@id/portfolioFragment" />
+            android:id="@+id/action_homeFragment_to_editStrategyFragment"
+            app:destination="@id/editStrategyFragment" />
     </fragment>
-    <fragment
-        android:id="@+id/createStrategyFragment"
-        android:name="com.example.alphabet.CreateStrategyFragment"
-        android:label="CreateStrategyFragment" >
-        <action
-            android:id="@+id/action_createStrategyFragment_to_createRuleFragment"
-            app:destination="@id/createRuleFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <argument
-            android:name="is_edit"
-            app:argType="boolean"
-            android:defaultValue="true" />
-    </fragment>
-    <fragment
-        android:id="@+id/createRuleFragment"
-        android:name="com.example.alphabet.CreateRuleFragment"
-        android:label="CreateRuleFragment">
-        <action
-            android:id="@+id/action_createRuleFragment_to_indicatorListFragment"
-            app:destination="@id/indicatorListFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <argument
-            android:name="position"
-            android:defaultValue="-1"
-            app:argType="integer" />
-        <argument
-            android:name="entry_exit"
-            app:argType="com.example.alphabet.EntryExit" />
-    </fragment>
-    <fragment
-        android:id="@+id/indicatorListFragment"
-        android:name="com.example.alphabet.IndicatorListFragment"
-        android:label="IndicatorListFragment"
-        tools:layout="@layout/fragment_indicator_list">
-        <argument
-            android:name="prim_sec"
-            app:argType="com.example.alphabet.PrimSec"
-            android:defaultValue="PRIMARY" />
-    </fragment>
-    <fragment
-        android:id="@+id/portfolioFragment"
-        android:name="com.example.alphabet.PortfolioFragment"
-        android:label="PortfolioFragment" >
-        <action
-            android:id="@+id/action_portfolioFragment_to_portfolioResultFragment"
-            app:destination="@id/portfolioResultFragment" />
-        <action
-            android:id="@+id/action_portfolioFragment_to_timePeriodBottomSheetFragment"
-            app:destination="@id/timePeriodBottomSheetFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/portfolioResultFragment"
-        android:name="com.example.alphabet.PortfolioResultFragment"
-        android:label="PortfolioResultFragment" />
     <dialog
         android:id="@+id/timePeriodBottomSheetFragment"
         android:name="com.example.alphabet.TimePeriodBottomSheetFragment"
         android:label="TimePeriodBottomSheetFragment" />
+    <navigation android:id="@+id/nav_graph_hedge"
+        app:startDestination="@id/hedgeInputFragment">
+        <fragment
+            android:id="@+id/portfolioSelectFragment"
+            android:name="com.example.alphabet.PortfolioSelectFragment"
+            android:label="PortfolioSelectFragment"
+            tools:layout="@layout/fragment_portfolio_select"/>
+        <fragment
+            android:id="@+id/hedgeInputFragment"
+            android:name="com.example.alphabet.HedgeInputFragment"
+            android:label="HedgeInputFragment"
+            tools:layout="@layout/fragment_hedge_input">
+            <action
+                android:id="@+id/action_fragmentHedgeInput_to_portfolioSelectFragment"
+                app:destination="@id/portfolioSelectFragment" />
+            <action
+                android:id="@+id/action_hedgeInputFragment_to_hedgeResultFragment"
+                app:destination="@id/hedgeResultFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/hedgeResultFragment"
+            android:name="com.example.alphabet.HedgeResultFragment"
+            android:label="HedgeResultFragment"
+            tools:layout="@layout/fragment_hedge_result">
+            <argument
+                android:name="hedgeStock"
+                app:argType="string" />
+            <argument
+                android:name="port"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema" />
+        </fragment>
+    </navigation>
+    <navigation android:id="@+id/nav_graph_port"
+        app:startDestination="@id/portfolioInputFragment">
+        <fragment
+            android:id="@+id/portfolioInputFragment"
+            android:name="com.example.alphabet.PortfolioInputFragment"
+            android:label="PortfolioInputFragment"
+            tools:layout="@layout/fragment_portfolio_input">
+            <argument
+                android:name="portResult"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_portfolioResultFragment"
+            app:destination="@id/portfolioResultFragment"
+            app:popUpTo="@id/homeFragment" />
+    </navigation>
+    <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
+    <navigation android:id="@+id/nav_graph_backtest"
+        app:startDestination="@id/backtestInputFragment">
+        <fragment
+            android:id="@+id/backtestInputFragment"
+            android:name="com.example.alphabet.BacktestInputFragment"
+            android:label="BacktestInputFragment"
+            tools:layout="@layout/fragment_backtest_input">
+            <action
+                android:id="@+id/action_backtestInputFragment_to_timePeriodBottomSheetFragment"
+                app:destination="@id/timePeriodBottomSheetFragment" />
+            <action
+                android:id="@+id/action_backtestInputFragment_to_backtestStrategyInputFragment"
+                app:destination="@id/backtestStrategyInputFragment" />
+        </fragment>
+        <fragment
+            android:id="@+id/backtestStrategyInputFragment"
+            android:name="com.example.alphabet.BacktestStrategyInputFragment"
+            android:label="BacktestStrategyInputFragment"
+            tools:layout="@layout/fragment_backtest_strategy_input">
+            <action
+                android:id="@+id/action_backtestStrategyInputFragment_to_runStrategyDialog"
+                app:destination="@id/runStrategyDialog" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_backtestResultFragment"
+            app:destination="@id/backtestResultFragment"
+            app:popUpTo="@id/homeFragment" />
+        <dialog
+            android:id="@+id/runStrategyDialog"
+            android:name="com.example.alphabet.RunStrategyDialog"
+            android:label="RunStrategyDialog"
+            tools:layout="@layout/dialog_loading"/>
+    </navigation><action android:id="@+id/action_global_timePeriodBottomSheetFragment" app:destination="@id/timePeriodBottomSheetFragment"/>
+    <fragment
+        android:id="@+id/editStrategyFragment"
+        android:name="com.example.alphabet.EditStrategyFragment"
+        android:label="EditStrategyFragment"
+        tools:layout="@layout/fragment_edit_strategy">
+        <argument
+            android:name="strategySchema"
+            app:argType="com.example.alphabet.database.StrategySchema" />
+        <action
+            android:id="@+id/action_editStrategyFragment_to_editRuleFragment"
+            app:destination="@id/editRuleFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/editRuleFragment"
+        android:name="com.example.alphabet.EditRuleFragment"
+        android:label="EditRuleFragment"
+        tools:layout="@layout/fragment_edit_rule">
+        <argument
+            android:name="strategySchema"
+            app:argType="com.example.alphabet.database.StrategySchema" />
+        <action
+            android:id="@+id/action_editRuleFragment_to_nav_graph_indicator"
+            app:destination="@id/nav_graph_indicator" >
+            <argument
+                android:name="indicator"
+                app:argType="com.example.alphabet.IndicatorInput" />
+            <argument
+                android:name="entry_exit"
+                app:argType="com.example.alphabet.EntryExit" />
+        </action>
+        <argument
+            android:name="entryExit"
+            app:argType="com.example.alphabet.EntryExit" />
+        <action
+            android:id="@+id/action_editRuleFragment_to_parameterDialogFragment"
+            app:destination="@id/parameterDialogFragment" />
+    </fragment>
+    <navigation android:id="@+id/nav_graph_indicator"
+        app:startDestination="@id/indicatorListFragment">
+        <fragment
+            android:id="@+id/indicatorListFragment"
+            android:name="com.example.alphabet.IndicatorListFragment"
+            android:label="IndicatorListFragment"
+            tools:layout="@layout/fragment_indicator_list">
+            <argument
+                android:name="indicator"
+                app:argType="com.example.alphabet.IndicatorInput" />
+            <argument
+                android:name="entry_exit"
+                app:argType="com.example.alphabet.EntryExit" />
+        </fragment>
+        <action
+            android:id="@+id/action_global_parameterDialogFragment"
+            app:destination="@id/parameterDialogFragment" />
+    </navigation>
+    <fragment
+        android:id="@+id/parameterDialogFragment"
+        android:name="com.example.alphabet.ParameterDialogFragment"
+        android:label="ParameterDialogFragment" >
+        <argument
+            android:name="newIndicator"
+            app:argType="com.example.alphabet.IndicatorInput" />
+        <argument
+            android:name="oldIndicator"
+            app:argType="com.example.alphabet.IndicatorInput" />
+    </fragment>
+    <dialog
+        android:id="@+id/saveBacktestDialog"
+        android:name="com.example.alphabet.SaveBacktestDialog"
+        android:label="SaveBacktestDialog" >
+        <argument
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+    </dialog>
 </navigation>

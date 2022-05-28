@@ -5,26 +5,29 @@ import android.graphics.Color
 import android.util.TypedValue
 import androidx.annotation.AttrRes
 import androidx.annotation.ColorInt
-import androidx.compose.runtime.Composable
 import androidx.core.content.ContextCompat
+import com.example.alphabet.util.Constants.Companion.sdfShort
 import com.github.mikephil.charting.charts.*
+import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
+import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet
 import com.github.mikephil.charting.interfaces.datasets.IScatterDataSet
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.TradingRecord
 import java.text.SimpleDateFormat
 import java.util.*
-import kotlin.collections.ArrayList
 
 val plotColors = listOf(
     R.color.plotColor1,
     R.color.plotColor2,
     R.color.plotColor3,
     R.color.plotColor4,
-    R.color.plotColor5
+    R.color.plotColor5,
+    R.color.plotColor6,
+    R.color.plotColor7
 )
 
 fun plotEquityCurveFromCashFlow(
@@ -41,13 +44,11 @@ fun plotEquityCurveFromCashFlow(
     plotMultiLineCurve(chart, dates, yVals, labels, enabledLines, context)
 }
 
-fun plotTrades(chart: CombinedChart, series: BaseBarSeries, tradingRecord: TradingRecord, label: String?, context: Context) {
-    val y = List(series.barCount) { i -> series.getBar(i).closePrice.floatValue() }
-    val dates = List(series.barCount) {i -> Date.from(series.getBar(i).endTime.toInstant()) }
-    val buyIndexList = tradingRecord.positions.map { it.entry.index }
-    val sellIndexList = tradingRecord.positions.map { it.exit.index }
-    plotLineScatterChart(chart,
-        dates, y, label,
+fun plotTrades(chart: CombinedChart, priceList: List<Float>, dates: List<Date>, positionList: List<PositionData>, label: String?, context: Context) {
+    val buyIndexList = positionList.map { it.entry.index }
+    val sellIndexList = positionList.map { it.exit.index }
+    plotTimeSeriesScatterChart(chart,
+        dates, priceList, label,
         listOf(buyIndexList, sellIndexList),
         listOf(R.color.green, R.color.red),
         listOf("Entry", "Exit"),
@@ -110,8 +111,7 @@ fun plotMultiLineCurve(
     enabledLines: List<Boolean>,
     context: Context
 ) {
-    val sdf = SimpleDateFormat("MMM yy", Locale.ENGLISH)
-    val dates = xVals.map { sdf.format(it) }
+    val dates = xVals.map { sdfShort.format(it) }
     val dataSets = ArrayList<ILineDataSet>()
     yVals.zip(enabledLines).forEachIndexed { i, (l, isEnabled) ->
         if (isEnabled) {
@@ -160,6 +160,7 @@ fun plotMultiLineCurve(
 //            xEntrySpace = 30f
 //        }
         legend.isEnabled = false
+        animateX(500)
         invalidate()
     }
 }
@@ -194,6 +195,7 @@ fun plotRadarChart(
         xAxis.apply {
             valueFormatter = IndexAxisValueFormatter(labels)
             textSize = 14f
+            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
         }
         yAxis.apply {
             axisMinimum = 0f
@@ -210,7 +212,7 @@ fun plotRadarChart(
     }
 }
 
-fun plotLineScatterChart(
+fun plotTimeSeriesScatterChart(
     chart: CombinedChart,
     xVals: List<Date>,
     yVals: List<Float>,
@@ -289,21 +291,155 @@ fun plotLineScatterChart(
     }
 }
 
-fun plotPieChart(pieChart: PieChart, labelToVal: Map<String, Float>, label: String, context: Context) {
+fun plotLineScatterChart(
+    context: Context,
+    chart: CombinedChart,
+    scatterData: List<Pair<Float, Float>>,
+    scatterLabel: String = "",
+    lineData: List<Pair<Float, Float>>,
+    lineLabel: String = "",
+    formatPercent: Boolean = true
+) {
+    val scatterDataSets = ArrayList<IScatterDataSet>()
+    scatterData.map {
+        if (formatPercent)
+            Entry(it.first * 100, it.second * 100)
+        else
+            Entry(it.first, it.second)
+    }
+        .run { ScatterDataSet(this, scatterLabel) }
+        .apply {
+            setScatterShape(ScatterChart.ScatterShape.CIRCLE)
+            setDrawValues(false)
+            color = context.getColor(plotColors[1])
+            scatterDataSets.add(this)
+        }
+
+    val line = lineData.map {
+        if (formatPercent)
+            Entry(it.first * 100, it.second * 100)
+        else
+            Entry(it.first, it.second)
+    }
+        .run { LineDataSet(this, lineLabel) }
+        .apply {
+            lineWidth = 2f
+            setDrawCircles(false)
+            setDrawValues(false)
+            color = context.getColor(plotColors[0])
+        }
+        .run { LineData(this) }
+
+    val combinedData = CombinedData()
+    combinedData.setData(line)
+    combinedData.setData(ScatterData(scatterDataSets))
+
+    with(chart) {
+        data = combinedData
+        description.isEnabled = false
+        setTouchEnabled(false)
+
+        xAxis.apply {
+            position = XAxis.XAxisPosition.BOTTOM
+            setDrawAxisLine(false)
+//            setDrawGridLines(false)
+             textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+            if (formatPercent)
+                valueFormatter = PercentFormatter()
+        }
+        axisLeft.apply {
+//            setDrawGridLines(false)
+            setDrawAxisLine(false)
+            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+            if (formatPercent)
+                valueFormatter = PercentFormatter()
+        }
+        axisRight.isEnabled = false
+        legend.isEnabled = false
+        invalidate()
+    }
+}
+
+fun plotPieChart(
+    context: Context,
+    pieChart: PieChart,
+    labelToVal: Map<String, Float>,
+    label: String,
+    drawEntryLabel: Boolean = true,
+    holeRadius: Float = 40f,
+    touchEnabled: Boolean = false
+    ) {
     val pieEntryList = labelToVal.map { PieEntry(it.value, it.key) }
     val pieDataSet = PieDataSet(pieEntryList, label)
         .apply {
             valueTextSize = 12f
+            valueTextColor = context.getColor(R.color.white)
             colors = plotColors.map { context.getColor(it) }
         }
 
     val pieData = PieData(pieDataSet)
+    pieData.setValueFormatter(PercentFormatter(pieChart))
+
     with(pieChart) {
         data = pieData
         description = null
         setHoleColor(Color.TRANSPARENT)
-        legend.textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
         isRotationEnabled = false
+        extraRightOffset = 8f
+        setDrawEntryLabels(drawEntryLabel)
+        setUsePercentValues(true)
+        setHoleRadius(holeRadius)
+        setHoleRadius(holeRadius * 1.1f)
+        setTouchEnabled(touchEnabled)
+
+        legend.textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+        legend.horizontalAlignment = Legend.LegendHorizontalAlignment.RIGHT
+        legend.verticalAlignment = Legend.LegendVerticalAlignment.CENTER
+        legend.orientation = Legend.LegendOrientation.VERTICAL
+        legend.textSize = 12f
+        invalidate()
+    }
+}
+
+fun plotBarChart(
+    chart: BarChart,
+    data: List<Float>,
+    context: Context
+) {
+    val barData = BarData()
+    val barEntryList = data.mapIndexed { i, value ->
+        BarEntry(i.toFloat(), value)
+    }
+    val barDataSet = BarDataSet(barEntryList, "")
+    barDataSet.apply {
+        colors = plotColors.map { context.getColor(it) }
+        valueTextColor = context.getTextColorPrimary()
+        valueTextSize = 13f
+    }
+    barData.addDataSet(barDataSet)
+
+    barData.barWidth = 0.3f
+
+    with(chart) {
+        this.data = barData
+        setTouchEnabled(false)
+        setDrawGridBackground(false)
+        setDrawBorders(false)
+
+        axisLeft.isEnabled = false
+        axisRight.isEnabled = false
+
+//        xAxis.apply {
+//            setDrawGridLines(false)
+//            valueFormatter = IndexAxisValueFormatter(xAxisLabel)
+//            granularity = 1f
+//            textColor = context.getTextColorPrimary()
+//            position = XAxis.XAxisPosition.BOTTOM
+//        }
+        xAxis.isEnabled = false
+
+        description.isEnabled = false
+        legend.isEnabled = false
         invalidate()
     }
 }
@@ -314,3 +450,6 @@ fun Context.getColorThemeRes(@AttrRes id: Int): Int {
     this.theme.resolveAttribute(id, resolvedAttr, true)
     return this.getColor(resolvedAttr.resourceId)
 }
+
+@ColorInt
+fun Context.getTextColorPrimary() = this.getColorThemeRes(android.R.attr.textColorPrimary)

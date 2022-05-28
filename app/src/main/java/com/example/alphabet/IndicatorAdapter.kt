@@ -1,5 +1,6 @@
 package com.example.alphabet
 
+import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 
 class IndicatorAdapter(
     private val indicatorList: List<IndicatorStatic>,
-    private val listener: OnItemClickListener
+    private val listener: OnItemClickListener,
+    private val context: Context
 ) :
     RecyclerView.Adapter<IndicatorAdapter.IndicatorViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): IndicatorViewHolder {
@@ -22,7 +24,7 @@ class IndicatorAdapter(
         val currentItem = indicatorList[position]
         holder.indNameView.text = currentItem.indName
         if (currentItem.paramName.isEmpty()) {
-            holder.indParamView.text = "No Parameter"
+            holder.indParamView.text = context.getString(R.string.no_param)
         } else {
             holder.indParamView.text = currentItem.paramName.joinToString(", ")
         }
@@ -41,11 +43,11 @@ class IndicatorAdapter(
         override fun onClick(v: View?) {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION)
-                listener.onItemClick(position)
+                listener.onItemClick(indicatorList[position])
         }
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(selectedItem: IndicatorStatic)
     }
 }

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/selectableItemBackground"
+    style="@style/padding_vertical">
+
+    <TextView
+        android:id="@+id/text_port_name"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Portfolio Name" />
+
+    <TextView
+        android:id="@+id/text_return"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Total Return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toTopOf="@+id/pie_chart_my_port" />
+
+    <com.github.mikephil.charting.charts.PieChart
+        android:id="@+id/pie_chart_my_port"
+        android:layout_width="0dp"
+        android:layout_height="150dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/text_port_name"
+        app:layout_constraintTop_toBottomOf="@+id/text_time_period" />
+
+    <TextView
+        android:id="@+id/text_time_period"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/gray"
+        app:layout_constraintStart_toStartOf="@+id/pie_chart_my_port"
+        app:layout_constraintTop_toBottomOf="@+id/text_port_name"
+        tools:text="4 Jun 20 - 4 Jun 21" />
+
+    <TextView
+        android:id="@+id/text_port_return"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/text_return"
+        tools:text="89.64%"
+        tools:textColor="@color/green" />
+
+    <TextView
+        android:id="@+id/textView9"
+        style="@style/TextAppearance.Material3.LabelMedium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Sharpe Ratio"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/text_port_return" />
+
+    <TextView
+        android:id="@+id/text_sharpe_ratio"
+        style="@style/TextAppearance.Material3.BodyLarge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/guideline2"
+        app:layout_constraintTop_toBottomOf="@+id/textView9"
+        tools:text="3.6"
+        tools:textColor="@color/green" />
+
+    <Button
+        android:id="@+id/button_delete"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        app:icon="@drawable/ic_baseline_clear_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <Button
+        android:id="@+id/button_edit_port"
+        style="@style/Widget.Material3.Button.IconButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_outline_edit_24"
+        app:layout_constraintEnd_toStartOf="@+id/button_delete"
+        app:layout_constraintTop_toTopOf="@+id/button_delete" />
+</androidx.constraintlayout.widget.ConstraintLayout>

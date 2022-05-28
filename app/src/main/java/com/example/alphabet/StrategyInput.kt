@@ -1,20 +1,21 @@
 package com.example.alphabet
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.toMutableStateList
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
 import org.ta4j.core.BaseBarSeries
 import org.ta4j.core.BaseStrategy
 import org.ta4j.core.Strategy
 
+@Parcelize
 @Serializable
 class StrategyInput(
     var strategyName: String,
     var des: String,
-    val entryRulesInput: MutableList<RuleInput>,
-    val exitRulesInput: MutableList<RuleInput>,
+    var entryRulesInput: MutableList<RuleInput>,
+    var exitRulesInput: MutableList<RuleInput>,
     val strategyType: String? = null
-) {
+) : Parcelable {
     fun entryRulesDes(): String {
         return entryRulesInput.joinToString("\n")
     }
@@ -52,18 +53,24 @@ class StrategyInput(
         exitRulesInput: MutableList<RuleInput> = this.exitRulesInput.map { it.copy() }.toMutableList(),
     ) = StrategyInput(strategyName, des, entryRulesInput, exitRulesInput, strategyType)
 
-    fun toCustomStrategyInput(): CustomStrategyInput {
-        return CustomStrategyInput(
-            mutableStateOf(strategyName),
-            mutableStateOf(des),
-            entryRulesInput.toMutableStateList(),
-            exitRulesInput.toMutableStateList()
-        )
+
+    fun indicatorUsed(): List<String> {
+        val res = entryRulesInput.map { it.indInput1.indName } union
+                entryRulesInput.map { it.indInput2.indName } union
+                exitRulesInput.map { it.indInput1.indName } union
+                exitRulesInput.map { it.indInput2.indName }
+        return res.filter { it.isNotEmpty() }
     }
 
     companion object {
         fun getEmptyStrategy(): StrategyInput {
-            return StrategyInput("", "", mutableListOf(), mutableListOf())
+            return StrategyInput(
+                "Custom Strategy",
+                "Custom Strategy",
+                mutableListOf(),
+                mutableListOf(),
+                "Custom"
+            )
         }
     }
 }

@@ -3,12 +3,17 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.351" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_add_24.xml" value="0.3675" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_add_box_24.xml" value="0.214" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_add_box_36.xml" value="0.188" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.3828125" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.22083333333333333" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_build_24.xml" value="0.351" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_cancel_24.xml" value="0.21851851851851853" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_candlestick_chart_24.xml" value="0.188" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.2945" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_date_range_24.xml" value="0.22291666666666668" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_description_24.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_done_24.xml" value="0.235" />
@@ -19,15 +24,32 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.186" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_horizontal_rule_24.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_down_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_right_24.xml" value="0.188" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.36574074074074076" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_leaderboard_24.xml" value="0.18958333333333333" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_line_axis_24.xml" value="0.201" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_location_on_24_green.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_menu_24.xml" value="0.188" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.36574074074074076" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_restore_24.xml" value="0.188" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.1715" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.188" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_share_24.xml" value="0.188" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_stacked_line_chart_24.xml" value="0.188" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_sync_24.xml" value="0.188" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_timeline_24.xml" value="0.188" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_trending_down_24.xml" value="0.246" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_trending_flat_24.xml" value="0.351" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_baseline_trending_up_24.xml" value="0.1715" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1715" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_analytics_24.xml" value="0.3415" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_delete_24.xml" value="0.245" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_description_24.xml" value="0.351" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_drive_file_rename_outline_24.xml" value="0.246" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_edit_24.xml" value="0.2945" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_file_copy_24.xml" value="0.351" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_home_24.xml" value="0.171" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ic_outline_settings_24.xml" value="0.351" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/layout_bg.xml" value="0.235" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/oval.xml" value="0.14" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/ripple.xml" value="0.235" />
@@ -36,43 +58,68 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/drawable/rounded_top_corner_bg.xml" value="0.201" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_result_bottom_sheet.xml" value="0.2" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_result_row_bottom_sheet.xml" value="0.1" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_result_row_bottom_sheet.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_row.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_strategy_input_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_strategy_row.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/button_indicator.xml" value="0.67" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/checkable_double_row.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/checkable_row.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/chip_indicator.xml" value="0.5" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/chip_legend.xml" value="0.29717180244829045" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/create_rule.xml" value="0.19202898550724637" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/create_strategy.xml" value="0.22" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/default_strat_card_view.xml" value="0.13405797101449277" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_add_symbol.xml" value="0.29717180244829045" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_time_period.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_loading.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_rename_strategy.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_save_port.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/dialog_time_period.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/double_row_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/empty_list_text.xml" value="0.33611111111111114" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_input.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/field_detail_row.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_input.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_result.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_strategy_input.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_summary.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_backtest_trades.xml" value="0.20677083333333332" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_blank.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_create_rule.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_create_strategy.xml" value="0.2622798887859129" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_edit_strategy.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_edit_rule.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_edit_strategy.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_entry.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_equity_curve.xml" value="0.26992753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_hedge_input.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_hedge_result.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_home.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_indicator_list.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_backtest.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_backtest_all.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_backtest_main.xml" value="0.29717180244829045" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_portfolio.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_strategy.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_parameter_dialog.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_strategy_backtest.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_parameter_dialog.xml" value="0.5" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio_input.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio_result.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio_select.xml" value="0.29717180244829045" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_price_indicator_list.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_select_portfolio.xml" value="0.29717180244829045" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_select_strategy.xml" value="0.1962962962962963" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_strategy_desc.xml" value="0.26992753623188404" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_technical_indicator_list.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_test.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_trades.xml" value="0.36367753623188404" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/icon_row.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/indicator_param.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/indicator_row_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/input_chip.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/layout_empty_list.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/modal_bottom_sheet_content.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/my_portfolio_row.xml" value="0.5" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/my_strategy_row.xml" value="0.445578231292517" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/my_textfield.xml" value="0.196875" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/non_ind_rule_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/non_indicator_rule_fragment.xml" value="0.36666666666666664" />
@@ -83,30 +130,42 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/parameter_dialog_layout.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/parameter_input_row_layout.xml" value="0.275" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/parameter_row_layout.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/portfolio_row.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/portfolio_input_row.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/portfolio_row.xml" value="0.5" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/rule_card.xml" value="0.5" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/rule_desc_card.xml" value="0.5" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/rule_item.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/rule_list_card.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/select_button.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/select_indicator.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/single_row_layout.xml" value="0.33" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/stock_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/strategy_list_item.xml" value="0.17831813576494426" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/strategy_row.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/symbol_search_row.xml" value="0.5" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/symbol_strategy_row.xml" value="0.2" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/table_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/test.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/testing.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/text_table_cell.xml" value="0.30012825994014536" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/textfield_selector.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/time_period.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/trade_table_row.xml" value="0.17831813576494426" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/add_confirm_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/app_bar.xml" value="0.18055555555555555" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/backtest_row_menu.xml" value="0.36666666666666664" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.33" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/confirm_app_bar.xml" value="0.3009833262077811" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/bottom_navigation_menu.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/confirm_app_bar.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/create_rule_app_bar.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/date_confirm_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/delete_app_bar.xml" value="0.17592592592592593" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/edit_confirm_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/option_app_bar.xml" value="0.25" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/rename_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/result_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/rule_app_bar.xml" value="0.36102564102564105" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/rule_type_menu.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/search_app_bar.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/menu/strat_app_bar.xml" value="0.18055555555555555" />
         <entry key="..\:/Users/Victor/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_expandable_list_item_2.xml" value="0.14791666666666667" />
         <entry key="..\:/Users/Victor/AppData/Local/Android/Sdk/platforms/android-30/data/res/layout/simple_list_item_1.xml" value="0.36666666666666664" />
