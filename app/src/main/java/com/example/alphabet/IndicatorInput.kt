@@ -44,6 +44,12 @@ class IndicatorInput(
             "LWMA" -> LWMAIndicator(close, paramsInt[0])
             "MMA" -> MMAIndicator(close, paramsInt[0])
             "WMA" -> WMAIndicator(close, paramsInt[0])
+            "Acceleration Deceleration" -> AccelerationDecelerationIndicator(series, paramsInt[0], paramsInt[1])
+            "Aroon Down" -> AroonDownIndicator(series, paramsInt[0])
+            "Aroon Oscillator" -> AroonOscillatorIndicator(series, paramsInt[0])
+            "Aroon Up" -> AroonUpIndicator(series, paramsInt[0])
+            "CCI" -> CCIIndicator(series, paramsInt[0])
+            "CMO" -> CMOIndicator(close, paramsInt[0])
             "Constant" -> ConstantIndicator(series, close.numOf(paramsInt[0]))
             else -> throw IllegalArgumentException("Cannot find $indName Indicator")
         }

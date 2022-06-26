@@ -14,12 +14,16 @@ import com.example.alphabet.databinding.FragmentEditRuleBinding
 
 class EditRuleFragment: Fragment() {
     private val args: EditRuleFragmentArgs by navArgs()
+    private var _binding: FragmentEditRuleBinding? = null
+    private val binding get() = _binding!!
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val binding = FragmentEditRuleBinding.inflate(inflater, container, false)
+        _binding = FragmentEditRuleBinding.inflate(inflater, container, false)
         binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.topAppBar.title = when(args.entryExit) {
             EntryExit.ENTRY -> "Entry Rules"
@@ -40,8 +44,8 @@ class EditRuleFragment: Fragment() {
         binding.rvRules.adapter = adapter
         binding.rvRules.layoutManager = LinearLayoutManager(requireContext())
         when (args.entryExit) {
-            EntryExit.ENTRY -> submitList(adapter, args.strategySchema.strategy.entryRulesInput)
-            EntryExit.EXIT -> submitList(adapter, args.strategySchema.strategy.exitRulesInput)
+            EntryExit.ENTRY -> adapter.submitListCustom(args.strategySchema.strategy.entryRulesInput)
+            EntryExit.EXIT -> adapter.submitListCustom(args.strategySchema.strategy.exitRulesInput)
         }
 
         binding.buttonAddRule.setOnClickListener {
@@ -52,17 +56,7 @@ class EditRuleFragment: Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
             } else {
-                val newList = adapter.currentList.toMutableList()
-                newList.add(
-                    RuleInput(
-                        IndicatorInput.getEmptyIndicator(),
-                        IndicatorInput.getEmptyIndicator(),
-                        Cond.CROSS_UP
-                    )
-                )
-                adapter.submitList(newList)
-                updateRules(newList)
-                binding.rvRules.smoothScrollToPosition(newList.lastIndex)
+                addRule(adapter)
             }
         }
         binding.buttonDone.setOnClickListener {
@@ -79,10 +73,24 @@ class EditRuleFragment: Fragment() {
         }
     }
 
-    private fun submitList(adapter: RuleCardAdapter, list: MutableList<RuleInput>) {
-        if (list.isEmpty()) {
-            list.add(RuleInput.getEmptyRule())
-        }
-        adapter.submitList(list)
+//    private fun submitList(adapter: RuleCardAdapter, list: MutableList<RuleInput>) {
+//        if (list.isEmpty()) {
+//            list.add(RuleInput.getEmptyRule())
+//        }
+//        adapter.submitList(list)
+//    }
+
+    private fun addRule(adapter: RuleCardAdapter) {
+        val newList = adapter.currentList.toMutableList()
+        newList.add(
+            RuleInput(
+                IndicatorInput.getEmptyIndicator(),
+                IndicatorInput.getEmptyIndicator(),
+                Cond.CROSS_UP
+            )
+        )
+        adapter.submitList(newList)
+        updateRules(newList)
+        binding.rvRules.smoothScrollToPosition(newList.lastIndex)
     }
 }

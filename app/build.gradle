@@ -51,8 +51,8 @@ android {
     dependencies {
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-        implementation 'androidx.core:core-ktx:1.7.0'
-        implementation 'androidx.appcompat:appcompat:1.4.1'
+        implementation 'androidx.core:core-ktx:1.8.0'
+        implementation 'androidx.appcompat:appcompat:1.4.2'
         implementation "androidx.recyclerview:recyclerview:1.2.1"
         implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
         implementation 'androidx.legacy:legacy-support-v4:1.0.0'
@@ -80,7 +80,7 @@ android {
 
 dependencies {
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.6.0'
+    implementation 'com.google.android.material:material:1.6.1'
     implementation 'org.nield:kotlin-statistics:1.2.1'
     implementation 'org.jetbrains.kotlinx:dataframe:0.8.0-rc-7'
     implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.2.0'

@@ -34,6 +34,13 @@ class RuleCardAdapter(
         holder.bind(rule)
     }
 
+    fun submitListCustom(list: MutableList<RuleInput>) {
+        if (list.isEmpty()) {
+            list.add(RuleInput.getEmptyRule())
+        }
+        submitList(list)
+    }
+
     inner class RuleCardViewHolder(private val binding: RuleCardBinding) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(rule: RuleInput) {
@@ -45,7 +52,7 @@ class RuleCardAdapter(
                     currentList.toMutableList()
                         .apply {
                             remove(rule)
-                            submitList(this)
+                            submitListCustom(this)
                             onDeleteClicked(this)
                         }
                 }
@@ -67,16 +74,14 @@ class RuleCardAdapter(
             ind: IndicatorInput
         ) {
             with(buttonBinding) {
-                if (ind.toString().isEmpty() || ind.indParamList.isEmpty()) {
-                    buttonEditParam.visibility = View.GONE
-                }
                 textIndicator.text = ind.toString()
 
                 root.setOnClickListener {
-                    onIndicatorClicked(ind)
-                }
-                buttonEditParam.setOnClickListener {
-                    onEditParamClicked(ind)
+                    if (ind.toString().isEmpty() || ind.indParamList.isEmpty()) {
+                        onIndicatorClicked(ind)
+                    } else {
+                        onEditParamClicked(ind)
+                    }
                 }
             }
         }

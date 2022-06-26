@@ -61,7 +61,7 @@ class EditStrategyFragment : Fragment() {
                                     binding.topAppBar.title = newName
                                 }
                             }
-                            .setNegativeButton("Cancel") {_,_->}
+                            .setNegativeButton("Cancel", null)
                             .show()
                         true
                     }

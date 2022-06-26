@@ -209,7 +209,7 @@
             android:id="@+id/action_global_parameterDialogFragment"
             app:destination="@id/parameterDialogFragment" />
     </navigation>
-    <fragment
+    <dialog
         android:id="@+id/parameterDialogFragment"
         android:name="com.example.alphabet.ParameterDialogFragment"
         android:label="ParameterDialogFragment" >
@@ -219,7 +219,7 @@
         <argument
             android:name="oldIndicator"
             app:argType="com.example.alphabet.IndicatorInput" />
-    </fragment>
+    </dialog>
     <dialog
         android:id="@+id/saveBacktestDialog"
         android:name="com.example.alphabet.SaveBacktestDialog"
