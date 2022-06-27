@@ -62,7 +62,7 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_row.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_strategy_input_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/backtest_strategy_row.xml" value="0.33" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/button_indicator.xml" value="0.67" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/button_indicator.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/checkable_double_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/checkable_row.xml" value="0.3009833262077811" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/chip_indicator.xml" value="0.5" />
@@ -100,7 +100,7 @@
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_portfolio.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_strategy.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_my_strategy_backtest.xml" value="0.3009833262077811" />
-        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_parameter_dialog.xml" value="0.5" />
+        <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_parameter_dialog.xml" value="0.25" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio_input.xml" value="0.33" />
         <entry key="..\:/Users/Victor/AndroidStudioProjects/AlphaBet/app/src/main/res/layout/fragment_portfolio_result.xml" value="0.33" />
