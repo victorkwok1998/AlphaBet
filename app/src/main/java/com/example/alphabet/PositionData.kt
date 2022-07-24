@@ -12,12 +12,12 @@ data class PositionData(
     val exit: TradeData,
     val startingType: Trade.TradeType,
 ): Parcelable {
-    fun getPnl(adjPriceList: List<Float>): Float {
+    fun getPnl(): Float {
         val side = if (startingType == Trade.TradeType.BUY) 1 else -1
-        return (adjPriceList[exit.index] - adjPriceList[entry.index]) * side
+        return (exit.adjClose - entry.adjClose) * side
     }
 
-    fun getPnlPct(adjPriceList: List<Float>): Float {
-        return (getPnl(adjPriceList) / adjPriceList[entry.index] - 1) * 100
+    fun getPnlPct(): Float {
+        return getPnl() / entry.adjClose
     }
 }

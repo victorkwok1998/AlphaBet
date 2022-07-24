@@ -57,7 +57,7 @@ class RuleCardAdapter(
                         }
                 }
 
-                if (rule.indInput1.indType == IndType.OTHER) {
+                if (!rule.indInput1.isIndicator()) {
                     groupCondition.visibility = View.GONE
                     layoutSecondary.root.visibility = View.GONE
                 } else {

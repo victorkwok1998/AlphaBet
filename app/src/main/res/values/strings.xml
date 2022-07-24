@@ -40,6 +40,8 @@
     <string name="strategy_name">%s Strategy</string>
     <string name="date_range">%s - %s</string>
     <string name="strategy_des">Buy when:\n%s\n\nSell when:\n%s</string>
+    <string name="error">Error</string>
+    <string name="ok">OK</string>
     <string-array name="radar_label">
         <item>Return</item>
         <item>Stability</item>
@@ -83,4 +85,21 @@
     <string name="cancel">Cancel</string>
     <string name="failed_to_download_data_error">Failed to download data</string>
     <string name="duplicate_symbol_error">You have already added this symbol</string>
+    <string-array name="trade_table_header">
+        <item>Entry Date</item>
+        <item>Exit Date</item>
+        <item>Days</item>
+        <item>PnL</item>
+    </string-array>
+    <string name="nav">Net Asset Value</string>
+    <string name="settings">Settings</string>
+    <!-- Preference Titles -->
+    <string name="appearance_header">Appearance</string>
+    <string name="backtest_header">Backtest</string>
+
+    <!-- Theme Preferences -->
+    <string name="theme_title">Theme</string>
+    <string name="search_indicator_hint">Search indicators</string>
+    <string name="notional">Notional</string>
+
 </resources>

@@ -20,6 +20,9 @@ class IndicatorInput(
     var indName: String,
     var indParamList: MutableList<String>
 ): Parcelable {
+
+    fun isIndicator() = indType == IndType.TECHNICAL || indType == IndType.PRICE || indType == IndType.CONSTANT
+
     fun calIndicator (series: BaseBarSeries): Indicator<Num> {
         val paramsInt = indParamList.map { it.toInt() }
         val close = ClosePriceIndicator(series)
@@ -63,13 +66,17 @@ class IndicatorInput(
 
     companion object{
         fun getEmptyIndicator(): IndicatorInput {
-            return IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+            return IndicatorInput(IndType.TECHNICAL, "", mutableListOf())
         }
-        val EMPTY_INDICATOR = IndicatorInput(IndType.INDICATOR, "", mutableListOf())
+        val EMPTY_INDICATOR = IndicatorInput(IndType.TECHNICAL, "", mutableListOf())
     }
 
     override fun toString(): String {
-        val paramString1 = if (indParamList.isNotEmpty()) indParamList.joinToString(prefix = "(", postfix = ")") else ""
-        return "${indName}${paramString1}"
+        return if (indType == IndType.CONSTANT)
+            indParamList[0]
+        else {
+            val paramString1 = if (indParamList.isNotEmpty()) indParamList.joinToString(prefix = "(", postfix = ")") else ""
+            "${indName}${paramString1}"
+        }
     }
 }

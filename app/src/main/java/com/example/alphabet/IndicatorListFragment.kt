@@ -1,9 +1,9 @@
 package com.example.alphabet
 
+import android.content.Context
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,15 +31,28 @@ class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
 
         with(binding.indicatorAppBar) {
             setNavigationOnClickListener { findNavController().popBackStack() }
-            setOnMenuItemClickListener {
-                when(it.itemId) {
-                    R.id.search -> {
-
-                        true
-                    }
-                    else -> false
+            val searchView = menu.findItem(R.id.menu_search).actionView as SearchView
+            searchView.queryHint = getString(R.string.search_indicator_hint)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return search(query)
                 }
-            }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    return search(newText)
+                }
+            })
+//            setOnMenuItemClickListener {
+//                when(it.itemId) {
+//                    R.id.menu_search -> {
+//                        val searchView = it.actionView as androidx.appcompat.widget.SearchView
+//                        searchView.isSubmitButtonEnabled = true
+//
+//                        true
+//                    }
+//                    else -> false
+//                }
+//            }
         }
 
 
@@ -49,14 +62,14 @@ class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
         val indicators = staticDataViewModel.indicatorStatic
 //            .filter { it.indType == IndType.INDICATOR }
 
-        val technicalIndicators = indicators.filter { it.indCat == IndCat.TECHNICAL }
-        val priceIndicators = indicators.filter { it.indCat == IndCat.PRICE }
+        val technicalIndicators = indicators.filter { it.indType == IndType.TECHNICAL }
+        val priceIndicators = indicators.filter { it.indType == IndType.PRICE }
 
-        var otherIndicators = staticDataViewModel.indicatorStatic
-            .filter { it.indCat == IndCat.OTHER }
-
-        if (args.entryExit == EntryExit.ENTRY) {
-            otherIndicators = otherIndicators.filter { !it.isExitOnly }
+        val otherIndicators = when (args.entryExit) {
+            EntryExit.ENTRY -> staticDataViewModel.indicatorStatic
+                .filter { it.indType == IndType.ENTRY_RULE }
+            EntryExit.EXIT -> staticDataViewModel.indicatorStatic
+                .filter { it.indType == IndType.EXIT_RULE }
         }
 
         with(binding.rvIndicator) {
@@ -71,7 +84,7 @@ class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
                 R.id.chip_technical -> setIndicatorList(technicalIndicators)
                 R.id.chip_price -> setIndicatorList(priceIndicators)
                 R.id.chip_other -> setIndicatorList(otherIndicators)
-                R.id.chip_constant -> setIndicatorList(indicators.filter { it.indCat == IndCat.CONSTANT })
+                R.id.chip_constant -> setIndicatorList(indicators.filter { it.indType == IndType.CONSTANT })
             }
         }
         // view pager
@@ -158,4 +171,16 @@ class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
         val adapter = IndicatorAdapter(indicators, this, requireContext())
         binding.rvIndicator.adapter = adapter
     }
+
+    private fun search(newText: String?): Boolean {
+        if (newText != null) {
+            val indicators = staticDataViewModel.indicatorStatic.filter {
+                it.indName.contains(newText, ignoreCase = true)
+            }
+            setIndicatorList(indicators)
+        }
+        return true
+    }
+
+
 }

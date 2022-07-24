@@ -27,7 +27,7 @@ class BacktestResult(
                 exitIndex = positionList[currPos].exit.index
                 side = if (positionList[currPos].startingType == Trade.TradeType.BUY) 1 else -1
             }
-            if (i > entryIndex && i < exitIndex) {
+            if (i > entryIndex && i <= exitIndex) {
                 cf[i] =
                     (adjCloseList[i] - adjCloseList[i - 1]) / adjCloseList[entryIndex] * side + cf[i - 1]
             } else {
@@ -42,7 +42,7 @@ class BacktestResult(
 
     fun getMetrics(): Metrics {
         val cashFlow = getCashFlow()
-        val pnlList = positionList.map { it.getPnl(adjCloseList) }
+        val pnlList = positionList.map { it.getPnl() }
         val profitCount = pnlList.count { it > 0 }
         val lossCount = pnlList.count { it < 0 }
         val nTrade = positionList.size

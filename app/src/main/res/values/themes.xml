@@ -5,13 +5,15 @@
 <!--        <item name="colorPrimary">#0077b6</item>-->
         <!--        <item name="colorOnPrimary">@color/white</item>-->
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/light_blue_200</item>
+        <item name="colorPrimary">#457B9D</item>
+        <item name="colorSecondary">#457b9d</item>
+        <item name="colorSecondaryContainer">#B9D2E8</item>
         <!--        <item name="colorSecondaryVariant">@color/light_blue_900</item>-->
         <!--        <item name="colorOnSecondary">@color/black</item>-->
         <!--        <item name="colorPrimaryContainer">@color/white</item>-->
 <!--        <item name="colorSecondaryContainer">#bbdefb</item>-->
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
         <item name="android:windowLightStatusBar">true</item>
 <!--        <item name="windowActionModeOverlay">true</item>-->
 <!--        <item name="actionModeStyle">@style/Widget.App.ActionMode</item>-->
@@ -31,10 +33,10 @@
     <color name="secondary_background">@color/gray_background</color>
     <color name="color_on_surface_alpha">@color/grey_300</color>
 
-    <style name="ThemeOverlay.App.Toolbar" parent="">
-        <item name="colorPrimary">@color/gray_background</item>
-        <item name="colorOnPrimary">?attr/colorOnSurface</item>
-    </style>
+<!--    <style name="ThemeOverlay.App.Toolbar" parent="">-->
+<!--        <item name="colorPrimary">@color/gray_background</item>-->
+<!--        <item name="colorOnPrimary">?attr/colorOnSurface</item>-->
+<!--    </style>-->
 
 
 

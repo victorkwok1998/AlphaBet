@@ -11,4 +11,6 @@ data class TradeData(
     val tradeType: Trade.TradeType,
     val index: Int,
     val pricePerAsset: Float,
+    val date: String,
+    val adjClose: Float,
 ): Parcelable

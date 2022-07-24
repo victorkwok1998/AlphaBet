@@ -85,34 +85,6 @@ class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClick
             adapter = strategyListAdapter
         )
 
-//        val adapter = BacktestStrategyInputAdapter(
-//            onDelete = {
-//                viewModel.checkedStrategy.remove(it.id)
-//                viewModel.strategyList.value = viewModel.strategyList.value?.filter { existing ->
-//                    existing.id != it.id
-//                }
-//            }
-//        )
-//        viewModel.strategyList.value = viewModel.checkedStrategy.values.toMutableList().sortedBy { it.strategy.strategyName }
-//        viewModel.strategyList.observe(viewLifecycleOwner) {
-//            adapter.submitList(it)
-//            if (it.isEmpty()) {
-//                binding.viewEmptyStrategy.root.visibility = View.VISIBLE
-//                binding.rvStrategyInput.visibility = View.GONE
-//            } else {
-//                binding.viewEmptyStrategy.root.visibility = View.GONE
-//                binding.rvStrategyInput.visibility = View.VISIBLE
-//            }
-//        }
-//
-//        binding.rvStrategyInput.adapter = adapter
-//        binding.rvStrategyInput.layoutManager = LinearLayoutManager(requireContext())
-//        binding.rvStrategyInput.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
-//
-//        binding.viewEmptyStrategy.buttonEmptyList.setOnClickListener {
-//            toSelectStrategy()
-//        }
-
         return binding.root
     }
 

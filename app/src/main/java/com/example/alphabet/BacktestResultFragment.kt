@@ -14,6 +14,8 @@ import androidx.navigation.fragment.navArgs
 import com.example.alphabet.databinding.ChipLegendBinding
 import com.example.alphabet.databinding.FragmentBacktestResultBinding
 import com.example.alphabet.databinding.TableRowBinding
+import com.example.alphabet.ui.checkedIndex
+import com.example.alphabet.ui.setChipGroup
 import com.example.alphabet.util.Constants.Companion.pct
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -34,33 +36,37 @@ class BacktestResultFragment: Fragment() {
         binding.appBarBacktestResult.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-        binding.appBarBacktestResult.setOnMenuItemClickListener {
-            when (it.itemId) {
-                R.id.add_to_fav -> {
-                    val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
-                    findNavController().navigate(action)
-                    true
-                }
-                else -> false
-            }
-        }
+//        binding.appBarBacktestResult.setOnMenuItemClickListener {
+//            when (it.itemId) {
+//                R.id.add_to_fav -> {
+//                    val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
+//                    findNavController().navigate(action)
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
 
         plotEquityCurve(List(args.backtestResultList.size) {true})
-        setChipGroup(binding.chipGroupEquityCurve) { plotEquityCurve(it) }
+        setStrategyChipGroup(binding.chipGroupEquityCurve) { plotEquityCurve(it) }
 
         plotSummary(List(args.backtestResultList.size) { true })
-        setChipGroup(binding.chipGroupSummary) { plotSummary(it) }
+        setStrategyChipGroup(binding.chipGroupSummary) { plotSummary(it) }
 
 
         plotBacktestResultTrades(args.backtestResultList[0])
-        setChipGroup(binding.chipGroupTrades, 0) {
+        setStrategyChipGroup(binding.chipGroupTrades, 0) {
             val i = it.indexOf(true)
             plotBacktestResultTrades(args.backtestResultList[i])
         }
 
-        binding.buttonEditBacktest.setOnClickListener {  }
+        binding.buttonShareBacktest.setOnClickListener {  }
         binding.buttonSaveBacktest.setOnClickListener {
             val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
+            findNavController().navigate(action)
+        }
+        binding.buttonViewTrades.setOnClickListener {
+            val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToTradeTableFragment(args.backtestResultList, binding.chipGroupTrades.checkedIndex())
             findNavController().navigate(action)
         }
 
@@ -103,38 +109,11 @@ class BacktestResultFragment: Fragment() {
         )
     }
 
-    private fun setChipGroup(chipGroup: ChipGroup, checkedIndex: Int = -1, onCheck: (List<Boolean>) -> Unit) {
-        if (args.backtestResultList.size == 1) {
-            chipGroup.isVisible = false
-            return
-        }
-        val backtestNames = args.backtestResultList.map { it.backtestInput.getShortName() }
-        val inflater = LayoutInflater.from(requireContext())
-
-        chipGroup.removeAllViews()
-        backtestNames.forEachIndexed { i, name ->
-            val chip = ChipLegendBinding.inflate(inflater).root
-            chip.text = name
-            if (checkedIndex == -1 || i == checkedIndex) {
-                chip.isChecked = true
-            }
-            chip.setChipIconTintResource(plotColors[i % plotColors.size])
-            chip.setOnCheckedChangeListener { _, _ ->
-                val enabledLines = List(chipGroup.size) { j -> (chipGroup[j] as Chip).isChecked }
-                if (enabledLines.any { it })
-                    onCheck(enabledLines)
-            }
-            chipGroup.addView(chip)
-        }
+    private fun setStrategyChipGroup(chipGroup: ChipGroup, checkedIndex: Int = -1, onCheck: (List<Boolean>) -> Unit) {
+        setChipGroup(requireContext(), args.backtestResultList, chipGroup, checkedIndex, onCheck)
     }
 
     private fun plotBacktestResultTrades(backtestResult: BacktestResult) {
-        plotTrades(binding.chartTrades,
-            backtestResult.adjCloseList,
-            backtestResult.date.map { it.toDate() },
-            backtestResult.positionList,
-            backtestResult.backtestInput.getShortName(),
-            requireContext()
-        )
+        plotBacktestResultTrades(requireContext(), binding.chartTrades, backtestResult)
     }
 }

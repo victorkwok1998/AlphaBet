@@ -31,6 +31,9 @@
         <action
             android:id="@+id/action_backtestResultFragment_to_saveBacktestDialog"
             app:destination="@id/saveBacktestDialog" />
+        <action
+            android:id="@+id/action_backtestResultFragment_to_tradeTableFragment"
+            app:destination="@id/tradeTableFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -65,6 +68,9 @@
         <action
             android:id="@+id/action_homeFragment_to_editStrategyFragment"
             app:destination="@id/editStrategyFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_fragmentContainerSettings"
+            app:destination="@id/fragmentContainerSettings" />
     </fragment>
     <dialog
         android:id="@+id/timePeriodBottomSheetFragment"
@@ -86,8 +92,8 @@
                 android:id="@+id/action_fragmentHedgeInput_to_portfolioSelectFragment"
                 app:destination="@id/portfolioSelectFragment" />
             <action
-                android:id="@+id/action_hedgeInputFragment_to_hedgeResultFragment"
-                app:destination="@id/hedgeResultFragment" />
+                android:id="@+id/action_hedgeInputFragment_to_runHedgeDialog"
+                app:destination="@id/runHedgeDialog" />
         </fragment>
         <fragment
             android:id="@+id/hedgeResultFragment"
@@ -101,6 +107,20 @@
                 android:name="port"
                 app:argType="com.example.alphabet.database.PortfolioResultSchema" />
         </fragment>
+        <dialog
+            android:id="@+id/runHedgeDialog"
+            android:name="com.example.alphabet.RunHedgeDialog"
+            android:label="RunHedgeDialog" >
+            <argument
+                android:name="hedgeStock"
+                app:argType="string" />
+            <argument
+                android:name="port"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema" />
+            <action
+                android:id="@+id/action_runHedgeDialog_to_hedgeResultFragment"
+                app:destination="@id/hedgeResultFragment" />
+        </dialog>
     </navigation>
     <navigation android:id="@+id/nav_graph_port"
         app:startDestination="@id/portfolioInputFragment">
@@ -114,11 +134,24 @@
                 app:argType="com.example.alphabet.database.PortfolioResultSchema"
                 app:nullable="true"
                 android:defaultValue="@null" />
+            <action
+                android:id="@+id/action_portfolioInputFragment_to_runPortfolioDialog"
+                app:destination="@id/runPortfolioDialog" />
         </fragment>
         <action
             android:id="@+id/action_global_portfolioResultFragment"
             app:destination="@id/portfolioResultFragment"
             app:popUpTo="@id/homeFragment" />
+        <dialog
+            android:id="@+id/runPortfolioDialog"
+            android:name="com.example.alphabet.RunPortfolioDialog"
+            android:label="RunPortfolioDialog" >
+            <argument
+                android:name="portResult"
+                app:argType="com.example.alphabet.database.PortfolioResultSchema"
+                app:nullable="true"
+                android:defaultValue="@null" />
+        </dialog>
     </navigation>
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
     <navigation android:id="@+id/nav_graph_backtest"
@@ -128,9 +161,6 @@
             android:name="com.example.alphabet.BacktestInputFragment"
             android:label="BacktestInputFragment"
             tools:layout="@layout/fragment_backtest_input">
-            <action
-                android:id="@+id/action_backtestInputFragment_to_timePeriodBottomSheetFragment"
-                app:destination="@id/timePeriodBottomSheetFragment" />
             <action
                 android:id="@+id/action_backtestInputFragment_to_backtestStrategyInputFragment"
                 app:destination="@id/backtestStrategyInputFragment" />
@@ -228,4 +258,22 @@
             android:name="backtestResultList"
             app:argType="com.example.alphabet.BacktestResult[]" />
     </dialog>
+    <fragment
+        android:id="@+id/tradeTableFragment"
+        android:name="com.example.alphabet.TradeTableFragment"
+        android:label="TradeTableFragment"
+        tools:layout="@layout/fragment_trade_table">
+        <argument
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+        <argument
+            android:name="checkedIndex"
+            app:argType="integer"
+            android:defaultValue="0" />
+    </fragment>
+    <fragment
+        android:id="@+id/fragmentContainerSettings"
+        android:name="com.example.alphabet.FragmentContainerSettings"
+        android:label="FragmentContainerSettings"
+        tools:layout="@layout/fragment_settings"/>
 </navigation>

@@ -25,13 +25,13 @@ class StrategyInput(
         return exitRulesInput.joinToString("\n")
     }
     fun toStrategy(series: BaseBarSeries): Strategy {
-        val entryRules = entryRulesInput.filter { it.indInput1.indType != IndType.OTHER }
+        val entryRules = entryRulesInput.filter { it.indInput1.isIndicator() }
             .map { it.parseRule(series) }
-        val exitRules = exitRulesInput.filter { it.indInput1.indType != IndType.OTHER }
+        val exitRules = exitRulesInput.filter { it.indInput1.isIndicator() }
             .map { it.parseRule(series) }
-        val entryNonIndRules = entryRulesInput.filter { it.indInput1.indType == IndType.OTHER }
+        val entryNonIndRules = entryRulesInput.filter { !it.indInput1.isIndicator() }
             .map { it.parseRule(series) }
-        val exitNonIndRules = exitRulesInput.filter { it.indInput1.indType == IndType.OTHER }
+        val exitNonIndRules = exitRulesInput.filter { !it.indInput1.isIndicator() }
             .map { it.parseRule(series) }
 
 //        val nonIndRules = mutableListOf<Rule>()

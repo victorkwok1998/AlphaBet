@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.activity.viewModels
 import androidx.core.view.WindowCompat
 import androidx.fragment.app.activityViewModels
+import androidx.preference.PreferenceManager
 import com.google.android.material.textfield.TextInputEditText
 import org.ta4j.core.BaseBarSeries
 import yahoofinance.YahooFinance
@@ -23,6 +24,8 @@ import kotlinx.coroutines.*
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val sp = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        setTheme(sp.getString("theme", ""))
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
     }

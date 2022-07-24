@@ -6,10 +6,12 @@ import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.database.DatabaseViewModel
 import com.google.android.material.chip.ChipGroup
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.kotlinx.dataframe.math.mean
 import org.nield.kotlinstatistics.standardDeviation
 import org.ta4j.core.BaseBarSeries
@@ -26,32 +28,6 @@ import java.time.ZonedDateTime
 import java.util.*
 import kotlin.math.max
 import kotlin.math.sqrt
-
-
-//fun parameterDialog(
-//    indicatorInput: IndicatorInput,
-//    primSec: Serializable?,
-//    childFragmentManager: FragmentManager,
-//    isPopBackStack: Boolean = true,
-//) {
-//    ParameterDialogFragment.newInstance(indicatorInput, primSec, isPopBackStack)
-//        .show(
-//            childFragmentManager,
-//            ParameterDialogFragment.TAG
-//        )
-//}
-
-//fun setParamInput(layout: LinearLayout, indParamList: List<Int>?, paramNameList: List<String>, layoutInflater: LayoutInflater) {
-//    layout.removeAllViews()
-//    paramNameList.forEachIndexed { i, v ->
-//        IndicatorParamBinding.inflate(layoutInflater, layout, false).apply {
-//            this.paramValueText.hint = v
-//            // fill param list if not null
-//            indParamList?.let { this.paramValueText.editText?.setText(it[i].toString()) }
-//            layout.addView(this.root)
-//        }
-//    }
-//}
 
 fun aggRule(indRules: List<Rule>, nonIndRules: List<Rule>): Rule {
     return when {
@@ -83,7 +59,7 @@ fun String.toDate(): Date = this.toCalendar().time
 
 fun Calendar.toZonedDateTime(): ZonedDateTime = ZonedDateTime.ofInstant(this.toInstant(), ZoneId.systemDefault())
 
-fun Trade.toTradeData() = TradeData(this.type, this.index, this.pricePerAsset.floatValue())
+fun Trade.toTradeData(date: String, adjClose: Float) = TradeData(this.type, this.index, this.pricePerAsset.floatValue(), date, adjClose)
 
 fun ZonedDateTime.toDate() = Date.from(this.toInstant())
 
@@ -141,13 +117,6 @@ fun datePickerDialog(context: Context, defaultDate: Calendar, onDateSet: (Calend
     dpd.show()
 }
 
-fun switchVisibility(v: View) {
-    if (v.visibility == View.VISIBLE)
-        v.visibility = View.GONE
-    else
-        v.visibility = View.VISIBLE
-}
-
 fun sharpeRatio(portRet: List<Float>): Float {
     return (portRet.mean() / portRet.standardDeviation() * sqrt(252.0)).toFloat()
 }
@@ -199,4 +168,20 @@ fun setStrategyChipGroupFilter(chipGroup: ChipGroup, db: DatabaseViewModel, adap
         }
         tmp?.let { adapter.updateList(it) }
     }
+}
+
+fun setTheme(theme: String?) {
+    when (theme) {
+        "light" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        "dark" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        "system_default" -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM)
+    }
+}
+
+fun failToDownloadDialog(context: Context) {
+    MaterialAlertDialogBuilder(context)
+        .setTitle(R.string.error)
+        .setMessage(R.string.failed_to_download_data_error)
+        .setPositiveButton(R.string.ok, null)
+        .show()
 }

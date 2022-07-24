@@ -11,8 +11,7 @@
         type="android.graphics.drawable.Drawable" />
     </data>
     <com.google.android.material.card.MaterialCardView
-        style="?attr/materialCardViewFilledStyle"
-        app:cardBackgroundColor="@color/gray_background"
+        style="@style/Widget.Material3.CardView.Elevated"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
@@ -34,7 +33,7 @@
 
             <Button
                 android:id="@+id/button_edit_rule"
-                style="@style/Widget.Material3.Button.OutlinedButton"
+                style="@style/Widget.Material3.Button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"

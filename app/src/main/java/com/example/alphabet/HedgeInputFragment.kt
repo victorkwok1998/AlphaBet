@@ -76,7 +76,7 @@ class HedgeInputFragment: Fragment() {
                 isValid = false
             }
             if (isValid){
-                val action = HedgeInputFragmentDirections.actionHedgeInputFragmentToHedgeResultFragment(symbol, viewModel.hedgePort.value!!)
+                val action = HedgeInputFragmentDirections.actionHedgeInputFragmentToRunHedgeDialog(symbol, viewModel.hedgePort.value!!)
                 findNavController().navigate(action)
             }
         }

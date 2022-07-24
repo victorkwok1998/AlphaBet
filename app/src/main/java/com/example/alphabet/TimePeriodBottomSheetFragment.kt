@@ -5,10 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
+import androidx.core.view.isVisible
 import androidx.fragment.app.activityViewModels
 import com.example.alphabet.MyApplication.Companion.sdfLong
 import com.example.alphabet.databinding.DialogTimePeriodBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.textfield.TextInputEditText
 import java.util.*
@@ -62,7 +62,7 @@ class TimePeriodBottomSheetFragment: BottomSheetDialogFragment() {
         onDateChange: (Calendar) -> Unit
     ) {
         text.setOnClickListener {
-            switchVisibility(datePicker)
+            datePicker.isVisible = !datePicker.isVisible
             datePicker2.visibility = View.GONE
             datePicker.setOnDateChangedListener { _, year, month, day ->
                 val calendar = createCalendar(year, month, day)

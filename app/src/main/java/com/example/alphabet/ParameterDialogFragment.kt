@@ -14,7 +14,7 @@ import com.example.alphabet.viewmodel.IndicatorViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.android.material.textfield.TextInputLayout
 
-class ParameterDialogFragment() :
+class ParameterDialogFragment :
     DialogFragment() {
     private val viewModel: IndicatorViewModel by navGraphViewModels(R.id.nav_graph_indicator)
     private val staticDataViewModel: StaticDataViewModel by activityViewModels()

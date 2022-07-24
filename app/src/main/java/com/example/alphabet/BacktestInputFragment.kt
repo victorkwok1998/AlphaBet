@@ -34,7 +34,7 @@ class BacktestInputFragment: Fragment() {
         binding.topAppBar.setOnMenuItemClickListener {
             when(it.itemId) {
                 R.id.set_time_period -> {
-                    val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToTimePeriodBottomSheetFragment()
+                    val action = BacktestInputFragmentDirections.actionGlobalTimePeriodBottomSheetFragment()
                     findNavController().navigate(action)
                     true
                 }

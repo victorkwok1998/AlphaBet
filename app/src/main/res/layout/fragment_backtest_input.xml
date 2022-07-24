@@ -15,7 +15,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-                app:menu="@menu/date_confirm_app_bar"
+                app:menu="@menu/confirm_app_bar"
                 app:title="Add Securities" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -102,10 +102,8 @@
                     android:id="@+id/view_empty_symbol_list"
                     layout="@layout/layout_empty_list"
                     android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginBottom="0dp"
+                    android:layout_height="300dp"
                     app:image="@{@drawable/ic_baseline_trending_up_24}"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/symbol_text_layout"

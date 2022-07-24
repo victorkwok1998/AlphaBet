@@ -10,6 +10,7 @@ import com.example.alphabet.util.Constants.Companion.sdfShort
 import com.github.mikephil.charting.charts.*
 import com.github.mikephil.charting.components.Legend
 import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.components.YAxis
 import com.github.mikephil.charting.data.*
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 import com.github.mikephil.charting.formatter.PercentFormatter
@@ -30,19 +31,19 @@ val plotColors = listOf(
     R.color.plotColor7
 )
 
-fun plotEquityCurveFromCashFlow(
-    chart: LineChart,
-    seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>,
-    labels: List<String?>,
-    enabledLines: List<Boolean>,
-    context: Context
-) {
-    val yVals = seriesTradingRecord.map { (series, tradingRecord) ->
-        getCashFlow(series, tradingRecord)
-    }
-    val dates = List(seriesTradingRecord[0].first.barCount) {i -> Date.from(seriesTradingRecord[0].first.getBar(i).endTime.toInstant()) }
-    plotMultiLineCurve(chart, dates, yVals, labels, enabledLines, context)
-}
+//fun plotEquityCurveFromCashFlow(
+//    chart: LineChart,
+//    seriesTradingRecord: List<Pair<BaseBarSeries, TradingRecord>>,
+//    labels: List<String?>,
+//    enabledLines: List<Boolean>,
+//    context: Context
+//) {
+//    val yVals = seriesTradingRecord.map { (series, tradingRecord) ->
+//        getCashFlow(series, tradingRecord)
+//    }
+//    val dates = List(seriesTradingRecord[0].first.barCount) {i -> Date.from(seriesTradingRecord[0].first.getBar(i).endTime.toInstant()) }
+//    plotMultiLineCurve(chart, dates, yVals, labels, enabledLines, context)
+//}
 
 fun plotTrades(chart: CombinedChart, priceList: List<Float>, dates: List<Date>, positionList: List<PositionData>, label: String?, context: Context) {
     val buyIndexList = positionList.map { it.entry.index }
@@ -79,15 +80,10 @@ fun plotEquityCurve(
         setDrawGridBackground(false)
         setDrawBorders(false)
         setScaleEnabled(false)
-        axisLeft.apply {
-            setDrawGridLines(false)
-            setDrawLabels(false)
-            setDrawAxisLine(false)
-        }
-        axisRight.apply{
-            setDrawGridLines(false)
-            setDrawAxisLine(false)
-        }
+
+        axisLeft.formatAxisLeft()
+        axisRight.formatAxisRight(context)
+
         xAxis.apply {
             setDrawGridLines(false)
             position = XAxis.XAxisPosition.BOTTOM
@@ -132,18 +128,13 @@ fun plotMultiLineCurve(
         setTouchEnabled(false)
         setDrawGridBackground(false)
         setDrawBorders(false)
-        axisLeft.apply {
-            setDrawGridLines(false)
-            setDrawLabels(false)
-            setDrawAxisLine(false)
-        }
-        axisRight.apply {
-            setDrawGridLines(false)
-            textSize = 13f
-            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
-        }
+
+        axisLeft.formatAxisLeft()
+        axisRight.formatAxisRight(context)
+
         xAxis.apply {
             setDrawGridLines(false)
+            setDrawAxisLine(false)
             position = XAxis.XAxisPosition.BOTTOM
             valueFormatter = XAxisValueFormatter(dates)
             granularity = 1f
@@ -160,7 +151,7 @@ fun plotMultiLineCurve(
 //            xEntrySpace = 30f
 //        }
         legend.isEnabled = false
-        animateX(500)
+        animateX(400)
         invalidate()
     }
 }
@@ -194,7 +185,7 @@ fun plotRadarChart(
     with(chart) {
         xAxis.apply {
             valueFormatter = IndexAxisValueFormatter(labels)
-            textSize = 14f
+            textSize = 13f
             textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
         }
         yAxis.apply {
@@ -202,6 +193,7 @@ fun plotRadarChart(
             axisMaximum = 4f
             labelCount = 5
             setDrawLabels(false)
+            animateY(400)
         }
         data = radarDataSets
         legend.isEnabled = false
@@ -231,7 +223,7 @@ fun plotTimeSeriesScatterChart(
             lineWidth = 2f
             setDrawCircles(false)
             setDrawValues(false)
-            setColors(intArrayOf(R.color.blue), context)
+            setColors(intArrayOf(plotColors[0]), context)
             isHighlightEnabled = false
 //            highLightColor = ContextCompat.getColor(context, R.color.gray)
 //            highlightLineWidth = 1f
@@ -264,15 +256,10 @@ fun plotTimeSeriesScatterChart(
         setDrawBorders(false)
         isDoubleTapToZoomEnabled = false
 //        setScaleEnabled(false)
-        axisLeft.apply {
-            setDrawGridLines(false)
-            setDrawLabels(false)
-            setDrawAxisLine(false)
-        }
-        axisRight.apply{
-            setDrawGridLines(false)
-            setDrawAxisLine(false)
-        }
+
+        axisLeft.formatAxisLeft()
+        axisRight.formatAxisRight(context)
+
         xAxis.apply {
             setDrawGridLines(false)
             position = XAxis.XAxisPosition.BOTTOM
@@ -280,6 +267,9 @@ fun plotTimeSeriesScatterChart(
             granularity = 1f
             isGranularityEnabled = true
             setDrawAxisLine(false)
+            textSize = 13f
+            textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+            extraBottomOffset = 5f
 //            spaceMin = 10f
 //            spaceMax = 10f
 //            axisMaximum = xVals.lastIndex.toFloat()
@@ -444,6 +434,16 @@ fun plotBarChart(
     }
 }
 
+fun plotBacktestResultTrades(context: Context, chart: CombinedChart, backtestResult: BacktestResult) {
+    plotTrades(chart,
+        backtestResult.adjCloseList,
+        backtestResult.date.map { it.toDate() },
+        backtestResult.positionList,
+        backtestResult.backtestInput.getShortName(),
+        context
+    )
+}
+
 @ColorInt
 fun Context.getColorThemeRes(@AttrRes id: Int): Int {
     val resolvedAttr = TypedValue()
@@ -453,3 +453,20 @@ fun Context.getColorThemeRes(@AttrRes id: Int): Int {
 
 @ColorInt
 fun Context.getTextColorPrimary() = this.getColorThemeRes(android.R.attr.textColorPrimary)
+
+fun YAxis.formatAxisLeft() {
+    this.apply {
+        setDrawGridLines(false)
+        setDrawLabels(false)
+        setDrawAxisLine(false)
+    }
+}
+
+fun YAxis.formatAxisRight(context: Context) {
+    this.apply {
+        setDrawGridLines(false)
+        setDrawAxisLine(false)
+        textSize = 13f
+        textColor = context.getColorThemeRes(android.R.attr.textColorPrimary)
+    }
+}

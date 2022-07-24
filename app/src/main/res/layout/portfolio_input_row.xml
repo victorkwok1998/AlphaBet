@@ -37,7 +37,7 @@
         android:textSize="16sp"
         android:layout_weight="0.42"
         android:background="@color/secondary_background"
-        android:hint="weighting (%)"
+        android:hint="@string/notional"
         android:paddingHorizontal="10dp"
         android:layout_marginHorizontal="10dp"
         android:layout_gravity="center_vertical" />

@@ -33,7 +33,6 @@ class EditStrategyFragment : Fragment() {
         databaseViewModel = ViewModelProvider(this).get(DatabaseViewModel::class.java)
 
         binding.topAppBar.apply {
-            title = strategy.strategyName
             setNavigationOnClickListener {
                 saveStrategy(args.strategySchema)
                 findNavController().popBackStack()
@@ -69,6 +68,7 @@ class EditStrategyFragment : Fragment() {
                 }
             }
         }
+        binding.textStrategyTitle.text = strategy.strategyName
         binding.textStrategyDes.text = strategy.des
         setRuleCard(EntryExit.ENTRY, args.strategySchema)
         setRuleCard(EntryExit.EXIT, args.strategySchema)

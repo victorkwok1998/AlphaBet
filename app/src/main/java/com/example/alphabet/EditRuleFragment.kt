@@ -49,14 +49,14 @@ class EditRuleFragment: Fragment() {
         }
 
         binding.buttonAddRule.setOnClickListener {
-            if (adapter.currentList.last().indInput1.indName.isEmpty()) {
+            if (adapter.currentList.last().isValid()) {
+                addRule(adapter)
+            } else {
                 Toast.makeText(
                     requireContext(),
                     "Please complete the previous rule",
                     Toast.LENGTH_LONG
                 ).show()
-            } else {
-                addRule(adapter)
             }
         }
         binding.buttonDone.setOnClickListener {

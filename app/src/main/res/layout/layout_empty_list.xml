@@ -44,7 +44,7 @@
             android:layout_marginVertical="16dp"
             android:text="Add"
             android:visibility="@{noButton ? View.GONE : View.VISIBLE}"
-            style="@style/Widget.Material3.Button.OutlinedButton"
+            style="@style/Widget.Material3.Button.ElevatedButton"
             app:icon="@drawable/ic_baseline_add_24"/>
     </LinearLayout>
 

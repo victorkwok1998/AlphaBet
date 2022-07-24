@@ -23,14 +23,14 @@ class RunStrategyDialog: DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         _dialogBinding = DialogLoadingBinding.inflate(layoutInflater, null, false)
-        lifecycleScope.launch {
+        val job = lifecycleScope.launch {
             runStrategy()
             this@RunStrategyDialog.dismiss()
         }
         return MaterialAlertDialogBuilder(requireContext())
             .setTitle(R.string.progress_running_strategy)
             .setView(dialogBinding.root)
-            .setPositiveButton(R.string.cancel) { _, _ -> }
+            .setPositiveButton(R.string.cancel) { _, _ -> job.cancel() }
             .create()
     }
 
@@ -53,10 +53,7 @@ class RunStrategyDialog: DialogFragment() {
         dialogBinding.textLoading.text = getString(R.string.progress_running_strategy)
 
         if (rawData == null) {
-            MaterialAlertDialogBuilder(requireContext())
-                .setTitle(R.string.failed_to_download_data_error)
-                .setPositiveButton("OK") { _, _, -> }
-                .show()
+            failToDownloadDialog(requireContext())
         } else {
             val seriesMap = rawData.asIterable()
                 .associate { (s, quoteList) ->
@@ -77,13 +74,13 @@ class RunStrategyDialog: DialogFragment() {
                     val date =
                         List(series.barCount) { i -> Constants.sdfISO.format(series.getBar(i).endTime.toDate()) }
 
+                    val adjCloseList = rawData[backtestInput.stock.symbol]!!.map { it.adjClose.toFloat() }
+
                     val positionList = tradingRecord.positions.map {
-                        val entry = it.entry.toTradeData()
-                        val exit = it.exit.toTradeData()
+                        val entry = it.entry.toTradeData(date[it.entry.index], adjCloseList[it.entry.index])
+                        val exit = it.exit.toTradeData(date[it.exit.index], adjCloseList[it.exit.index])
                         PositionData(entry = entry, exit = exit, startingType = it.entry.type)
                     }
-
-                    val adjCloseList = rawData[backtestInput.stock.symbol]!!.map { it.adjClose.toFloat() }
 
                     BacktestResult(
                         backtestInput,

@@ -9,6 +9,12 @@
     <color name="light_blue_900">#01579B</color>
     <color name="blue_800">#1565c0</color>
     <color name="blue_600">#1e88e5</color>
+    <color name="blue_900">#0d47a1</color>
+    <color name="indigo_100">#c5cae9</color>
+    <color name="indigo_300">#7986cb</color>
+    <color name="indigo_400">#5c6bc0</color>
+    <color name="indigo_500">#3f51b5</color>
+    <color name="blue_100">#bbdefb</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="green">#4CAF50</color>

@@ -15,7 +15,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
                 app:menu="@menu/rename_app_bar"
-                tools:title="RSI Strategy"
                 app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
         </com.google.android.material.appbar.AppBarLayout>
 
@@ -33,7 +32,7 @@
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView20"
+                app:layout_constraintTop_toBottomOf="@+id/text_strategy_title"
                 tools:text="RSI strategy is a resversal strategy" />
 
             <include
@@ -66,12 +65,12 @@
                 app:image="@{@drawable/ic_baseline_trending_down_24}"/>
 
             <TextView
-                android:id="@+id/textView20"
-                style="@style/TextAppearance.Material3.TitleMedium"
+                android:id="@+id/text_strategy_title"
+                style="@style/TextAppearance.Material3.TitleLarge"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:text="Strategy Description"
+                tools:text="RSI Strategy"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 

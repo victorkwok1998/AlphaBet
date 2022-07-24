@@ -18,7 +18,7 @@ class RuleInput(
 ) : Parcelable {
     fun parseRule(series: BaseBarSeries): Rule {
         val close = ClosePriceIndicator(series)
-        if (indInput1.indType == IndType.OTHER) {
+        if (!indInput1.isIndicator()) {
             return when (indInput1.indName) {
                 "Stop Gain" -> StopGainRule(close, indInput1.indParamList[0].toFloat())
                 "Stop Loss" -> StopLossRule(close, indInput1.indParamList[0].toFloat())
@@ -29,17 +29,16 @@ class RuleInput(
             }
         }
 
-        val ind1 = when (indInput1.indType) {
-            IndType.INDICATOR -> indInput1.calIndicator(series)
+        val ind1 = when {
+            indInput1.isIndicator() -> indInput1.calIndicator(series)
             else -> close
         }
-        val ind2 = when (indInput2.indType) {
-            IndType.INDICATOR -> indInput2.calIndicator(series)
-            IndType.VALUE -> ConstantIndicator(
+        val ind2 = when {
+            indInput1.isIndicator() -> indInput2.calIndicator(series)
+            else -> ConstantIndicator(
                 series,
                 ind1.numOf(indInput2.indParamList[0].toInt())
             )  // convert to Indicator<Num>
-            else -> throw IllegalArgumentException("Indicator 2 cannot be a bool")
         }
         return when (condName) {
             Cond.CROSS_UP -> CrossedUpIndicatorRule(ind1, ind2)
@@ -50,14 +49,15 @@ class RuleInput(
     }
 
     fun isValid(): Boolean {
-        if (indInput1.indName.isEmpty()) {
-            return false
+        return if (indInput1.isIndicator()) {
+            indInput1.indName.isNotEmpty() && indInput2.indName.isNotEmpty()
+        } else {
+            indInput1.indName.isNotEmpty()
         }
-        return true
     }
 
     override fun toString(): String {
-        if (indInput1.indType == IndType.OTHER)
+        if (!indInput1.isIndicator())
             return indInput1.toString()
         val condNameString = when (condName) {
             Cond.CROSS_UP -> "cross up"

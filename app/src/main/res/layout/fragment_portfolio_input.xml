@@ -24,7 +24,7 @@
             android:layout_height="?attr/actionBarSize"
             app:menu="@menu/date_confirm_app_bar"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            app:title="Add Holding" />
+            app:title="Edit Holding" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
