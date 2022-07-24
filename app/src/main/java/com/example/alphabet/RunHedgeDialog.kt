@@ -43,6 +43,7 @@ class RunHedgeDialog: DialogFragment() {
             args.port.date.map { it.toCalendar() }.toColumn("date"),
             args.port.nav.toColumn("nav")
         )
+        dialogBinding.textLoading.text = getString(R.string.progress_loading_data)
         val hedgePrice = getClosePrice(listOf(args.hedgeStock), start, end)
         if (hedgePrice != null) {
             val dfRet = hedgePrice
