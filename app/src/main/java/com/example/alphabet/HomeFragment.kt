@@ -9,6 +9,8 @@ import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
+import androidx.preference.PreferenceManager
 import com.example.alphabet.database.StrategySchema
 import com.example.alphabet.databinding.FragmentHomeBinding
 import com.example.alphabet.databinding.ModalBottomSheetContentBinding
@@ -33,6 +35,17 @@ class HomeFragment: Fragment()  {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         val nestedNavController = (childFragmentManager.findFragmentById(R.id.fragmentContainerView) as NavHostFragment).navController
+
+        binding.homeAppBar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.settings_button -> {
+                    val action = HomeFragmentDirections.actionHomeFragmentToFragmentContainerSettings()
+                    findNavController().navigate(action)
+                    true
+                }
+                else -> false
+            }
+        }
 
         lifecycleScope.launch {
             if (staticDataViewModel.indToParamList.isEmpty()) {

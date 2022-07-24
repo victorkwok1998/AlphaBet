@@ -13,9 +13,10 @@
         style="@style/DisableLiftOnScroll">
 
         <com.google.android.material.appbar.MaterialToolbar
-            android:id="@+id/strat_app_bar"
+            android:id="@+id/home_app_bar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
+            app:menu="@menu/home_app_bar"
             app:title="AlphaBet" />
     </com.google.android.material.appbar.AppBarLayout>
 
