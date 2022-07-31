@@ -11,10 +11,11 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alphabet.database.DatabaseViewModel
+import com.example.alphabet.databinding.BacktestResultRowBottomSheetBinding
 import com.example.alphabet.databinding.FragmentMyStrategyBacktestBinding
+import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClickListener {
-    private val viewModel: StrategyViewModel by activityViewModels()
     private lateinit var navController: NavController
     private lateinit var databaseViewModel: DatabaseViewModel
 
@@ -27,11 +28,10 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
         databaseViewModel = ViewModelProvider(requireActivity()).get(DatabaseViewModel::class.java)
         val binding = FragmentMyStrategyBacktestBinding.inflate(inflater, container, false)
 
-        val adapter = BacktestResultAdapter(requireContext(),
-            this,
-            onDeleteClicked = { backtestResultId ->
-                databaseViewModel.deleteBacktestResult(backtestResultId)},
-            onRerunClicked = {}
+        val adapter = BacktestResultAdapter(requireContext(), this,
+//            onDeleteClicked = { backtestResultId ->
+//                databaseViewModel.deleteBacktestResult(backtestResultId)},
+//            onRerunClicked = {}
         )
 
         databaseViewModel.readAllBacktestResultData.observe(viewLifecycleOwner) {
@@ -59,6 +59,37 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
             val action = HomeFragmentDirections.actionHomeFragmentToBacktestResultFragment(
                 arrayOf(backtestResult.backtestResult))
             navController.navigate(action)
+        }
+    }
+
+    override fun onItemLongClick(position: Int) {
+        val currentItem = databaseViewModel.readAllBacktestResultData.value!![position]
+        BottomSheetDialog(requireContext()).apply {
+            val binding = BacktestResultRowBottomSheetBinding.inflate(layoutInflater, null, false)
+
+            binding.backtestInfo.symbolText.text = currentItem.backtestResult.backtestInput.stock.symbol
+            binding.backtestInfo.strategyNameText.text = currentItem.backtestResult.backtestInput.strategyInput.strategyName
+            binding.backtestInfo.dateRangeText.text = getBacktestPeriodString(currentItem.backtestResult, requireContext())
+
+            binding.deleteRow.setOnClickListener {
+                databaseViewModel.deleteBacktestResult(currentItem)
+                this.dismiss()
+            }
+            binding.rerunRow.setOnClickListener {
+                val start = currentItem.backtestResult.date.first().toCalendar()
+                val end = getYesterday()
+                val action = HomeFragmentDirections.actionHomeFragmentToRunStrategyDialog(
+                    start, end, arrayOf(currentItem.backtestResult.backtestInput.strategyInput), arrayOf(currentItem.backtestResult.backtestInput.stock))
+                navController.navigate(action)
+                this.dismiss()
+            }
+            binding.shareRow.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToShareBacktestFragment(currentItem.backtestResult)
+                navController.navigate(action)
+                this.dismiss()
+            }
+            this.setContentView(binding.root)
+            this.show()
         }
     }
 

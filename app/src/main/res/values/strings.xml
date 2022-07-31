@@ -42,6 +42,7 @@
     <string name="strategy_des">Buy when:\n%s\n\nSell when:\n%s</string>
     <string name="error">Error</string>
     <string name="ok">OK</string>
+    <string name="share">Share</string>
     <string-array name="radar_label">
         <item>Return</item>
         <item>Stability</item>
@@ -74,7 +75,7 @@
     <string name="hedge_text">%1$s $%2$s of %3$s</string>
     <string name="empty_backtest">No backtest yet</string>
     <string name="empty_port">No portfolio yet</string>
-    <string name="empty_holding">No holding yet</string>
+    <string name="empty_holding">Input symbol to add holding</string>
     <string name="add_strategy">Add strategy to backtest</string>
     <string name="indicator_used">Indicators: %1$s</string>
     <string name="required">Required</string>
@@ -85,6 +86,12 @@
     <string name="cancel">Cancel</string>
     <string name="failed_to_download_data_error">Failed to download data</string>
     <string name="duplicate_symbol_error">You have already added this symbol</string>
+    <string name="no_backtest_selected">Please select a backtest</string>
+    <string name="period_format">%s - %s</string>
+    <string name="trades">Trades</string>
+    <string name="save">Save</string>
+    <string name="strategy">Strategy</string>
+    <string name="period">Period</string>
     <string-array name="trade_table_header">
         <item>Entry Date</item>
         <item>Exit Date</item>
@@ -101,5 +108,10 @@
     <string name="theme_title">Theme</string>
     <string name="search_indicator_hint">Search indicators</string>
     <string name="notional">Notional</string>
+
+    <!-- Share Screen -->
+    <string name="up_slogan">To the Moon!</string>
+    <string name="down_slogan">Diamond Hand</string>
+    <string name="backtest_return">Backtest Return</string>
 
 </resources>

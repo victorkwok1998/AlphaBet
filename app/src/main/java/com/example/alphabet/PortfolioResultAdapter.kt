@@ -67,7 +67,7 @@ class PortfolioResultAdapter(
         val cashFlow = currentItem.nav
         val date = currentItem.date
         if (cashFlow.isNotEmpty()) {
-            holder.timePeriodText.text = "${isoToDisplay(date.first())} - ${isoToDisplay(date.last())}"
+            holder.timePeriodText.text = "${isoToDisplayShort(date.first())} - ${isoToDisplayShort(date.last())}"
             val pnl = cashFlow.last() / cashFlow.first() - 1
             setReturnText(context, holder.returnText, pnl) {MyApplication.pct.format(it)}
 

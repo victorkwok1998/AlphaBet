@@ -16,6 +16,12 @@ class BacktestResultRepository(private val backtestResultDao: BacktestResultDao)
         }
     }
 
+    suspend fun addBacktestResults(backtestResultSchemaList: List<BacktestResultSchema>): List<Long> {
+        return withContext(Dispatchers.IO) {
+            backtestResultDao.addBacktestResults(backtestResultSchemaList)
+        }
+    }
+
     suspend fun deleteBacktestResult(backtestResultSchema: BacktestResultSchema) {
         withContext(Dispatchers.IO) {
             backtestResultDao.deleteBacktestResult(backtestResultSchema)

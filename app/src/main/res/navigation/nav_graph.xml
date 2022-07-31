@@ -34,6 +34,9 @@
         <action
             android:id="@+id/action_backtestResultFragment_to_tradeTableFragment"
             app:destination="@id/tradeTableFragment" />
+        <action
+            android:id="@+id/action_backtestResultFragment_to_chooseBacktestDialog"
+            app:destination="@id/chooseBacktestDialog" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -63,14 +66,20 @@
             android:id="@+id/action_homeFragment_to_portfolioResultFragment"
             app:destination="@id/portfolioResultFragment" />
         <action
-            android:id="@+id/action_homeFragment_to_backtestResultFragment"
-            app:destination="@id/backtestResultFragment" />
-        <action
             android:id="@+id/action_homeFragment_to_editStrategyFragment"
             app:destination="@id/editStrategyFragment" />
         <action
             android:id="@+id/action_homeFragment_to_fragmentContainerSettings"
             app:destination="@id/fragmentContainerSettings" />
+        <action
+            android:id="@+id/action_homeFragment_to_runStrategyDialog"
+            app:destination="@id/runStrategyDialog" />
+        <action
+            android:id="@+id/action_homeFragment_to_backtestResultFragment"
+            app:destination="@id/backtestResultFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_shareBacktestFragment"
+            app:destination="@id/shareBacktestFragment" />
     </fragment>
     <dialog
         android:id="@+id/timePeriodBottomSheetFragment"
@@ -169,20 +178,10 @@
             android:id="@+id/backtestStrategyInputFragment"
             android:name="com.example.alphabet.BacktestStrategyInputFragment"
             android:label="BacktestStrategyInputFragment"
-            tools:layout="@layout/fragment_backtest_strategy_input">
-            <action
-                android:id="@+id/action_backtestStrategyInputFragment_to_runStrategyDialog"
-                app:destination="@id/runStrategyDialog" />
-        </fragment>
+            tools:layout="@layout/fragment_backtest_strategy_input"/>
         <action
-            android:id="@+id/action_global_backtestResultFragment"
-            app:destination="@id/backtestResultFragment"
-            app:popUpTo="@id/homeFragment" />
-        <dialog
-            android:id="@+id/runStrategyDialog"
-            android:name="com.example.alphabet.RunStrategyDialog"
-            android:label="RunStrategyDialog"
-            tools:layout="@layout/dialog_loading"/>
+            android:id="@+id/action_global_runStrategyDialog"
+            app:destination="@id/runStrategyDialog" />
     </navigation><action android:id="@+id/action_global_timePeriodBottomSheetFragment" app:destination="@id/timePeriodBottomSheetFragment"/>
     <fragment
         android:id="@+id/editStrategyFragment"
@@ -276,4 +275,46 @@
         android:name="com.example.alphabet.FragmentContainerSettings"
         android:label="FragmentContainerSettings"
         tools:layout="@layout/fragment_settings"/>
+    <dialog
+        android:id="@+id/runStrategyDialog"
+        android:name="com.example.alphabet.RunStrategyDialog"
+        android:label="RunStrategyDialog"
+        tools:layout="@layout/dialog_loading">
+        <action
+            android:id="@+id/action_runStrategyDialog_to_backtestResultFragment"
+            app:destination="@id/backtestResultFragment"
+            app:popUpTo="@id/homeFragment" />
+        <argument
+            android:name="start"
+            app:argType="java.util.Calendar" />
+        <argument
+            android:name="end"
+            app:argType="java.util.Calendar" />
+        <argument
+            android:name="strategyList"
+            app:argType="com.example.alphabet.StrategyInput[]" />
+        <argument
+            android:name="stockList"
+            app:argType="com.example.alphabet.StockStatic[]" />
+    </dialog>
+    <fragment
+        android:id="@+id/shareBacktestFragment"
+        android:name="com.example.alphabet.ShareBacktestFragment"
+        android:label="ShareBacktestFragment"
+        tools:layout="@layout/fragment_share_backtest">
+        <argument
+            android:name="backtestResult"
+            app:argType="com.example.alphabet.BacktestResult" />
+    </fragment>
+    <dialog
+        android:id="@+id/chooseBacktestDialog"
+        android:name="com.example.alphabet.ChooseBacktestDialog"
+        android:label="ChooseBacktestDialog" >
+        <action
+            android:id="@+id/action_chooseBacktestDialog_to_shareBacktestFragment"
+            app:destination="@id/shareBacktestFragment" />
+        <argument
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+    </dialog>
 </navigation>

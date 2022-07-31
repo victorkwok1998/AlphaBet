@@ -60,7 +60,10 @@ class BacktestResultFragment: Fragment() {
             plotBacktestResultTrades(args.backtestResultList[i])
         }
 
-        binding.buttonShareBacktest.setOnClickListener {  }
+        binding.buttonShareBacktest.setOnClickListener {
+            val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToChooseBacktestDialog(args.backtestResultList)
+            findNavController().navigate(action)
+        }
         binding.buttonSaveBacktest.setOnClickListener {
             val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
             findNavController().navigate(action)

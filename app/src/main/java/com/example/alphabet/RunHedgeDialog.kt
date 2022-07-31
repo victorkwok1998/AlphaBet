@@ -2,7 +2,6 @@ package com.example.alphabet
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController

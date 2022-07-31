@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <com.google.android.material.appbar.MaterialToolbar
+            android:id="@+id/top_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:navigationIcon="@drawable/ic_baseline_arrow_back_24" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_share_backtest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="@+id/button_share_backtest_screen"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
+
+            <ImageView
+                android:id="@+id/image_share_icon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="?attr/colorOnSurface"
+                tools:src="@drawable/ic_outline_rocket_launch_24" />
+
+            <TextView
+                android:id="@+id/text_share_slogan"
+                style="@style/TextAppearance.Material3.DisplayMedium"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="32dp"
+                android:layout_marginEnd="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/image_share_icon"
+                tools:text="@string/up_slogan" />
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="48dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="48dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_share_return">
+
+                <TableRow android:paddingVertical="4dp">
+
+                    <TextView
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/symbol"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_share_symbol"
+                        tools:text="AAPL" />
+                </TableRow>
+
+                <TableRow android:paddingVertical="4dp">
+
+                    <TextView
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/strategy"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_share_strategy"
+                        tools:text="SMA Strategy" />
+                </TableRow>
+
+                <TableRow android:paddingVertical="4dp">
+
+                    <TextView
+                        android:paddingHorizontal="16dp"
+                        android:text="@string/period"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/text_share_period"
+                        tools:text="01 Jan 2021 - 01 Jan 2022" />
+                </TableRow>
+            </TableLayout>
+
+            <TextView
+                android:id="@+id/textView20"
+                style="@style/TextAppearance.Material3.BodyLarge"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:text="@string/backtest_return"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_share_slogan" />
+
+            <TextView
+                android:id="@+id/text_share_return"
+                style="@style/TextAppearance.Material3.DisplaySmall"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView20"
+                tools:text="89.64%"
+                tools:textColor="@color/green" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+        <Button
+            android:id="@+id/button_share_backtest_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:text="@string/share"
+            app:iconGravity="textStart"
+            app:icon="@drawable/ic_baseline_share_24"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

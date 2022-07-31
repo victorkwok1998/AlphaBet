@@ -9,6 +9,9 @@ interface BacktestResultDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addBacktestResult(backtestResultSchema: BacktestResultSchema): Long
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addBacktestResults(backtestResultSchemaList: List<BacktestResultSchema>): List<Long>
+
     @Delete
     fun deleteBacktestResult(backtestResultSchema: BacktestResultSchema)
 

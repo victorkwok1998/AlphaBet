@@ -33,6 +33,7 @@ class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClick
     private val viewModel: BacktestViewModel by navGraphViewModels(R.id.nav_graph_backtest)
     private lateinit var databaseViewModel: DatabaseViewModel
     private lateinit var strategyListAdapter: StrategyListAdapter
+    private val activityViewModel: StrategyViewModel by activityViewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +48,12 @@ class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClick
             when(it.itemId) {
                 R.id.confirm_button -> {
                     if (viewModel.checkedStrategy.isNotEmpty()) {
-                        val action = BacktestStrategyInputFragmentDirections.actionBacktestStrategyInputFragmentToRunStrategyDialog()
+                        val action = BacktestStrategyInputFragmentDirections.actionGlobalRunStrategyDialog(
+                            activityViewModel.start.value!!,
+                            activityViewModel.end.value!!,
+                            viewModel.checkedStrategy.values.map { it.strategy }.toTypedArray(),
+                            viewModel.stockList.toTypedArray()
+                        )
                         findNavController().navigate(action)
                     }
                     else {

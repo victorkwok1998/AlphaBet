@@ -3,6 +3,8 @@ package com.example.alphabet
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
@@ -93,10 +95,16 @@ fun Context.copyFromAsset(fileName: String) {
     }
 }
 
-fun isoToDisplay(dateString: String): String {
+fun isoToDisplayShort(dateString: String): String {
     return dateString
         .run { MyApplication.sdfISO.parse(this) }
         .run { MyApplication.sdfShort.format(this!!) }
+}
+
+fun isoToDisplayLong(dateString: String): String {
+    return dateString
+        .run { MyApplication.sdfISO.parse(this) }
+        .run { MyApplication.sdfLong.format(this!!) }
 }
 
 fun datePickerDialog(context: Context, defaultDate: Calendar, onDateSet: (Calendar) -> Unit) {
@@ -184,4 +192,23 @@ fun failToDownloadDialog(context: Context) {
         .setMessage(R.string.failed_to_download_data_error)
         .setPositiveButton(R.string.ok, null)
         .show()
+}
+
+fun getYesterday(): Calendar = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
+
+fun getBitmapFromView(view: View): Bitmap {
+    val bitmap = Bitmap.createBitmap(
+        view.width, view.height, Bitmap.Config.ARGB_8888
+    )
+    val canvas = Canvas(bitmap)
+    view.draw(canvas)
+    return bitmap
+}
+
+fun getBacktestPeriodString(backtestResult: BacktestResult, context: Context): String {
+    return context.getString(
+        R.string.period_format,
+        isoToDisplayLong(backtestResult.date.first()),
+        isoToDisplayLong(backtestResult.date.last())
+    )
 }

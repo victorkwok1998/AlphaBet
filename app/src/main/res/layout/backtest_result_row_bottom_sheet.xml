@@ -1,76 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TableRow
-        android:id="@+id/delete_row"
-        style="@style/BottomSheetRow">
+    <include layout="@layout/backtest_info"
+        android:id="@+id/backtest_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_outline_delete_24"
-            app:tint="?attr/colorOnSurface" />
+    <com.google.android.material.divider.MaterialDivider
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        app:dividerColor="@color/gray"/>
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Delete" />
-    </TableRow>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TableRow
-        android:id="@+id/share_row"
-        style="@style/BottomSheetRow">
+        <TableRow
+            android:id="@+id/delete_row"
+            style="@style/BottomSheetRow">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_share_24"
-            app:tint="?attr/colorOnSurface" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_delete_24"
+                app:tint="?attr/colorOnSurface" />
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Share" />
-    </TableRow>
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="@string/delete_button" />
+        </TableRow>
 
-    <TableRow android:id="@+id/rerun_row"
-        style="@style/BottomSheetRow">
+        <TableRow
+            android:id="@+id/share_row"
+            style="@style/BottomSheetRow">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_baseline_sync_24"
-            app:tint="?attr/colorOnSurface" />
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_share_24"
+                app:tint="?attr/colorOnSurface" />
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Rerun with latest date" />
-    </TableRow>
-    <TableRow android:id="@+id/optimize_row"
-        style="@style/BottomSheetRow">
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Share" />
+        </TableRow>
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/ic_outline_settings_24"
-            app:tint="?attr/colorOnSurface" />
+        <TableRow android:id="@+id/rerun_row"
+            style="@style/BottomSheetRow">
 
-        <TextView
-            style="@style/TextAppearance.MaterialComponents.Subtitle1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="Optimize parameters" />
-    </TableRow>
-</TableLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_baseline_sync_24"
+                app:tint="?attr/colorOnSurface" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Rerun with latest date" />
+        </TableRow>
+        <TableRow android:id="@+id/optimize_row"
+            style="@style/BottomSheetRow">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_outline_settings_24"
+                app:tint="?attr/colorOnSurface" />
+
+            <TextView
+                style="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Optimize parameters" />
+        </TableRow>
+    </TableLayout>
+
+</LinearLayout>

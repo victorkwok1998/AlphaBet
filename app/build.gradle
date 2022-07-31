@@ -85,5 +85,5 @@ dependencies {
     implementation 'org.jetbrains.kotlinx:dataframe:0.8.0-rc-7'
     implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.2.0'
     implementation 'com.github.ISchwarz23:SortableTableView:2.8.1'
-    implementation 'androidx.preference:preference:1.2.0'
+    implementation 'androidx.preference:preference-ktx:1.2.0'
 }

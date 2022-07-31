@@ -1,21 +1,14 @@
 package com.example.alphabet
 
 import android.app.Dialog
-import android.content.DialogInterface
 import android.os.Bundle
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.navArgs
-import com.example.alphabet.MyApplication.Companion.sdfISO
-//import com.example.alphabet.database.BacktestResultCashFlowSchema
 import com.example.alphabet.database.BacktestResultSchema
 import com.example.alphabet.database.DatabaseViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import java.util.*
-import kotlin.collections.ArrayList
 
 class SaveBacktestDialog: DialogFragment() {
     private lateinit var databaseViewModel: DatabaseViewModel
@@ -33,15 +26,14 @@ class SaveBacktestDialog: DialogFragment() {
                 selected[which] = isChecked
             }
             .setPositiveButton("OK") { dialog, id ->
-                selected.forEachIndexed { i, isChecked ->
-                    if (isChecked) {
-                        databaseViewModel.addBacktestResult(BacktestResultSchema(0, args.backtestResultList[i]))
-                    }
-                }
+                val results = selected.zip(args.backtestResultList)
+                    .filter { it.first }
+                    .map { BacktestResultSchema(0, it.second) }
+                databaseViewModel.addBacktestResults(results)
                 if (selected.any())
                     Toast.makeText(requireContext(), getString(R.string.saved), Toast.LENGTH_LONG).show()
             }
-            .setNegativeButton("Cancel", null)
+            .setNegativeButton(getString(R.string.cancel), null)
             .create()
     }
 }

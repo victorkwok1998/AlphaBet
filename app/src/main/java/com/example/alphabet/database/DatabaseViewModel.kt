@@ -26,6 +26,12 @@ class DatabaseViewModel(application: Application): AndroidViewModel(application)
         }
     }
 
+    fun addBacktestResults(backtestResultSchemaList: List<BacktestResultSchema>) {
+        viewModelScope.launch {
+            repository.addBacktestResults(backtestResultSchemaList)
+        }
+    }
+
     fun deleteBacktestResult(backtestResultSchema: BacktestResultSchema) {
         viewModelScope.launch {
             repository.deleteBacktestResult(backtestResultSchema)

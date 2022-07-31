@@ -6,18 +6,17 @@ import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
+import androidx.navigation.fragment.navArgs
 import com.example.alphabet.databinding.DialogLoadingBinding
 import com.example.alphabet.util.Constants
-import com.example.alphabet.viewmodel.BacktestViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
 import org.ta4j.core.BarSeriesManager
 import org.ta4j.core.BaseBarSeries
 
 class RunStrategyDialog: DialogFragment() {
-    private val activityViewModel: StrategyViewModel by activityViewModels()
-    private val viewModel: BacktestViewModel by navGraphViewModels(R.id.nav_graph_backtest)
+    private val args: RunStrategyDialogArgs by navArgs()
+//    private val viewModel: BacktestViewModel by navGraphViewModels(R.id.nav_graph_backtest)
     private var _dialogBinding: DialogLoadingBinding? = null
     private val dialogBinding get() = _dialogBinding!!
 
@@ -35,21 +34,21 @@ class RunStrategyDialog: DialogFragment() {
     }
 
     private suspend fun runStrategy() {
-        val start = activityViewModel.start.value!!
-        val end = activityViewModel.end.value!!
-        val strategyList = viewModel.checkedStrategy.values.toMutableList().sortedBy { it.strategy.strategyName }
+        val start = args.start
+        val end = args.end
+        val strategyList = args.strategyList.sortedBy { it.strategyName }
 
         val backtestInputList = mutableListOf<BacktestInput>()
-        for (stock in viewModel.stockList) {
+        for (stock in args.stockList) {
             for (strategy in strategyList) {
                 backtestInputList.add(
-                    BacktestInput(stock = stock, strategyInput = strategy.strategy)
+                    BacktestInput(stock = stock, strategyInput = strategy)
                 )
             }
         }
 
         dialogBinding.textLoading.text = getString(R.string.progress_loading_data)
-        val rawData = getMarketData(viewModel.stockList.map { it.symbol }, start, end)
+        val rawData = getMarketData(args.stockList.map { it.symbol }, start, end)
         dialogBinding.textLoading.text = getString(R.string.progress_running_strategy)
 
         if (rawData == null) {
@@ -89,7 +88,7 @@ class RunStrategyDialog: DialogFragment() {
                         positionList = positionList
                     )
                 }
-            val action = BacktestStrategyInputFragmentDirections.actionGlobalBacktestResultFragment(backtestResultList = backtestResultList.toTypedArray())
+            val action = RunStrategyDialogDirections.actionRunStrategyDialogToBacktestResultFragment(backtestResultList = backtestResultList.toTypedArray())
             findNavController().navigate(action)
         }
     }

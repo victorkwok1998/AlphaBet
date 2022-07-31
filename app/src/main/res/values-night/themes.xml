@@ -2,8 +2,8 @@
     <!-- Base application theme. -->
     <style name="Theme.AlphaBet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/indigo_300</item>
-        <item name="colorSecondaryContainer">@color/indigo_400</item>
+        <item name="colorPrimary">#457B9D</item>
+        <item name="colorSecondaryContainer">#5D9BD1</item>
         <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
         <!--        <item name="colorOnPrimary">@color/black</item>-->
         <!-- Secondary brand color. -->
