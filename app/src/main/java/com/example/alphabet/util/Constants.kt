@@ -9,6 +9,7 @@ class Constants {
         const val BASE_URL = "https://query1.finance.yahoo.com"
         val sdfISO = SimpleDateFormat("yyyy-MM-dd", Locale.ENGLISH)
         var sdfShort = SimpleDateFormat("MMM yy", Locale.ENGLISH)
+        val sdfDDMM = SimpleDateFormat("dd/MM/yy", Locale.ENGLISH)
         val pct = DecimalFormat("#,###0.00%")
     }
 }

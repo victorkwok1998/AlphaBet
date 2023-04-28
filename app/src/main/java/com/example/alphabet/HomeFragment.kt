@@ -47,20 +47,20 @@ class HomeFragment: Fragment()  {
             }
         }
 
-        lifecycleScope.launch {
-            if (staticDataViewModel.indToParamList.isEmpty()) {
-                // Read static data
-                withContext(Dispatchers.IO) {
-                    staticDataViewModel.indicatorStatic =
-                        Json.decodeFromString<List<IndicatorStatic>>(getJsonDataFromAsset(requireContext(), "indicatorStatic.json")).sortedBy { it.indName }
-                    staticDataViewModel.indToParamList =
-                        staticDataViewModel.indicatorStatic.associate { it.indName to it.paramName }
-
-                    staticDataViewModel.radarChartRange =
-                        Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
-                }
-            }
-        }
+//        lifecycleScope.launch {
+//            if (staticDataViewModel.indToParamList.isEmpty()) {
+//                // Read static data
+//                withContext(Dispatchers.IO) {
+//                    staticDataViewModel.indicatorStatic =
+//                        Json.decodeFromString<List<IndicatorStatic>>(getJsonDataFromAsset(requireContext(), "indicatorStatic.json")).sortedBy { it.indName }
+//                    staticDataViewModel.indToParamList =
+//                        staticDataViewModel.indicatorStatic.associate { it.indName to it.paramName }
+//
+//                    staticDataViewModel.radarChartRange =
+//                        Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
+//                }
+//            }
+//        }
 
 //        binding.bottomNavigation.setupWithNavController(nestedNavHostFragment.navController)
         binding.bottomNavigation.setOnItemSelectedListener {

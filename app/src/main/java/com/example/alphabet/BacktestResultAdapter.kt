@@ -35,23 +35,6 @@ class BacktestResultAdapter(
         holder.symbolText.text = currentItem.backtestResult.backtestInput.stock.symbol
         holder.strategyText.text = currentItem.backtestResult.backtestInput.strategyInput.strategyName
 
-//        holder.moreButton.setOnClickListener {
-//            BottomSheetDialog(context).apply {
-//                val binding = BacktestResultRowBottomSheetBinding.inflate(LayoutInflater.from(context), null, false)
-//                binding.deleteRow.setOnClickListener {
-////                    notifyItemRemoved(position)
-////                    notifyItemRangeChanged(position, itemCount - position)
-//                    onDeleteClicked(currentItem)
-//                    this.dismiss()
-//                }
-//                binding.rerunRow.setOnClickListener {
-//                    onRerunClicked(currentItem)
-//                }
-//                this.setContentView(binding.root)
-//                this.show()
-//            }
-//        }
-
         val cashFlow = currentItem.backtestResult.getCashFlow()
 //        val date = currentItem.backtestResult.date
         if (cashFlow.isNotEmpty()) {

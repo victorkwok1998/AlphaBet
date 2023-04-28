@@ -123,6 +123,14 @@
         <item name="startIconDrawable">@drawable/ic_baseline_trending_up_24</item>
         <item name="android:hint">Symbol</item>
     </style>
+    <style name="BasicTextField">
+        <item name="errorEnabled">true</item>
+        <item name="endIconMode">clear_text</item>
+    </style>
+    <style name="NumericEditText">
+        <item name="maxLines">1</item>
+        <item name="android:inputType">number</item>
+    </style>
 
     <style name="symbolEditText" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
         <item name="android:maxLines">1</item>
@@ -167,10 +175,9 @@
         <item name="android:paddingHorizontal">5dp</item>
         <item name="android:paddingVertical">2dp</item>
         <item name="android:textColor">?attr/colorOnPrimary</item>
-        <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Filled">
+    <style name="Widget.App.CardView" parent="Widget.Material3.CardView.Elevated">
         <item name="materialThemeOverlay">@style/ThemeOverlay.App.Card</item>
     </style>
 

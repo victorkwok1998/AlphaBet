@@ -3,30 +3,39 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingVertical="8dp">
+    android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/text_stock_name"
-        style="@style/StockText"
+    <include
+        android:id="@+id/layout_symbol_row"
+        layout="@layout/symbol_search_row"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/button_delete"
-        app:layout_constraintStart_toStartOf="@+id/text_typeDisp"
-        app:layout_constraintTop_toBottomOf="@+id/text_typeDisp"
-        tools:text="Apple Inc." />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/text_symbol"
-        style="@style/TextAppearance.Material3.LabelMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/gray"
-        app:layout_constraintStart_toStartOf="@+id/text_stock_name"
-        app:layout_constraintTop_toBottomOf="@+id/text_stock_name"
-        tools:text="AAPL" />
+<!--    <TextView-->
+<!--        android:id="@+id/text_stock_name"-->
+<!--        style="@style/StockText"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        app:layout_constraintEnd_toStartOf="@+id/button_delete"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/text_typeDisp"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/text_typeDisp"-->
+<!--        tools:text="Apple Inc." />-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/text_symbol"-->
+<!--        style="@style/TextAppearance.Material3.LabelMedium"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginTop="4dp"-->
+<!--        android:textColor="@color/gray"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/text_stock_name"-->
+<!--        app:layout_constraintTop_toBottomOf="@+id/text_stock_name"-->
+<!--        tools:text="AAPL" />-->
 
     <Button
         android:id="@+id/button_delete"
@@ -34,19 +43,20 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
+        android:layout_marginBottom="13dp"
         app:icon="@drawable/ic_baseline_delete_24"
-        app:layout_constraintBottom_toBottomOf="@+id/text_symbol"
+        app:layout_constraintBottom_toBottomOf="@+id/layout_symbol_row"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/text_stock_name" />
+        app:layout_constraintTop_toTopOf="@+id/layout_symbol_row" />
 
-    <TextView
-        android:id="@+id/text_typeDisp"
-        style="@style/rounded_corner_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:text="Equity" />
+<!--    <TextView-->
+<!--        android:id="@+id/text_typeDisp"-->
+<!--        style="@style/rounded_corner_text"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_marginStart="16dp"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        tools:text="Equity" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

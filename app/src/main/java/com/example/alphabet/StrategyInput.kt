@@ -62,6 +62,31 @@ class StrategyInput(
         return res.filter { it.isNotEmpty() }
     }
 
+    fun getParamList() = (this.entryRulesInput + this.exitRulesInput)
+        .map { it.indInput1.indParamList + it.indInput2.indParamList }
+        .reduce { acc, strings -> acc + strings }
+
+    fun setStrategyParamList(paramList: List<String>, indToParamList: Map<String, List<String>>) {
+        val nEntryParam = this.entryRulesInput.sumOf { it.indInput1.nParam(indToParamList) + it.indInput2.nParam(indToParamList) }
+        val entryParamList = paramList.slice(0 until nEntryParam)
+        val exitParamList = paramList.slice(nEntryParam until paramList.size)
+
+        fun setRuleParamList(ruleList: List<RuleInput>, paramList: List<String>) {
+            var count = 0
+            ruleList.forEach {
+                val n1 = it.indInput1.nParam(indToParamList)
+                val n2 = it.indInput2.nParam(indToParamList)
+                it.indInput1.indParamList = paramList.slice(count until count + n1).toMutableList()
+                count += n1
+                it.indInput2.indParamList = paramList.slice(count until count + n2).toMutableList()
+                count += n2
+            }
+        }
+
+        setRuleParamList(this.entryRulesInput, entryParamList)
+        setRuleParamList(this.exitRulesInput, exitParamList)
+    }
+
     companion object {
         fun getEmptyStrategy(): StrategyInput {
             return StrategyInput(

@@ -118,9 +118,10 @@ class BacktestInputFragment: Fragment() {
     private fun addSymbolRow(stock: StockStatic) {
         binding.viewEmptySymbolList.root.isVisible = false
         val row = StockRowBinding.inflate(LayoutInflater.from(requireContext()))
-        row.textSymbol.text = stock.symbol
-        row.textStockName.text = stock.longname ?: stock.shortname
-        row.textTypeDisp.text = stock.typeDisp
+        row.layoutSymbolRow.textSearchSymbol.text = stock.symbol
+        row.layoutSymbolRow.textSearchName.text = stock.longname ?: stock.shortname
+        row.layoutSymbolRow.textSearchTypeDisp.text = stock.typeDisp
+        row.layoutSymbolRow.textSearchExchDisp.text = stock.exchDisp
         row.buttonDelete.setOnClickListener {
             binding.layoutStockList.removeView(row.root)
             viewModel.stockList.remove(stock)
@@ -130,26 +131,6 @@ class BacktestInputFragment: Fragment() {
         }
         binding.layoutStockList.addView(row.root)
     }
-
-//    private fun addSymbol(textView: TextView) {
-//        lifecycleScope.launch {
-//            val symbol = textView.text.toString().uppercase()
-//            val stock = getStock(symbol)
-//
-//            if (stock != null) {
-//                if (stock in viewModel.stockList) {
-//                    binding.symbolTextLayout.error = "You've already input this symbol"
-//                } else {
-//                    addSymbolRow(stock)
-//                    viewModel.stockList.add(stock)
-//                    textView.text = ""
-//                    binding.symbolTextLayout.error = null
-//                }
-//            } else {
-//                binding.symbolTextLayout.error = "Invalid symbol"
-//            }
-//        }
-//    }
 
     private fun setDatePicker(editText: EditText, c: Calendar) {
         val year = c.get(Calendar.YEAR)

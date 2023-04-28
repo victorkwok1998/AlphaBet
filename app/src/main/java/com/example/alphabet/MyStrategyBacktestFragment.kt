@@ -88,6 +88,16 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
                 navController.navigate(action)
                 this.dismiss()
             }
+            binding.optimizeRow.setOnClickListener {
+                val action = HomeFragmentDirections.actionHomeFragmentToOptParamInputFragment(
+                    start = currentItem.backtestResult.date.first().toCalendar(),
+                    end = currentItem.backtestResult.date.last().toCalendar(),
+                    stock = currentItem.backtestResult.backtestInput.stock,
+                    strategy = currentItem.backtestResult.backtestInput.strategyInput
+                )
+                navController.navigate(action)
+                this.dismiss()
+            }
             this.setContentView(binding.root)
             this.show()
         }

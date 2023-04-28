@@ -52,7 +52,11 @@
             app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_fragmentHedgeInput"
-            app:destination="@id/nav_graph_hedge" />
+            app:destination="@id/nav_graph_hedge"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_nav_graph_port"
             app:destination="@id/nav_graph_port" >
@@ -67,7 +71,11 @@
             app:destination="@id/portfolioResultFragment" />
         <action
             android:id="@+id/action_homeFragment_to_editStrategyFragment"
-            app:destination="@id/editStrategyFragment" />
+            app:destination="@id/editStrategyFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_fragmentContainerSettings"
             app:destination="@id/fragmentContainerSettings" />
@@ -80,6 +88,26 @@
         <action
             android:id="@+id/action_homeFragment_to_shareBacktestFragment"
             app:destination="@id/shareBacktestFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_optParamInputFragment"
+            app:destination="@id/nav_graph_opt"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" >
+            <argument
+                android:name="start"
+                app:argType="java.util.Calendar" />
+            <argument
+                android:name="end"
+                app:argType="java.util.Calendar" />
+            <argument
+                android:name="strategy"
+                app:argType="com.example.alphabet.StrategyInput" />
+            <argument
+                android:name="stock"
+                app:argType="com.example.alphabet.StockStatic" />
+        </action>
     </fragment>
     <dialog
         android:id="@+id/timePeriodBottomSheetFragment"
@@ -317,4 +345,28 @@
             android:name="backtestResultList"
             app:argType="com.example.alphabet.BacktestResult[]" />
     </dialog>
+    <navigation android:id="@+id/nav_graph_opt"
+        app:startDestination="@id/optParamInputFragment">
+        <fragment
+            android:id="@+id/optParamInputFragment"
+            android:name="com.example.alphabet.OptParamInputFragment"
+            android:label="OptParamInputFragment"
+            tools:layout="@layout/fragment_opt_param_input">
+            <argument
+                android:name="start"
+                app:argType="java.util.Calendar" />
+            <argument
+                android:name="end"
+                app:argType="java.util.Calendar" />
+            <argument
+                android:name="strategy"
+                app:argType="com.example.alphabet.StrategyInput" />
+            <argument
+                android:name="stock"
+                app:argType="com.example.alphabet.StockStatic" />
+            <action
+                android:id="@+id/action_optParamInputFragment_to_runStrategyDialog"
+                app:destination="@id/runStrategyDialog" />
+        </fragment>
+    </navigation>
 </navigation>

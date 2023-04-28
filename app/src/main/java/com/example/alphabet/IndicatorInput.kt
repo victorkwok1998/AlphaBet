@@ -58,6 +58,8 @@ class IndicatorInput(
         }
     }
 
+    fun nParam(indToParamList: Map<String, List<String>>) = indToParamList[this.indName]?.size ?: 0
+
     fun copy(
         indType: IndType = this.indType,
         indName: String = this.indName,

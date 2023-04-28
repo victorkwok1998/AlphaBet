@@ -1,9 +1,8 @@
 package com.example.alphabet
 
-import android.content.Context
 import android.os.Bundle
 import android.view.*
-import android.widget.SearchView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
@@ -31,36 +30,25 @@ class IndicatorListFragment: Fragment(), IndicatorAdapter.OnItemClickListener {
 
         with(binding.indicatorAppBar) {
             setNavigationOnClickListener { findNavController().popBackStack() }
-            val searchView = menu.findItem(R.id.menu_search).actionView as SearchView
-            searchView.queryHint = getString(R.string.search_indicator_hint)
-            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    return search(query)
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    return search(newText)
-                }
-            })
-//            setOnMenuItemClickListener {
-//                when(it.itemId) {
-//                    R.id.menu_search -> {
-//                        val searchView = it.actionView as androidx.appcompat.widget.SearchView
-//                        searchView.isSubmitButtonEnabled = true
-//
-//                        true
-//                    }
-//                    else -> false
-//                }
-//            }
         }
 
-
-//        val viewPager = binding.indicatorListViewPager
-//        val tabLayout = binding.indicatorListTabLayout
-
         val indicators = staticDataViewModel.indicatorStatic
-//            .filter { it.indType == IndType.INDICATOR }
+            .filterNot {
+                ((args.entryExit == EntryExit.ENTRY) && (it.indType == IndType.EXIT_RULE))
+            }.filterNot {
+                ((args.entryExit == EntryExit.EXIT) && (it.indType == IndType.ENTRY_RULE))
+            }
+        with(binding.rvIndicatorSearch) {
+            layoutManager = LinearLayoutManager(requireContext())
+            addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+            adapter = IndicatorAdapter(indicators, this@IndicatorListFragment, requireContext())
+        }
+        binding.searchViewIndicatorSearch.editText.doAfterTextChanged { et ->
+            val queryResult = indicators.filter {
+                it.indName.contains(et.toString(), ignoreCase = true)
+            }
+            binding.rvIndicatorSearch.adapter = IndicatorAdapter(queryResult, this@IndicatorListFragment, requireContext())
+        }
 
         val technicalIndicators = indicators.filter { it.indType == IndType.TECHNICAL }
         val priceIndicators = indicators.filter { it.indType == IndType.PRICE }

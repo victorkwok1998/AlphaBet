@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatDelegate
 import androidx.fragment.app.Fragment
 import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.database.DatabaseViewModel
+import com.example.alphabet.util.Constants
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import org.jetbrains.kotlinx.dataframe.math.mean
@@ -101,10 +102,10 @@ fun isoToDisplayShort(dateString: String): String {
         .run { MyApplication.sdfShort.format(this!!) }
 }
 
-fun isoToDisplayLong(dateString: String): String {
+fun isoToDDMM(dateString: String): String {
     return dateString
-        .run { MyApplication.sdfISO.parse(this) }
-        .run { MyApplication.sdfLong.format(this!!) }
+        .run { Constants.sdfISO.parse(this) }
+        .run { Constants.sdfDDMM.format(this!!) }
 }
 
 fun datePickerDialog(context: Context, defaultDate: Calendar, onDateSet: (Calendar) -> Unit) {
@@ -208,7 +209,15 @@ fun getBitmapFromView(view: View): Bitmap {
 fun getBacktestPeriodString(backtestResult: BacktestResult, context: Context): String {
     return context.getString(
         R.string.period_format,
-        isoToDisplayLong(backtestResult.date.first()),
-        isoToDisplayLong(backtestResult.date.last())
+        isoToDisplayShort(backtestResult.date.first()),
+        isoToDisplayShort(backtestResult.date.last())
     )
 }
+
+fun <T> Collection<Iterable<T>>.getCartesianProduct(): List<List<T>> =
+    if (isEmpty()) emptyList()
+    else drop(1).fold(first().map(::listOf)) { acc, iterable ->
+        acc.flatMap { list ->
+            iterable.map(list::plus)
+        }
+    }
