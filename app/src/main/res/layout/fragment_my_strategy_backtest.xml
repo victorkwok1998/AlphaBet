@@ -15,25 +15,23 @@
 
         <TextView
             android:id="@+id/backtest_heading_text"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            style="@style/SubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:text="Backtest"
-            android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/my_backtest_list"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/my_backtest_return_text"
-            style="@style/TextAppearance.Material3.LabelLarge"
+            style="@style/SubTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
             android:text="Return"
-            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/my_backtest_guideline"
             app:layout_constraintTop_toTopOf="@+id/backtest_heading_text" />

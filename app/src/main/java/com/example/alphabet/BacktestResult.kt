@@ -3,8 +3,10 @@ package com.example.alphabet
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
 import kotlinx.serialization.Serializable
+import org.nield.kotlinstatistics.standardDeviation
 import org.ta4j.core.Trade
 import kotlin.math.absoluteValue
+import kotlin.math.sqrt
 
 @Parcelize
 @Serializable
@@ -19,7 +21,8 @@ class BacktestResult(
         var entryIndex = 0
         var exitIndex = 0
         var side = 1
-        val cf = MutableList(adjCloseList.size) { 1f } // Assume start at $1
+        val initial = 1f
+        val cf = MutableList(adjCloseList.size) { initial } // Assume start at $1
 
         for (i in 1 until adjCloseList.size) {
             if (currPos < positionList.size) {
@@ -27,11 +30,21 @@ class BacktestResult(
                 exitIndex = positionList[currPos].exit.index
                 side = if (positionList[currPos].startingType == Trade.TradeType.BUY) 1 else -1
             }
+            // if there is a position
             if (i > entryIndex && i <= exitIndex) {
                 cf[i] =
                     (adjCloseList[i] - adjCloseList[i - 1]) / adjCloseList[entryIndex] * side + cf[i - 1]
             } else {
                 cf[i] = cf[i - 1]
+            }
+            if (i == entryIndex || i == exitIndex) {
+                with(backtestInput.transactionCost) {
+                    when(this.type) {
+                        CostType.PCT -> cf[i] -= this.fee / 100 * initial
+                        CostType.BPS -> cf[i] -= this.fee / 10000 * initial
+                        CostType.FIXED -> cf[i] -= this.fee / cf[i]
+                    }
+                }
             }
             if (i == exitIndex) {
                 currPos++
@@ -50,8 +63,9 @@ class BacktestResult(
         val mdd = maxDrawDown(cashFlow)
         val pnl = pnlList.sum()
         val pnlPct = (cashFlow.last() / cashFlow.first() - 1)
+        val vol = navToReturn(cashFlow).standardDeviation().toFloat() * sqrt(252f)
 
         val profitFactor = if(pnlList.isEmpty()) 0f else pnlList.filter { it > 0 }.sum() / pnlList.filter { it < 0 }.sum().absoluteValue
-        return Metrics(pnl, pnlPct, profitCount, lossCount, nTrade, winRate, mdd, profitFactor)
+        return Metrics(pnl, pnlPct, profitCount, lossCount, nTrade, winRate, mdd, profitFactor, vol)
     }
 }

@@ -3,7 +3,6 @@ package com.example.alphabet
 import android.app.Dialog
 import android.os.Bundle
 import androidx.fragment.app.DialogFragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
@@ -15,14 +14,18 @@ import com.example.alphabet.databinding.DialogLoadingBinding
 import com.example.alphabet.viewmodel.PortfolioViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import kotlinx.coroutines.launch
-import org.jetbrains.kotlinx.dataframe.api.*
-import java.util.*
+import org.jetbrains.kotlinx.dataframe.api.add
+import org.jetbrains.kotlinx.dataframe.api.dfsOf
+import org.jetbrains.kotlinx.dataframe.api.perRowCol
+import org.jetbrains.kotlinx.dataframe.api.remove
+import org.jetbrains.kotlinx.dataframe.api.rowSum
+import org.jetbrains.kotlinx.dataframe.api.update
+import java.util.Calendar
 
 class RunPortfolioDialog: DialogFragment() {
     private var _dialogBinding: DialogLoadingBinding? = null
     private val dialogBinding get() = _dialogBinding!!
     private val portfolioViewModel: PortfolioViewModel by navGraphViewModels(R.id.nav_graph_port)
-    private val viewModel: StrategyViewModel by activityViewModels()
     private lateinit var databaseViewModel: DatabaseViewModel
     private val args: PortfolioInputFragmentArgs by navArgs()
 
@@ -45,8 +48,8 @@ class RunPortfolioDialog: DialogFragment() {
         dialogBinding.textLoading.text = getString(R.string.progress_loading_data)
         val df = getClosePrice(
             portfolioViewModel.symbolWeightingMap.keys.toList(),
-            viewModel.start.value!!,
-            viewModel.end.value!!)
+            portfolioViewModel.start.value!!,
+            portfolioViewModel.end.value!!)
         dialogBinding.textLoading.text = getString(R.string.progress_running_strategy)
         if(df != null) {
             val dates = df["date"].toList().map { (it as Calendar).time }

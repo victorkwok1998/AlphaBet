@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import android.widget.TextView
 import androidx.core.view.isVisible
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
@@ -13,6 +12,7 @@ import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
+import com.example.alphabet.database.StrategySchema
 import com.example.alphabet.databinding.CardOptBinding
 import com.example.alphabet.databinding.FragmentOptParamInputBinding
 import com.example.alphabet.databinding.LayoutOptParamRowBinding
@@ -134,10 +134,13 @@ class OptParamInputFragment: Fragment() {
         val action = OptParamInputFragmentDirections.actionOptParamInputFragmentToRunStrategyDialog(
             start = args.start,
             end = args.end,
-            strategyList = strategyList.toTypedArray(),
-            stockList = arrayOf(args.stock)
+            strategyList = strategyList.map { StrategySchema(-1, it) }.toTypedArray(),
+            stockList = arrayOf(args.stock),
+            transactionCost = CostInput(0f, CostType.BPS),
+            toTable = true
         )
         findNavController().navigate(action)
+        optViewModel.paramRowList.clear()
     }
 
     private fun range(start: Int, stop: Int, step: Int): List<Int> {

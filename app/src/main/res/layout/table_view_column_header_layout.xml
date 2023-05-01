@@ -2,10 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_marginStart="10dp"
-    android:layout_marginEnd="10dp"
+    android:layout_width="wrap_content"
+    android:layout_height="@dimen/cell_height"
+    android:layout_marginHorizontal="@dimen/cell_margin"
     android:orientation="horizontal"
     android:id="@+id/column_header_container">
 
@@ -26,7 +25,7 @@
         android:layout_marginStart="4dp"
         android:background="@android:color/transparent"
         android:scaleType="fitXY"
-        android:visibility="gone"
+        android:visibility="invisible"
         app:srcCompat="@drawable/baseline_arrow_drop_up_24"
         tools:visibility="visible" />
 </LinearLayout>

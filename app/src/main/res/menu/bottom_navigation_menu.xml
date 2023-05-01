@@ -3,17 +3,17 @@
     <item
         android:id="@+id/myBacktestFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_leaderboard_24"
+        android:icon="@drawable/selector_leaderboard"
         android:title="Backtest" />
     <item
         android:id="@+id/create_dialog"
-        android:title="Create"
+        android:title="@string/create"
         android:icon="@drawable/ic_baseline_add_24"
         android:enabled="true"/>
 
     <item
         android:id="@+id/myStrategyFragment"
         android:enabled="true"
-        android:icon="@drawable/ic_baseline_emoji_objects_24"
-        android:title="Strategy" />
+        android:icon="@drawable/selector_emoji"
+        android:title="@string/strategy" />
 </menu>

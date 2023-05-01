@@ -1,27 +1,24 @@
 package com.example.alphabet
 
-import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.EditText
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
-import com.example.alphabet.MyApplication.Companion.sdfLong
 import com.example.alphabet.adapter.setUpSymbolSearch
 import com.example.alphabet.databinding.FragmentBacktestInputBinding
 import com.example.alphabet.databinding.StockRowBinding
 import com.example.alphabet.viewmodel.BacktestViewModel
-import java.util.*
 
 class BacktestInputFragment: Fragment() {
     private val viewModel: BacktestViewModel by navGraphViewModels(R.id.nav_graph_backtest)
-    private var _binding:FragmentBacktestInputBinding? = null
+    private var _binding: FragmentBacktestInputBinding? = null
     private val binding get() = _binding!!
-
+    private val args: BacktestInputFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,16 +30,11 @@ class BacktestInputFragment: Fragment() {
         binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
         binding.topAppBar.setOnMenuItemClickListener {
             when(it.itemId) {
-                R.id.set_time_period -> {
-                    val action = BacktestInputFragmentDirections.actionGlobalTimePeriodBottomSheetFragment()
-                    findNavController().navigate(action)
-                    true
-                }
                 R.id.confirm_button -> {
                     if (viewModel.stockList.isEmpty()) {
                         binding.symbolTextLayout.error = getString(R.string.required)
                     } else {
-                        val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToBacktestStrategyInputFragment()
+                        val action = BacktestInputFragmentDirections.actionBacktestInputFragmentToBacktestStrategyInputFragment(args.strategyList)
                         findNavController().navigate(action)
                     }
                     true
@@ -69,7 +61,7 @@ class BacktestInputFragment: Fragment() {
 //                BacktestInputFragmentDirections.actionBacktestInputFragmentToSelectStrategyFragment(-1)
 //            findNavController().navigate(action)
 //        }
-
+        if (viewModel.stockList.isEmpty()) viewModel.stockList.addAll(args.stockList)
         viewModel.stockList.forEach { addSymbolRow(it) }
 
         setUpSymbolSearch(binding.symbolText) { stock ->
@@ -132,21 +124,21 @@ class BacktestInputFragment: Fragment() {
         binding.layoutStockList.addView(row.root)
     }
 
-    private fun setDatePicker(editText: EditText, c: Calendar) {
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
-
-        if (editText.text.toString().isEmpty()) {
-            editText.setText(sdfLong.format(c.time))
-        }
-
-        editText.setOnClickListener {
-            val dpd = DatePickerDialog(requireContext(), R.style.MySpinnerDatePickerStyle, { view, mYear, mMonth, mDay ->
-                val cal = createCalendar(mYear, mMonth, mDay)
-                editText.setText(sdfLong.format(cal.time))
-            }, year, month, day)
-            dpd.show()
-        }
-    }
+//    private fun setDatePicker(editText: EditText, c: Calendar) {
+//        val year = c.get(Calendar.YEAR)
+//        val month = c.get(Calendar.MONTH)
+//        val day = c.get(Calendar.DAY_OF_MONTH)
+//
+//        if (editText.text.toString().isEmpty()) {
+//            editText.setText(sdfLong.format(c.time))
+//        }
+//
+//        editText.setOnClickListener {
+//            val dpd = DatePickerDialog(requireContext(), R.style.MySpinnerDatePickerStyle, { view, mYear, mMonth, mDay ->
+//                val cal = createCalendar(mYear, mMonth, mDay)
+//                editText.setText(sdfLong.format(cal.time))
+//            }, year, month, day)
+//            dpd.show()
+//        }
+//    }
 }

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:stretchColumns="*"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <TableRow android:paddingVertical="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:text="Total Return" />
+        <TextView
+            android:id="@+id/text_backtest_return_backtest_metrics"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            tools:text="89.64%" />
+    </TableRow>
+    <TableRow
+        android:paddingVertical="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:text="Max Drawdown" />
+        <TextView
+            android:id="@+id/text_mdd_backtest_metrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            tools:text="89.64%" />
+    </TableRow>
+    <TableRow android:paddingVertical="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:text="@string/win_rate" />
+        <TextView
+            android:id="@+id/text_win_rate_backtest_metrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            tools:text="89.64%" />
+    </TableRow>
+    <TableRow android:paddingVertical="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/SubTitle"
+            android:text="No. of trades" />
+        <TextView
+            android:id="@+id/text_ntrade_backtest_metrics"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            style="@style/TextAppearance.Material3.BodyMedium"
+            android:layout_gravity="end"
+            tools:text="7" />
+    </TableRow>
+
+</TableLayout>

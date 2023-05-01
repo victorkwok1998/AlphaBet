@@ -20,6 +20,7 @@
     <string name="trade_table_header_pnl">PnL</string>
     <string name="progress_loading_data">Loading price data</string>
     <string name="progress_running_strategy">Running strategy</string>
+    <string name="loading">Loading</string>
     <string name="bar_count">Bar Count</string>
     <string name="equity_curve">Equity Curve</string>
     <string name="trade_table">Trade Table</string>
@@ -93,16 +94,48 @@
     <string name="trades">Trades</string>
     <string name="save">Save</string>
     <string name="strategy">Strategy</string>
+    <string name="portfolio">Portfolio</string>
     <string name="period">Period</string>
     <string name="edit_holding">Edit Holding</string>
+    <string name="add">Add</string>
+    <string name="stock_display">%s (%s)</string>
+
+    <!--    Metrics-->
+    <string name="pnl">P/L</string>
+    <string name="pnl_pct">P/L (%)</string>
+    <string name="win_rate">Win Rate</string>
+    <string name="return_rate">Return</string>
+    <string name="mdd">Max Drawdown</string>
+    <string name="sharpe_ratio">Sharpe Ratio</string>
+    <string name="vol">Volatility (%)</string>
     <string-array name="trade_table_header">
         <item>Entry Date</item>
         <item>Exit Date</item>
         <item>Days</item>
         <item>PnL</item>
     </string-array>
+    <string-array name="metrics_table_header">
+        <item>Symbol</item>
+        <item>Strategy</item>
+    </string-array>
+    <string-array name="settings_backtest_period">
+        <item>1 Year</item>
+        <item>2 Year</item>
+        <item>5 Year</item>
+        <item>10 Year</item>
+    </string-array>
+    <string-array name="settings_backtest_period_values">
+        <item>1</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
     <string name="nav">Net Asset Value</string>
     <string name="settings">Settings</string>
+    <string name="bps">BPS</string>
+    <string name="pct">Percent</string>
+    <string name="fixed">Fixed</string>
+    <string name="run_strategy">Run Strategy</string>
     <!-- Preference Titles -->
     <string name="appearance_header">Appearance</string>
     <string name="backtest_header">Backtest</string>
@@ -118,6 +151,7 @@
     <string name="up_slogan">To the Moon!</string>
     <string name="down_slogan">Diamond Hand</string>
     <string name="backtest_return">Backtest Return</string>
+    <string name="create">Create</string>
 
     <!-- Parameter Optimization -->
     <string name="start_value">Start</string>

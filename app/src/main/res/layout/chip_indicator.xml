@@ -13,5 +13,5 @@
     app:chipIconTint="?attr/colorPrimary"
     android:clickable="false"
     app:rippleColor="@android:color/transparent"
-    app:chipBackgroundColor="@color/secondary_background"
+    app:chipBackgroundColor="@color/indicator_chip_bg"
     tools:text="Awesome Oscillator" />

@@ -6,34 +6,22 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alphabet.database.DatabaseViewModel
-import com.example.alphabet.databinding.DialogLoadingBinding
 import com.example.alphabet.databinding.FragmentBacktestStrategyInputBinding
-import com.example.alphabet.util.Constants.Companion.sdfISO
 import com.example.alphabet.viewmodel.BacktestViewModel
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import org.ta4j.core.BarSeriesManager
-import org.ta4j.core.BaseBarSeries
-import yahoofinance.histquotes.HistoricalQuote
 
 class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClickListener {
     private val viewModel: BacktestViewModel by navGraphViewModels(R.id.nav_graph_backtest)
     private lateinit var databaseViewModel: DatabaseViewModel
     private lateinit var strategyListAdapter: StrategyListAdapter
-    private val activityViewModel: StrategyViewModel by activityViewModels()
+    private val args: BacktestStrategyInputFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -44,32 +32,34 @@ class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClick
         val binding = FragmentBacktestStrategyInputBinding.inflate(inflater, container, false)
 
         binding.topAppBar.setNavigationOnClickListener { findNavController().popBackStack() }
-        binding.topAppBar.setOnMenuItemClickListener {
-            when(it.itemId) {
-                R.id.confirm_button -> {
-                    if (viewModel.checkedStrategy.isNotEmpty()) {
-                        val action = BacktestStrategyInputFragmentDirections.actionGlobalRunStrategyDialog(
-                            activityViewModel.start.value!!,
-                            activityViewModel.end.value!!,
-                            viewModel.checkedStrategy.values.map { it.strategy }.toTypedArray(),
-                            viewModel.stockList.toTypedArray()
-                        )
-                        findNavController().navigate(action)
-                    }
-                    else {
-                        Toast.makeText(requireContext(), "Please select at least one strategy", Toast.LENGTH_LONG).show()
-                    }
-                    true
-                }
-                R.id.set_time_period -> {
-                    val action = BacktestStrategyInputFragmentDirections.actionGlobalTimePeriodBottomSheetFragment()
-                    findNavController().navigate(action)
-                    true
-                }
-                else -> false
-            }
-        }
+//        binding.topAppBar.setOnMenuItemClickListener {
+//            when(it.itemId) {
+//                R.id.confirm_button -> {
+//                    if (viewModel.checkedStrategy.isNotEmpty()) {
+//                        val action = BacktestStrategyInputFragmentDirections.actionGlobalRunStrategyDialog(
+//                            viewModel.start.value!!,
+//                            viewModel.end.value!!,
+//                            viewModel.checkedStrategy.values.toTypedArray(),
+//                            viewModel.stockList.toTypedArray(),
+//                            viewModel.transactionCost.value!!
+//                        )
+//                        findNavController().navigate(action)
+//                    }
+//                    else {
+//                        Toast.makeText(requireContext(), "Please select at least one strategy", Toast.LENGTH_LONG).show()
+//                    }
+//                    true
+//                }
+//                R.id.set_time_period -> {
+//                    val action = BacktestStrategyInputFragmentDirections.actionBacktestStrategyInputFragmentToBacktestTimePeriodFragment()
+//                    findNavController().navigate(action)
+//                    true
+//                }
+//                else -> false
+//            }
+//        }
 
+        args.strategyList.forEach { viewModel.checkedStrategy[it.id] = it }
         strategyListAdapter = StrategyListAdapter(
             requireContext(),
             this,
@@ -84,12 +74,33 @@ class BacktestStrategyInputFragment: Fragment(), StrategyListAdapter.OnItemClick
         databaseViewModel.readAllStrategy.observe(viewLifecycleOwner) {
             strategyListAdapter.updateList(it)
         }
+//        binding.viewEmptyStrategy.root.isVisible = strategyListAdapter.getList().isEmpty()
 
         setStrategyChipGroupFilter(
             chipGroup = binding.strategyList.strategyFilterChipGroup,
             db = databaseViewModel,
             adapter = strategyListAdapter
         )
+
+        binding.buttonRunStrategy.setOnClickListener {
+            if (viewModel.checkedStrategy.isNotEmpty()) {
+                val action = BacktestStrategyInputFragmentDirections.actionGlobalRunStrategyDialog(
+                    viewModel.start.value!!,
+                    viewModel.end.value!!,
+                    viewModel.checkedStrategy.values.toTypedArray(),
+                    viewModel.stockList.toTypedArray(),
+                    CostInput(viewModel.transactionCost.value!!.toFloat(), viewModel.transactionCostType.value!!)
+                )
+                findNavController().navigate(action)
+            } else {
+                Toast.makeText(requireContext(), "Please select at least one strategy", Toast.LENGTH_LONG).show()
+            }
+        }
+
+        binding.buttonAdvOpt.setOnClickListener {
+            val action = BacktestStrategyInputFragmentDirections.actionBacktestStrategyInputFragmentToBacktestAdvancedOptionsBottomSheet()
+            findNavController().navigate(action)
+        }
 
         return binding.root
     }

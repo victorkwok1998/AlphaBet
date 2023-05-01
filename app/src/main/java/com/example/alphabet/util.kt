@@ -5,16 +5,19 @@ import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
+import android.graphics.Color
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.core.view.drawToBitmap
 import androidx.fragment.app.Fragment
 import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.database.DatabaseViewModel
 import com.example.alphabet.util.Constants
 import com.google.android.material.chip.ChipGroup
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter
 import org.jetbrains.kotlinx.dataframe.math.mean
 import org.nield.kotlinstatistics.standardDeviation
 import org.ta4j.core.BaseBarSeries
@@ -198,10 +201,13 @@ fun failToDownloadDialog(context: Context) {
 fun getYesterday(): Calendar = Calendar.getInstance().apply { add(Calendar.DATE, -1) }
 
 fun getBitmapFromView(view: View): Bitmap {
-    val bitmap = Bitmap.createBitmap(
-        view.width, view.height, Bitmap.Config.ARGB_8888
-    )
+    val bitmap = view.drawToBitmap()
     val canvas = Canvas(bitmap)
+    if(view.background != null) {
+        view.background.draw(canvas)
+    } else {
+        canvas.drawColor(Color.WHITE)
+    }
     view.draw(canvas)
     return bitmap
 }
@@ -221,3 +227,13 @@ fun <T> Collection<Iterable<T>>.getCartesianProduct(): List<List<T>> =
             iterable.map(list::plus)
         }
     }
+
+fun createHeaderAdapter(context: Context, vararg header: String) = SimpleTableHeaderAdapter(context, *header).apply {
+    setTextSize(15)
+    setTextColor(context.getTextColorPrimary())
+}
+
+fun Context.dpToPx(dp: Int): Int {
+    val scale = resources.displayMetrics.density
+    return (dp * scale + 0.5f).toInt()
+}

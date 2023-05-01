@@ -4,16 +4,12 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alphabet.database.BacktestResultSchema
-import com.example.alphabet.databinding.BacktestResultRowBottomSheetBinding
-import com.google.android.material.bottomsheet.BottomSheetDialog
 
 class BacktestResultAdapter(
     private val context: Context,
@@ -33,7 +29,7 @@ class BacktestResultAdapter(
     override fun onBindViewHolder(holder: BacktestResultViewHolder, position: Int) {
         val currentItem = getItem(position)
         holder.symbolText.text = currentItem.backtestResult.backtestInput.stock.symbol
-        holder.strategyText.text = currentItem.backtestResult.backtestInput.strategyInput.strategyName
+        holder.strategyText.text = currentItem.backtestResult.backtestInput.strategyInput.strategy.strategyName
 
         val cashFlow = currentItem.backtestResult.getCashFlow()
 //        val date = currentItem.backtestResult.date
@@ -66,7 +62,7 @@ class BacktestResultAdapter(
         override fun onClick(v: View?) {
             val position = bindingAdapterPosition
             if (position != RecyclerView.NO_POSITION)
-                listener.onItemClick(position)
+                listener.onItemClick(v!!, position)
         }
 
         override fun onLongClick(p0: View?): Boolean {
@@ -78,7 +74,7 @@ class BacktestResultAdapter(
     }
 
     interface OnItemClickListener {
-        fun onItemClick(position: Int)
+        fun onItemClick(v: View, position: Int)
         fun onItemLongClick(position: Int)
     }
 

@@ -4,8 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -36,24 +36,20 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
 
         databaseViewModel.readAllBacktestResultData.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            if (it.isEmpty()) {
-                binding.viewEmptyBacktest.root.visibility = View.VISIBLE
-            } else {
-                binding.viewEmptyBacktest.root.visibility = View.GONE
-            }
+            binding.viewEmptyBacktest.root.isVisible = it.isEmpty()
         }
         binding.myBacktestList.adapter = adapter
         binding.myBacktestList.layoutManager = LinearLayoutManager(requireContext())
 
         binding.viewEmptyBacktest.buttonEmptyList.setOnClickListener {
-            val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment()
+            val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment(arrayOf(), arrayOf())
             navController.navigate(action)
         }
 
         return binding.root
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(v: View, position: Int) {
         databaseViewModel.readAllBacktestResultData.value?.let {
             val backtestResult = it[position]
             val action = HomeFragmentDirections.actionHomeFragmentToBacktestResultFragment(
@@ -68,7 +64,7 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
             val binding = BacktestResultRowBottomSheetBinding.inflate(layoutInflater, null, false)
 
             binding.backtestInfo.symbolText.text = currentItem.backtestResult.backtestInput.stock.symbol
-            binding.backtestInfo.strategyNameText.text = currentItem.backtestResult.backtestInput.strategyInput.strategyName
+            binding.backtestInfo.strategyNameText.text = currentItem.backtestResult.backtestInput.strategyInput.strategy.strategyName
             binding.backtestInfo.dateRangeText.text = getBacktestPeriodString(currentItem.backtestResult, requireContext())
 
             binding.deleteRow.setOnClickListener {
@@ -79,7 +75,7 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
                 val start = currentItem.backtestResult.date.first().toCalendar()
                 val end = getYesterday()
                 val action = HomeFragmentDirections.actionHomeFragmentToRunStrategyDialog(
-                    start, end, arrayOf(currentItem.backtestResult.backtestInput.strategyInput), arrayOf(currentItem.backtestResult.backtestInput.stock))
+                    start, end, arrayOf(currentItem.backtestResult.backtestInput.strategyInput), arrayOf(currentItem.backtestResult.backtestInput.stock), CostInput(0f, CostType.BPS))
                 navController.navigate(action)
                 this.dismiss()
             }
@@ -93,7 +89,7 @@ class MyStrategyBacktestFragment : Fragment(), BacktestResultAdapter.OnItemClick
                     start = currentItem.backtestResult.date.first().toCalendar(),
                     end = currentItem.backtestResult.date.last().toCalendar(),
                     stock = currentItem.backtestResult.backtestInput.stock,
-                    strategy = currentItem.backtestResult.backtestInput.strategyInput
+                    strategy = currentItem.backtestResult.backtestInput.strategyInput.strategy
                 )
                 navController.navigate(action)
                 this.dismiss()

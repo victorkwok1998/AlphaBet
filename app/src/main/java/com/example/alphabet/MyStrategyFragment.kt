@@ -12,13 +12,19 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.alphabet.database.DatabaseViewModel
-import com.example.alphabet.database.StrategySchema
 import com.example.alphabet.databinding.FragmentMyStrategyBinding
+import com.google.android.material.transition.MaterialFadeThrough
 
 class MyStrategyFragment : Fragment(), StrategyListAdapter.OnItemClickListener {
     private lateinit var navController: NavController
     private lateinit var strategyListAdapter: StrategyListAdapter
     private lateinit var databaseViewModel: DatabaseViewModel
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        enterTransition = MaterialFadeThrough()
+        exitTransition = MaterialFadeThrough()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

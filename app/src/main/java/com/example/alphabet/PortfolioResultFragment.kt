@@ -5,26 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.navigation.navGraphViewModels
 import com.example.alphabet.MyApplication.Companion.dec
 import com.example.alphabet.MyApplication.Companion.pct
-import com.example.alphabet.MyApplication.Companion.sdfISO
 import com.example.alphabet.database.DatabaseViewModel
 import com.example.alphabet.database.PortfolioResultSchema
 import com.example.alphabet.databinding.DialogSavePortBinding
 import com.example.alphabet.databinding.FragmentPortfolioResultBinding
-import com.example.alphabet.viewmodel.PortfolioViewModel
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import kotlinx.coroutines.launch
-import org.jetbrains.kotlinx.dataframe.api.*
-import java.util.*
 
 class PortfolioResultFragment: Fragment() {
     private lateinit var databaseViewModel: DatabaseViewModel
@@ -73,6 +64,10 @@ class PortfolioResultFragment: Fragment() {
                     R.id.button_edit -> {
                         val action = PortfolioResultFragmentDirections.actionPortfolioResultFragmentToNavGraphPort(portResult)
                         findNavController().navigate(action)
+                        true
+                    }
+                    R.id.button_share -> {
+                        //todo
                         true
                     }
                     else -> false

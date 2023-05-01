@@ -37,6 +37,22 @@
         <action
             android:id="@+id/action_backtestResultFragment_to_chooseBacktestDialog"
             app:destination="@id/chooseBacktestDialog" />
+        <action
+            android:id="@+id/action_backtestResultFragment_to_nav_graph_backtest"
+            app:destination="@id/nav_graph_backtest" >
+            <argument
+                android:name="stock_list"
+                app:argType="com.example.alphabet.StockStatic[]" />
+            <argument
+                android:name="strategyList"
+                app:argType="com.example.alphabet.database.StrategySchema[]" />
+        </action>
+        <action
+            android:id="@+id/action_backtestResultFragment_to_backtestMetricsFragment"
+            app:destination="@id/backtestMetricsFragment" />
+        <action
+            android:id="@+id/action_backtestResultFragment_to_nav_graph_opt"
+            app:destination="@id/nav_graph_opt" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -47,9 +63,16 @@
             android:id="@+id/action_homeFragment_to_backtestInputFragment"
             app:destination="@id/nav_graph_backtest"
             app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/to_right" >
+            <argument
+                android:name="stock_list"
+                app:argType="com.example.alphabet.StockStatic[]" />
+            <argument
+                android:name="strategyList"
+                app:argType="com.example.alphabet.database.StrategySchema[]" />
+        </action>
         <action
             android:id="@+id/action_homeFragment_to_fragmentHedgeInput"
             app:destination="@id/nav_graph_hedge"
@@ -59,12 +82,16 @@
             app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_nav_graph_port"
-            app:destination="@id/nav_graph_port" >
+            app:destination="@id/nav_graph_port"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/to_right">
             <argument
                 android:name="portResult"
+                android:defaultValue="@null"
                 app:argType="com.example.alphabet.database.PortfolioResultSchema"
-                app:nullable="true"
-                android:defaultValue="@null" />
+                app:nullable="true" />
         </action>
         <action
             android:id="@+id/action_homeFragment_to_portfolioResultFragment"
@@ -78,13 +105,21 @@
             app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_fragmentContainerSettings"
-            app:destination="@id/fragmentContainerSettings" />
+            app:destination="@id/fragmentContainerSettings"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/to_right"/>
         <action
             android:id="@+id/action_homeFragment_to_runStrategyDialog"
             app:destination="@id/runStrategyDialog" />
         <action
             android:id="@+id/action_homeFragment_to_backtestResultFragment"
-            app:destination="@id/backtestResultFragment" />
+            app:destination="@id/backtestResultFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/fade_out"
+            app:popEnterAnim="@anim/fade_in"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_homeFragment_to_shareBacktestFragment"
             app:destination="@id/shareBacktestFragment" />
@@ -108,11 +143,13 @@
                 android:name="stock"
                 app:argType="com.example.alphabet.StockStatic" />
         </action>
+        <action
+        android:id="@+id/action_homeFragment_to_backtestResultRowBottomSheet"
+        app:destination="@id/backtestResultRowBottomSheet" />
+        <action
+            android:id="@+id/action_homeFragment_self"
+            app:destination="@id/homeFragment" />
     </fragment>
-    <dialog
-        android:id="@+id/timePeriodBottomSheetFragment"
-        android:name="com.example.alphabet.TimePeriodBottomSheetFragment"
-        android:label="TimePeriodBottomSheetFragment" />
     <navigation android:id="@+id/nav_graph_hedge"
         app:startDestination="@id/hedgeInputFragment">
         <fragment
@@ -174,6 +211,9 @@
             <action
                 android:id="@+id/action_portfolioInputFragment_to_runPortfolioDialog"
                 app:destination="@id/runPortfolioDialog" />
+            <action
+                android:id="@+id/action_portfolioInputFragment_to_portfolioTimePeriodFragment"
+                app:destination="@id/portfolioTimePeriodFragment" />
         </fragment>
         <action
             android:id="@+id/action_global_portfolioResultFragment"
@@ -189,6 +229,10 @@
                 app:nullable="true"
                 android:defaultValue="@null" />
         </dialog>
+        <dialog
+            android:id="@+id/portfolioTimePeriodFragment"
+            android:name="com.example.alphabet.PortfolioTimePeriodFragment"
+            android:label="PortfolioTimePeriodFragment" />
     </navigation>
     <action android:id="@+id/action_global_homeFragment" app:destination="@id/homeFragment" />
     <navigation android:id="@+id/nav_graph_backtest"
@@ -201,16 +245,42 @@
             <action
                 android:id="@+id/action_backtestInputFragment_to_backtestStrategyInputFragment"
                 app:destination="@id/backtestStrategyInputFragment" />
+            <argument
+                android:name="stock_list"
+                app:argType="com.example.alphabet.StockStatic[]" />
+            <argument
+                android:name="strategyList"
+                app:argType="com.example.alphabet.database.StrategySchema[]" />
         </fragment>
         <fragment
             android:id="@+id/backtestStrategyInputFragment"
             android:name="com.example.alphabet.BacktestStrategyInputFragment"
             android:label="BacktestStrategyInputFragment"
-            tools:layout="@layout/fragment_backtest_strategy_input"/>
+            tools:layout="@layout/fragment_backtest_strategy_input">
+            <argument
+                android:name="strategyList"
+                app:argType="com.example.alphabet.database.StrategySchema[]" />
+            <action
+                android:id="@+id/action_backtestStrategyInputFragment_to_backtestTimePeriodFragment"
+                app:destination="@id/backtestTimePeriodFragment" />
+            <action
+                android:id="@+id/action_backtestStrategyInputFragment_to_backtestAdvancedOptionsBottomSheet"
+                app:destination="@id/backtestAdvancedOptionsBottomSheet" />
+        </fragment>
         <action
             android:id="@+id/action_global_runStrategyDialog"
             app:destination="@id/runStrategyDialog" />
-    </navigation><action android:id="@+id/action_global_timePeriodBottomSheetFragment" app:destination="@id/timePeriodBottomSheetFragment"/>
+        <dialog
+            android:id="@+id/backtestTimePeriodFragment"
+            android:name="com.example.alphabet.BacktestTimePeriodFragment"
+            android:label="BacktestTimePeriodFragment"
+            tools:layout="@layout/dialog_time_period"/>
+        <dialog
+            android:id="@+id/backtestAdvancedOptionsBottomSheet"
+            android:name="com.example.alphabet.BacktestAdvancedOptionsBottomSheet"
+            android:label="BacktestAdvancedOptionsBottomSheet"
+            tools:layout="@layout/fragment_backtest_advanced_options"/>
+    </navigation>
     <fragment
         android:id="@+id/editStrategyFragment"
         android:name="com.example.alphabet.EditStrategyFragment"
@@ -320,10 +390,20 @@
             app:argType="java.util.Calendar" />
         <argument
             android:name="strategyList"
-            app:argType="com.example.alphabet.StrategyInput[]" />
+            app:argType="com.example.alphabet.database.StrategySchema[]" />
         <argument
             android:name="stockList"
             app:argType="com.example.alphabet.StockStatic[]" />
+        <argument
+            android:name="transactionCost"
+            app:argType="com.example.alphabet.CostInput" />
+        <action
+            android:id="@+id/action_runStrategyDialog_to_metricTableFragment"
+            app:destination="@id/metricTableFragment" />
+        <argument
+            android:name="toTable"
+            app:argType="boolean"
+            android:defaultValue="false" />
     </dialog>
     <fragment
         android:id="@+id/shareBacktestFragment"
@@ -345,6 +425,30 @@
             android:name="backtestResultList"
             app:argType="com.example.alphabet.BacktestResult[]" />
     </dialog>
+    <dialog
+        android:id="@+id/backtestResultRowBottomSheet"
+        android:name="com.example.alphabet.BacktestResultRowBottomSheet"
+        android:label="BacktestResultRowBottomSheet"
+        tools:layout="@layout/backtest_result_row_bottom_sheet">
+        <argument
+            android:name="backtestResult"
+            app:argType="com.example.alphabet.database.BacktestResultSchema" />
+        <action
+            android:id="@+id/action_backtestResultRowBottomSheet_to_runStrategyDialog"
+            app:destination="@id/runStrategyDialog" />
+        <action
+            android:id="@+id/action_backtestResultRowBottomSheet_to_shareBacktestFragment"
+            app:destination="@id/shareBacktestFragment" />
+    </dialog>
+    <fragment
+        android:id="@+id/backtestMetricsFragment"
+        android:name="com.example.alphabet.BacktestMetricsFragment"
+        android:label="BacktestMetricsFragment"
+        tools:layout="@layout/fragment_backtest_metrics">
+        <argument
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+    </fragment><action android:id="@+id/action_global_nav_graph_port" app:destination="@id/nav_graph_port"/>
     <navigation android:id="@+id/nav_graph_opt"
         app:startDestination="@id/optParamInputFragment">
         <fragment
@@ -369,4 +473,13 @@
                 app:destination="@id/runStrategyDialog" />
         </fragment>
     </navigation>
+    <fragment
+        android:id="@+id/metricTableFragment"
+        android:name="com.example.alphabet.MetricTableFragment"
+        android:label="MetricTableFragment"
+        tools:layout="@layout/fragment_metric_table">
+        <argument
+            android:name="backtestResultList"
+            app:argType="com.example.alphabet.BacktestResult[]" />
+    </fragment>
 </navigation>

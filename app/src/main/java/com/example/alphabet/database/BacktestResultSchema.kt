@@ -4,11 +4,11 @@ import android.os.Parcelable
 import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.Relation
 import com.example.alphabet.BacktestResult
 import com.example.alphabet.PortfolioInput
 import com.example.alphabet.StrategyInput
 import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
 @Parcelize
 @Entity(tableName = "backtest_result")
@@ -33,7 +33,7 @@ data class BacktestResultSchema(
 //    )
 //    val cashflow: List<BacktestResultCashFlowSchema>
 //)
-
+@Serializable
 @Parcelize
 @Entity(tableName = "strategy")
 data class StrategySchema(

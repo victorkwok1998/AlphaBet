@@ -3,7 +3,7 @@
     android:color="@color/gray">
     <item>
         <shape>
-            <solid android:color="@color/secondary_background" />
+            <solid android:color="@color/indicator_chip_bg" />
             <corners android:radius="20dp" />
         </shape>
     </item>

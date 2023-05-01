@@ -6,20 +6,13 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
-import androidx.preference.PreferenceManager
 import com.example.alphabet.database.StrategySchema
 import com.example.alphabet.databinding.FragmentHomeBinding
 import com.example.alphabet.databinding.ModalBottomSheetContentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.json.Json
 
 // /data/user/0/com.example.alphabet/files/
 
@@ -47,21 +40,6 @@ class HomeFragment: Fragment()  {
             }
         }
 
-//        lifecycleScope.launch {
-//            if (staticDataViewModel.indToParamList.isEmpty()) {
-//                // Read static data
-//                withContext(Dispatchers.IO) {
-//                    staticDataViewModel.indicatorStatic =
-//                        Json.decodeFromString<List<IndicatorStatic>>(getJsonDataFromAsset(requireContext(), "indicatorStatic.json")).sortedBy { it.indName }
-//                    staticDataViewModel.indToParamList =
-//                        staticDataViewModel.indicatorStatic.associate { it.indName to it.paramName }
-//
-//                    staticDataViewModel.radarChartRange =
-//                        Json.decodeFromString(getJsonDataFromAsset(requireContext(), "radarChartRange.json"))
-//                }
-//            }
-//        }
-
 //        binding.bottomNavigation.setupWithNavController(nestedNavHostFragment.navController)
         binding.bottomNavigation.setOnItemSelectedListener {
             if(it.itemId == R.id.create_dialog) {
@@ -70,7 +48,8 @@ class HomeFragment: Fragment()  {
                     val navController = Navigation.findNavController(requireActivity(), R.id.nav_host_fragment)
                     modalSheetBinding.createBacktest.setOnClickListener {
                         this.dismiss()
-                        val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment()
+                        val action = HomeFragmentDirections.actionHomeFragmentToBacktestInputFragment(
+                            arrayOf(), arrayOf())
                         navController.navigate(action)
 
                     }

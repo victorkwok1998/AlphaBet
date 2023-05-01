@@ -4,6 +4,7 @@ import android.view.View
 import android.widget.ImageButton
 import android.widget.LinearLayout
 import android.widget.TextView
+import androidx.core.view.isVisible
 import com.evrencoskun.tableview.ITableView
 import com.evrencoskun.tableview.adapter.recyclerview.holder.AbstractSorterViewHolder
 import com.evrencoskun.tableview.sort.SortState
@@ -17,7 +18,7 @@ class ColumnHeaderViewHolder(itemView: View, private val tableView: ITableView) 
     private val column_header_container: LinearLayout  = itemView.findViewById(R.id.column_header_container)
 
     init {
-        column_header_sortButton.setOnClickListener {
+        column_header_container.setOnClickListener {
             when(sortState) {
                 SortState.ASCENDING -> {
                     tableView.sortColumn(bindingAdapterPosition, SortState.DESCENDING)
@@ -39,16 +40,24 @@ class ColumnHeaderViewHolder(itemView: View, private val tableView: ITableView) 
         column_header_container.requestLayout()
         itemView.requestLayout()
     }
-    fun setColumnHeader(columnHeader: Cell) {
-        column_header_textview.text = columnHeader.getData().toString()
+    fun setColumnHeader(columnHeader: Cell?) {
+        column_header_textview.text = columnHeader?.getData()
         column_header_container.layoutParams.width = LinearLayout.LayoutParams.WRAP_CONTENT
         column_header_textview.requestLayout()
     }
     private fun controlSortState(sortState: SortState) {
         when (sortState) {
-            SortState.ASCENDING -> {}
-            SortState.DESCENDING -> {}
-            else -> {}
+            SortState.ASCENDING -> {
+                column_header_sortButton.isVisible = true
+                column_header_sortButton.setImageResource(R.drawable.baseline_arrow_drop_down_24)
+            }
+            SortState.DESCENDING -> {
+                column_header_sortButton.isVisible = true
+                column_header_sortButton.setImageResource(R.drawable.baseline_arrow_drop_up_24)
+            }
+            else -> {
+                column_header_sortButton.visibility = View.INVISIBLE
+            }
         }
     }
 }

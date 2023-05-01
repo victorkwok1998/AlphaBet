@@ -3,14 +3,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/button_edit"
-        android:title="Edit"
+        android:title="@string/edit"
         android:icon="@drawable/ic_outline_edit_24"
         app:showAsAction="ifRoom"
         />
     <item
         android:id="@+id/add_to_fav"
-        android:title="Favourite"
+        android:title="@string/save"
         android:icon="@drawable/ic_baseline_favorite_border_24"
+        app:showAsAction="ifRoom"
+        />
+    <item
+        android:id="@+id/button_share"
+        android:title="@string/share"
+        android:icon="@drawable/ic_baseline_share_24"
         app:showAsAction="ifRoom"
         />
 <!--    <item-->

@@ -54,12 +54,12 @@ class StrategyInput(
     ) = StrategyInput(strategyName, des, entryRulesInput, exitRulesInput, strategyType)
 
 
-    fun indicatorUsed(): List<String> {
-        val res = entryRulesInput.map { it.indInput1.indName } union
-                entryRulesInput.map { it.indInput2.indName } union
-                exitRulesInput.map { it.indInput1.indName } union
-                exitRulesInput.map { it.indInput2.indName }
-        return res.filter { it.isNotEmpty() }
+    fun indicatorUsed(): List<IndicatorInput> {
+        val res = entryRulesInput.map { it.indInput1 } +
+                entryRulesInput.map { it.indInput2 } +
+                exitRulesInput.map { it.indInput1 } +
+                exitRulesInput.map { it.indInput2 }
+        return res.filter { it.indName.isNotEmpty() }
     }
 
     fun getParamList() = (this.entryRulesInput + this.exitRulesInput)

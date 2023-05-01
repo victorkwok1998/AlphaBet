@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.NavController
@@ -42,11 +43,7 @@ class MyPortfolioFragment: Fragment(), PortfolioResultAdapter.OnItemClickListene
 
         databaseViewModel.readAllPortfolioResult.observe(viewLifecycleOwner) {
             adapter.submitList(it)
-            if (it.isEmpty()) {
-                binding.viewEmptyPort.root.visibility = View.VISIBLE
-            } else {
-                binding.viewEmptyPort.root.visibility = View.GONE
-            }
+            binding.viewEmptyPort.root.isVisible = it.isEmpty()
         }
         binding.viewEmptyPort.buttonEmptyList.setOnClickListener {
             val action = HomeFragmentDirections.actionHomeFragmentToNavGraphPort()

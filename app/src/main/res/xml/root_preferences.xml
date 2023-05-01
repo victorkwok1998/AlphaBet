@@ -14,13 +14,44 @@
 
     </PreferenceCategory>
 
-    <PreferenceCategory app:title="@string/backtest_header"
+    <PreferenceCategory app:title="@string/strategy"
         app:iconSpaceReserved="false">
 
-        <SwitchPreferenceCompat
-            app:key="close_position"
-            app:title="Close position"
-            app:summary="Always close position at the end of backtest"
+        <ListPreference
+            app:key="strategy_backtest_period"
+            app:title="Default Backtest Period"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/settings_backtest_period"
+            app:entryValues="@array/settings_backtest_period_values"
+            app:defaultValue="1"
+            app:iconSpaceReserved="false"/>
+
+        <EditTextPreference
+            app:key="strategy_initial_capital"
+            app:title="Initial Capital"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="$100000"
+            app:iconSpaceReserved="false" />
+
+        <EditTextPreference
+            app:key="strategy_cost"
+            app:title="Default Transaction Cost"
+            app:useSimpleSummaryProvider="true"
+            app:defaultValue="10 bps"
+            app:iconSpaceReserved="false" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory app:title="@string/portfolio"
+        app:iconSpaceReserved="false">
+
+        <ListPreference
+            app:key="portfolio_backtest_period"
+            app:title="Default Backtest Period"
+            app:useSimpleSummaryProvider="true"
+            app:entries="@array/settings_backtest_period"
+            app:entryValues="@array/settings_backtest_period_values"
+            app:defaultValue="1"
             app:iconSpaceReserved="false"/>
 
     </PreferenceCategory>

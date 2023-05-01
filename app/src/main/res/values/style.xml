@@ -134,6 +134,7 @@
 
     <style name="symbolEditText" parent="Widget.Material3.AutoCompleteTextView.OutlinedBox">
         <item name="android:maxLines">1</item>
+        <item name="android:inputType">text</item>
         <item name="android:imeOptions">actionDone</item>
     </style>
 
@@ -159,9 +160,9 @@
         <item name="dividerColor">@color/secondary_background</item>
     </style>
 
-    <style name="DisableLiftOnScroll">
+    <style name="Widget.App.AppBarLayout" parent="Widget.Material3.AppBarLayout">
         <item name="liftOnScroll">false</item>
-        <item name="android:stateListAnimator">@null</item>
+        <item name="elevation">0dp</item>
     </style>
 
     <style name="rounded_corner_text_bg">
@@ -186,5 +187,7 @@
         <item name="colorOnSurfaceVariant">@color/black</item>
     </style>
 
-
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="materialThemeOverlay">@style/ThemeOverlay.App.BottomNavigationView</item>
+    </style>
 </resources>

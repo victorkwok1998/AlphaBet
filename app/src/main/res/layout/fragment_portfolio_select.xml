@@ -16,10 +16,17 @@
             app:layout_scrollFlags="scroll|enterAlways"/>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_port"
-        android:layout_width="match_parent"
+    <include
+        android:id="@+id/layout_my_port"
+        layout="@layout/fragment_my_portfolio"
         android:layout_height="match_parent"
+        android:layout_width="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+<!--    <androidx.recyclerview.widget.RecyclerView-->
+<!--        android:id="@+id/rv_port"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="match_parent"-->
+<!--        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

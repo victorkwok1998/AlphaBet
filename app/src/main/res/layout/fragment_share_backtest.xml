@@ -21,116 +21,139 @@
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/layout_share_backtest"
+        <com.google.android.material.card.MaterialCardView
+            style="?attr/materialCardViewElevatedStyle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@+id/button_share_backtest_screen"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0">
+            app:layout_constraintVertical_bias="0.0"
+            android:layout_margin="16dp">
 
-            <ImageView
-                android:id="@+id/image_share_icon"
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="?attr/colorOnSurface"
-                tools:src="@drawable/ic_outline_rocket_launch_24" />
-
-            <TextView
-                android:id="@+id/text_share_slogan"
-                style="@style/TextAppearance.Material3.DisplayMedium"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/image_share_icon"
-                tools:text="@string/up_slogan" />
-
-            <TableLayout
-                android:id="@+id/tableLayout"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/layout_share_backtest"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="48dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="48dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_share_return">
+                android:paddingVertical="16dp">
 
-                <TableRow android:paddingVertical="4dp">
+                <ImageView
+                    android:id="@+id/image_share_icon"
+                    android:layout_width="180dp"
+                    android:layout_height="180dp"
+                    android:layout_marginTop="8dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:tint="?attr/colorOnSurface"
+                    tools:src="@drawable/ic_outline_rocket_launch_24" />
 
-                    <TextView
-                        android:paddingHorizontal="16dp"
-                        android:text="@string/symbol"
-                        android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/text_share_slogan"
+                    style="@style/TextAppearance.Material3.DisplayMedium"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:layout_marginEnd="16dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/image_share_icon"
+                    tools:text="@string/up_slogan" />
 
-                    <TextView
-                        android:id="@+id/text_share_symbol"
-                        tools:text="AAPL" />
-                </TableRow>
+                <TableLayout
+                    android:id="@+id/tableLayout_share"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="48dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="48dp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_share_return">
 
-                <TableRow android:paddingVertical="4dp">
+                    <TableRow android:paddingVertical="4dp">
 
-                    <TextView
-                        android:paddingHorizontal="16dp"
-                        android:text="@string/strategy"
-                        android:textStyle="bold" />
+                        <TextView
+                            android:paddingHorizontal="16dp"
+                            android:text="Stock"
+                            android:layout_gravity="center_vertical"
+                            android:textStyle="bold" />
 
-                    <TextView
-                        android:id="@+id/text_share_strategy"
-                        tools:text="SMA Strategy" />
-                </TableRow>
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/text_share_stock_name"
+                            tools:text="Apple Inc. (AAPL)" />
+                    </TableRow>
 
-                <TableRow android:paddingVertical="4dp">
+<!--                    <TableRow android:paddingVertical="4dp">-->
 
-                    <TextView
-                        android:paddingHorizontal="16dp"
-                        android:text="@string/period"
-                        android:textStyle="bold" />
+<!--                        <TextView-->
+<!--                            android:paddingHorizontal="16dp"-->
+<!--                            android:text="@string/symbol"-->
+<!--                            android:textStyle="bold" />-->
 
-                    <TextView
-                        android:id="@+id/text_share_period"
-                        tools:text="01 Jan 2021 - 01 Jan 2022" />
-                </TableRow>
-            </TableLayout>
+<!--                        <TextView-->
+<!--                            android:id="@+id/text_share_symbol"-->
+<!--                            tools:text="AAPL" />-->
+<!--                    </TableRow>-->
 
-            <TextView
-                android:id="@+id/textView20"
-                style="@style/TextAppearance.Material3.BodyLarge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/backtest_return"
-                android:textSize="20sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_share_slogan" />
+                    <TableRow android:paddingVertical="4dp">
 
-            <TextView
-                android:id="@+id/text_share_return"
-                style="@style/TextAppearance.Material3.DisplaySmall"
-                android:textStyle="bold"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView20"
-                tools:text="89.64%"
-                tools:textColor="@color/green" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:paddingHorizontal="16dp"
+                            android:text="@string/strategy"
+                            android:textStyle="bold"
+                            android:layout_gravity="center_vertical"/>
 
+                        <TextView
+                            android:layout_width="0dp"
+                            android:id="@+id/text_share_strategy"
+                            tools:text="SMA Strategy" />
+                    </TableRow>
+
+                    <TableRow android:paddingVertical="4dp">
+
+                        <TextView
+                            android:paddingHorizontal="16dp"
+                            android:text="@string/period"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:id="@+id/text_share_period"
+                            tools:text="01 Jan 2021 - 01 Jan 2022" />
+                    </TableRow>
+                </TableLayout>
+
+                <TextView
+                    android:id="@+id/textView20"
+                    style="@style/TextAppearance.Material3.BodyLarge"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:text="@string/backtest_return"
+                    android:textSize="20sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_share_slogan" />
+
+                <TextView
+                    android:id="@+id/text_share_return"
+                    style="@style/TextAppearance.Material3.DisplaySmall"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView20"
+                    tools:text="89.64%"
+                    tools:textColor="@color/green" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </com.google.android.material.card.MaterialCardView>
 
 
         <Button

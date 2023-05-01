@@ -2,8 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.AlphaBet" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">#457B9D</item>
-        <item name="colorSecondaryContainer">#5D9BD1</item>
+        <item name="colorPrimary">#84AFC9</item>
+        <item name="colorSecondary">#006d77</item>
+        <item name="colorSecondaryContainer">#3d5a80</item>
         <item name="colorOnPrimary">@color/white</item>
         <!--        <item name="colorPrimaryVariant">@color/purple_700</item>-->
         <!--        <item name="colorOnPrimary">@color/black</item>-->
@@ -20,17 +21,15 @@
         <item name="bottomSheetDialogTheme">@style/CustomBottomSheetDialog</item>
         <item name="tabStyle">@style/Widget.App.TabLayout</item>
         <item name="materialDividerStyle">@style/Widget.App.MaterialDivider</item>
+        <item name="appBarLayoutStyle">@style/Widget.App.AppBarLayout</item>
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
     </style>
 
-<!--    <style name="Widget.App.Toolbar" parent="Widget.MaterialComponents.Toolbar.Primary">-->
-<!--        <item name="materialThemeOverlay">@style/ThemeOverlay.App.Toolbar</item>-->
-<!--    </style>-->
-
-<!--    <style name="ThemeOverlay.App.Toolbar" parent="">-->
-<!--        <item name="colorPrimary">@color/dark_grey</item>-->
-<!--        <item name="colorOnPrimary">?attr/colorOnSurface</item>-->
-<!--    </style>-->
+    <style name="ThemeOverlay.App.BottomNavigationView" parent="">
+        <item name="colorSurface">@color/grey_900</item>
+    </style>
 
     <color name="secondary_background">@color/dark_grey</color>
     <color name="color_on_surface_alpha">@color/grey_800</color>
+    <color name="indicator_chip_bg">@color/grey_900</color>
 </resources>

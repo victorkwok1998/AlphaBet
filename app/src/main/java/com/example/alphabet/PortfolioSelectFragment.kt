@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -35,10 +36,15 @@ class PortfolioSelectFragment: Fragment(), PortfolioResultAdapter.OnItemClickLis
         )
         databaseViewModel.readAllPortfolioResult.observe(viewLifecycleOwner) {
             adapter.submitList(it)
+            binding.layoutMyPort.viewEmptyPort.root.isVisible = it.isEmpty()
         }
-        binding.rvPort.adapter = adapter
-        binding.rvPort.layoutManager = LinearLayoutManager(requireContext())
-        binding.rvPort.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
+        binding.layoutMyPort.viewEmptyPort.buttonEmptyList.setOnClickListener {
+            val action = PortfolioSelectFragmentDirections.actionGlobalNavGraphPort()
+            findNavController().navigate(action)
+        }
+        binding.layoutMyPort.rvMyPort.adapter = adapter
+        binding.layoutMyPort.rvMyPort.layoutManager = LinearLayoutManager(requireContext())
+        binding.layoutMyPort.rvMyPort.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
 
         return binding.root
     }

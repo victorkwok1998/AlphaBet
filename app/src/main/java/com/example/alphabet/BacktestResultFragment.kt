@@ -4,20 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.view.get
-import androidx.core.view.isVisible
-import androidx.core.view.size
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.alphabet.databinding.ChipLegendBinding
 import com.example.alphabet.databinding.FragmentBacktestResultBinding
-import com.example.alphabet.databinding.TableRowBinding
 import com.example.alphabet.ui.checkedIndex
 import com.example.alphabet.ui.setChipGroup
 import com.example.alphabet.util.Constants.Companion.pct
-import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
 
 class BacktestResultFragment: Fragment() {
@@ -36,16 +30,6 @@ class BacktestResultFragment: Fragment() {
         binding.appBarBacktestResult.setNavigationOnClickListener {
             findNavController().popBackStack()
         }
-//        binding.appBarBacktestResult.setOnMenuItemClickListener {
-//            when (it.itemId) {
-//                R.id.add_to_fav -> {
-//                    val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
-//                    findNavController().navigate(action)
-//                    true
-//                }
-//                else -> false
-//            }
-//        }
 
         plotEquityCurve(List(args.backtestResultList.size) {true})
         setStrategyChipGroup(binding.chipGroupEquityCurve) { plotEquityCurve(it) }
@@ -60,16 +44,35 @@ class BacktestResultFragment: Fragment() {
             plotBacktestResultTrades(args.backtestResultList[i])
         }
 
-        binding.buttonShareBacktest.setOnClickListener {
+        setUpMetricsTable(args.backtestResultList[0].getMetrics())
+        setStrategyChipGroup(binding.chipGroupMetrics, 0) {
+            val i = it.indexOf(true)
+            val metrics = args.backtestResultList[i].getMetrics()
+            setUpMetricsTable(metrics)
+        }
+
+        binding.backtestBottomBar.buttonEditBacktest.setOnClickListener {
+            val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToNavGraphBacktest(
+                args.backtestResultList.map { it.backtestInput.stock }.distinct().toTypedArray(),
+                args.backtestResultList.map { it.backtestInput.strategyInput }.toTypedArray()
+            )
+            findNavController().navigate(action)
+        }
+
+        binding.backtestBottomBar.buttonShareBacktest.setOnClickListener {
             val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToChooseBacktestDialog(args.backtestResultList)
             findNavController().navigate(action)
         }
-        binding.buttonSaveBacktest.setOnClickListener {
+        binding.backtestBottomBar.buttonSaveBacktest.setOnClickListener {
             val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToSaveBacktestDialog(args.backtestResultList)
             findNavController().navigate(action)
         }
         binding.buttonViewTrades.setOnClickListener {
             val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToTradeTableFragment(args.backtestResultList, binding.chipGroupTrades.checkedIndex())
+            findNavController().navigate(action)
+        }
+        binding.buttonViewMetrics.setOnClickListener {
+            val action = BacktestResultFragmentDirections.actionBacktestResultFragmentToBacktestMetricsFragment(args.backtestResultList)
             findNavController().navigate(action)
         }
 
@@ -118,5 +121,12 @@ class BacktestResultFragment: Fragment() {
 
     private fun plotBacktestResultTrades(backtestResult: BacktestResult) {
         plotBacktestResultTrades(requireContext(), binding.chartTrades, backtestResult)
+    }
+
+    private fun setUpMetricsTable(metrics: Metrics) {
+        binding.layoutMetricsTable.textBacktestReturnBacktestMetrics.text = pct.format(metrics.pnlPct)
+        binding.layoutMetricsTable.textMddBacktestMetrics.text = pct.format(metrics.mdd)
+        binding.layoutMetricsTable.textWinRateBacktestMetrics .text = pct.format(metrics.winRate)
+        binding.layoutMetricsTable.textNtradeBacktestMetrics.text = metrics.nTrade.toString()
     }
 }

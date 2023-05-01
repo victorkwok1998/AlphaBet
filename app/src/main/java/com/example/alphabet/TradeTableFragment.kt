@@ -12,7 +12,6 @@ import com.example.alphabet.ui.setChipGroup
 import com.example.alphabet.util.Constants
 import de.codecrafters.tableview.model.TableColumnWeightModel
 import de.codecrafters.tableview.toolkit.SimpleTableDataAdapter
-import de.codecrafters.tableview.toolkit.SimpleTableHeaderAdapter
 import java.util.concurrent.TimeUnit
 
 class TradeTableFragment: Fragment() {
@@ -70,10 +69,7 @@ class TradeTableFragment: Fragment() {
         }
         binding.tableTrades.apply {
             setDataAdapter(dAdapter)
-            val hAdapter = SimpleTableHeaderAdapter(requireContext(), *resources.getStringArray(R.array.trade_table_header))
-            hAdapter.setTextSize(16)
-            hAdapter.setTextColor(context.getTextColorPrimary())
-            headerAdapter = hAdapter
+            headerAdapter = createHeaderAdapter(requireContext(), *resources.getStringArray(R.array.trade_table_header))
             setColumnModel(columnModel)
         }
     }

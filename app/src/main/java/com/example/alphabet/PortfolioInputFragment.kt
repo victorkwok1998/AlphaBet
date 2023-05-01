@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -18,7 +17,7 @@ import com.example.alphabet.databinding.PortfolioInputRowBinding
 import com.example.alphabet.viewmodel.PortfolioViewModel
 
 class PortfolioInputFragment: Fragment() {
-    private val viewModel: StrategyViewModel by activityViewModels()
+//    private val viewModel: StrategyViewModel by activityViewModels()
     private val portfolioViewModel: PortfolioViewModel by navGraphViewModels(R.id.nav_graph_port)
     private lateinit var databaseViewModel: DatabaseViewModel
     private var _binding: FragmentPortfolioInputBinding? = null
@@ -37,8 +36,8 @@ class PortfolioInputFragment: Fragment() {
             this.portfolioInputList.forEach {
                 portfolioViewModel.symbolWeightingMap[it.stock.symbol] = it
             }
-            viewModel.start.value = this.date.first().toCalendar()
-            viewModel.end.value = this.date.last().toCalendar()
+            portfolioViewModel.start.value = this.date.first().toCalendar()
+            portfolioViewModel.end.value = this.date.last().toCalendar()
         }
 
 
@@ -57,7 +56,7 @@ class PortfolioInputFragment: Fragment() {
                     true
                 }
                 R.id.set_time_period -> {
-                    val action = PortfolioInputFragmentDirections.actionGlobalTimePeriodBottomSheetFragment()
+                    val action = PortfolioInputFragmentDirections.actionPortfolioInputFragmentToPortfolioTimePeriodFragment()
                     findNavController().navigate(action)
                     true
                 }

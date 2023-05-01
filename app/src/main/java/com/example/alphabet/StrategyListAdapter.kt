@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
 import android.widget.TextView
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.example.alphabet.database.StrategySchema
 import com.google.android.material.chip.Chip
@@ -33,9 +34,32 @@ class StrategyListAdapter(
 //        holder.text.text = context.getString(R.string.indicator_used, currentItem.strategy.indicatorUsed().joinToString(", "))
         holder.chipGroup.removeAllViews()
         currentItem.strategy.indicatorUsed()
+            .distinctBy { it.indName }
             .forEach {
                 val chip = LayoutInflater.from(context).inflate(R.layout.chip_indicator, holder.chipGroup, false) as Chip
-                chip.text = it
+                chip.text = it.indName
+                when(it.indType) {
+                    IndType.TECHNICAL -> {
+                        chip.chipIcon = ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_baseline_candlestick_chart_24
+                        )
+                        chip.setChipIconTintResource(R.color.plotColor1)
+                    }
+                    IndType.PRICE -> {
+                        chip.chipIcon = ContextCompat.getDrawable(
+                            context,
+                            R.drawable.ic_baseline_attach_money_24
+                        )
+                        chip.setChipIconTintResource(R.color.plotColor7)
+                    }
+                    IndType.CONSTANT -> {
+                        chip.chipIcon =
+                            ContextCompat.getDrawable(context, R.drawable.ic_baseline_30fps_24)
+                        chip.setChipIconTintResource(R.color.plotColor5)
+                    }
+                    else -> {}
+                }
                 holder.chipGroup.addView(chip)
             }
 

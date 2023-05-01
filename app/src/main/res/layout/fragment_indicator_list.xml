@@ -7,8 +7,7 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        style="@style/DisableLiftOnScroll">
+        android:layout_height="wrap_content">
 
         <com.google.android.material.search.SearchBar
             android:id="@+id/indicator_app_bar"
