@@ -9,14 +9,18 @@ plugins {
 
 apply plugin: 'kotlin-kapt'
 
+ext {
+    sdk_version = 34
+}
+
 android {
-    compileSdkVersion 33
+    compileSdk sdk_version
     buildToolsVersion "30.0.3"
 
     defaultConfig {
         applicationId "com.example.alphabet"
         minSdkVersion 26
-        targetSdkVersion 33
+        targetSdkVersion sdk_version
         versionCode 1
         versionName "1.0"
 
@@ -53,22 +57,19 @@ android {
 
         implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
         implementation 'androidx.appcompat:appcompat:1.6.1'
-        implementation "androidx.recyclerview:recyclerview:1.3.0"
+        implementation "androidx.recyclerview:recyclerview:1.3.2"
         implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
         implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-        implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
-        implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
         implementation("com.yahoofinance-api:YahooFinanceAPI:3.15.0")
         implementation("org.ta4j:ta4j-core:0.14")
         implementation("org.slf4j:slf4j-simple:1.7.30")
-        implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4'
         implementation 'com.github.PhilJay:MPAndroidChart:v3.1.0'
 //        implementation "com.mikepenz:fastadapter:5.4.1"
 //        implementation "com.mikepenz:fastadapter-extensions-binding:5.4.1"
         implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1"
-        implementation "androidx.room:room-runtime:2.5.1"
-        kapt "androidx.room:room-compiler:2.5.1"
-        implementation "androidx.room:room-ktx:2.5.1"
+        implementation "androidx.room:room-runtime:2.6.0"
+        kapt "androidx.room:room-compiler:2.6.0"
+        implementation "androidx.room:room-ktx:2.6.0"
         implementation 'com.squareup.retrofit2:retrofit:2.9.0'
         implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
         implementation 'com.squareup.okhttp3:logging-interceptor:4.2.1'
@@ -79,20 +80,23 @@ android {
         testImplementation 'junit:junit:4.13.2'
         testImplementation 'androidx.test:core-ktx:1.5.0'
         testImplementation 'androidx.test.ext:junit:1.1.5'
-        debugImplementation("androidx.fragment:fragment-testing:1.5.7")
+        debugImplementation("androidx.fragment:fragment-testing:1.6.1")
         androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
     }
     namespace 'com.example.alphabet'
 }
 
 dependencies {
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'com.google.android.material:material:1.8.0'
+    implementation 'com.google.android.material:material:1.10.0'
     implementation 'org.nield:kotlin-statistics:1.2.1'
     implementation 'org.jetbrains.kotlinx:dataframe:0.8.0-rc-7'
-    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.2.0'
+    implementation 'com.github.doyaaaaaken:kotlin-csv-jvm:1.9.2'
     implementation 'com.github.ISchwarz23:SortableTableView:2.8.1'
-    implementation 'androidx.preference:preference-ktx:1.2.0'
-    implementation 'androidx.core:core-ktx:1.10.0'
+    implementation 'androidx.preference:preference-ktx:1.2.1'
+    implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'com.github.evrencoskun:TableView:v0.8.9.4'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.7.4'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.7.4'
 }
